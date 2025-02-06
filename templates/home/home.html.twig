@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ controller_name }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }} {# Mantém o CSS global #}
+    {{ encore_entry_link_tags('home') }}
+{% endblock %}
+
+{% block main %}
+    <section>
+        <h1>Home</h1>
+    </section>
+{% endblock %}

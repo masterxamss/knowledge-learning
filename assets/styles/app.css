@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Comic Sans MS';
-    src: url('/fonts/Comic Sans MS/Comic Sans MS.ttf') format('truetype');
+    src: url('../fonts/Comic Sans MS/Comic Sans MS.ttf') format('truetype');
 }
 
 :root {
@@ -27,6 +27,9 @@
 
 body {
     background-color: var(--main-bg-color);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 h1{
@@ -45,7 +48,7 @@ header{
     padding: 1rem;
     background-color: var(--secondary-bg-color);
     box-shadow: 0 4px 6px -2px rgba(0, 116, 199, 0.3);
-
+    z-index: 10;
 
 
     & .logo{

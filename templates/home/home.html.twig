@@ -3,11 +3,12 @@
 {% block title %}{{ controller_name }}{% endblock %}
 
 {% block stylesheets %}
-    {#<link rel="stylesheet" href="{{ asset('styles/home.css') }}">#}
+    {{ parent() }} {# Mantém o CSS global #}
+    {{ encore_entry_link_tags('home') }}
 {% endblock %}
 
 {% block main %}
-    <main>
-        <p>teste</p>
-    </main>
+    <section>
+        <h1>Home</h1>
+    </section>
 {% endblock %}

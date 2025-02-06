@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RegisterController!{% endblock %}
+
+{% block main %}
+    <main>
+        <section class="section-register_image">
+            <img src={{ asset('images/register.png') }}></img>
+        </section>
+
+        <section class="section-register_form">
+            <h1>Inscrivez-vous et commencez à apprendre</h1>
+            {{ form_start(form) }}
+                <div>
+                    {{ form_widget(form.first_name) }}
+                    {{ form_errors(form.first_name) }}
+                </div>
+                <div>
+                    {{ form_widget(form.last_name) }}
+                    {{ form_errors(form.last_name) }}
+                </div>
+                <div>
+                    {{ form_widget(form.email) }}
+                    {{ form_errors(form.email) }}
+                </div>
+                <div>
+                    {{ form_widget(form.password) }}
+                    {{ form_errors(form.password) }}
+                </div>
+                <div>
+                    {{ form_widget(form.confirmPassword) }}
+                    {{ form_errors(form.confirmPassword) }}
+                </div>
+                <div>
+                    {{ form_widget(form.submit) }}
+                </div>
+            {{ form_end(form) }}
+        </section>
+    </main>
+{% endblock %}

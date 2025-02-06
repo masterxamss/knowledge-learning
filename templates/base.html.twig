@@ -2,25 +2,27 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Knowledge Learning{% endblock %}</title>
-        <link rel="icon" href="" type="image/x-icon">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="" />
 
         {% block stylesheets %}
-            {#<link rel="stylesheet" href="{{ asset('styles/home.css') }}">#}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
     <body>
         {% block header %}
             {% include 'partials/header.html.twig' %}
         {% endblock %}
+
         {% block main %}{% endblock %}
+
         {% block footer %}
             {% include 'partials/footer.html.twig' %}
         {% endblock %}
     </body>
 </html>
+

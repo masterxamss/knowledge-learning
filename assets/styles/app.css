@@ -1,180 +1,164 @@
 @font-face {
-    font-family: 'Comic Sans MS';
-    src: url('../fonts/Comic Sans MS/Comic Sans MS.ttf') format('truetype');
+  font-family: "Comic Sans MS";
+  src: url("../fonts/Comic Sans MS/Comic Sans MS.ttf") format("truetype");
 }
 
 :root {
-    --main-bg-color:            #F6F7F9;
-    --secondary-bg-color:       #FFFFFF;
-    --h1-color:                 #384050;
-    --h2-color:                 #595C73;
-    --main-text-color:          #000000;
-    --secondary-text-color:     #FFFFFF;
-    --btn-color:                #0074C7;
-    --btn-hover-dark-color:     #00497C;
-    --btn-hover-light-color:    #b9e0f7;
-    --danger-color:             #CD2C2E;
-    --success-color:            #82B864;
+  --secondary-bg-color: #ffffff;
+  --h1-color: #384050;
+  --h2-color: #595c73;
+  --main-text-color: #000000;
+  --secondary-text-color: #ffffff;
+  --btn-color: #0074c7;
+  --btn-hover-dark-color: #00497c;
+  --btn-hover-light-color: #b9e0f7;
+  --danger-color: #cd2c2e;
+  --success-color: #82b864;
+  --input-border-color: #ccd1d1;
+  --input-hover-color: #e3e5e6;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Comic Sans MS';
-    color: var(--main-text-color);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Comic Sans MS";
+  color: var(--main-text-color);
 }
 
 body {
-    background-color: var(--main-bg-color);
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+  background-color: var(--main-bg-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-h1{
-    color: var(--h1-color);
+h1 {
+  color: var(--h1-color);
 }
 
-h2, h3, h4, h5, h6 {
-    color: var(--h2-color);
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--h2-color);
 }
 
 /* ==================== HEADER  ==================== */
 
-header{
-    display: flex;
-    flex-direction: row;
-    padding: 1rem;
-    background-color: var(--secondary-bg-color);
-    box-shadow: 0 4px 6px -2px rgba(0, 116, 199, 0.3);
-    z-index: 10;
+header {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  background-color: var(--secondary-bg-color);
+  box-shadow: 0 4px 6px -2px rgba(0, 116, 199, 0.3);
+  z-index: 10;
 
+  & .logo {
+    width: 140px;
+    height: 70px;
 
-    & .logo{
-        width: 140px;
-        height: 70px;
-
-        & img{
-            width: 100%;
-            height: 100%;
-        }
+    & img {
+      width: 100%;
+      height: 100%;
     }
+  }
 
-    & .menu{
-        width: 100%;
+  & .menu {
+    width: 100%;
 
-        & ul{
-            display: flex;
-            flex-direction: row;
-            /*justify-content:space-between;*/
-            align-items: center;
-            padding: 1rem;
-            gap: 1rem;
-            list-style: none;
-            height: 100%;
+    & ul {
+      display: flex;
+      flex-direction: row;
+      /*justify-content:space-between;*/
+      align-items: center;
+      padding: 1rem;
+      gap: 1rem;
+      list-style: none;
+      height: 100%;
 
-            & li {
-                white-space: nowrap;
-            }
+      & li {
+        white-space: nowrap;
+      }
 
-            & li:nth-child(2){
-                flex: 1;
-                position: relative;
+      & li:nth-child(2) {
+        flex: 1;
+        position: relative;
 
-                & input{
-                    width: 100%;
-                    height: 40px;
-                    border: 1px solid #ccd1d1 ;
-                    border-radius: 2rem;
-                    padding: 10px 35px 10px 50px
-                }
-
-                & input:focus{
-                    outline-color: var(--btn-color);
-                } 
-
-                & img{
-                    position: absolute;
-                    top: 10px;
-                    left: 10px;
-                }
-            }
-
-            & li:nth-child(3){
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.5rem;
-            }
+        & input {
+          width: 100%;
+          height: 40px;
+          border: 1px solid #ccd1d1;
+          border-radius: 2rem;
+          padding: 10px 35px 10px 50px;
         }
+
+        & input:focus {
+          outline-color: var(--btn-color);
+        }
+
+        & img {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+        }
+      }
+
+      & li:nth-child(3) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
     }
+  }
 }
-
 
 /* ==================== FOOTER  ==================== */
-footer{
-    padding: 1rem;
-    background-color: var(--btn-hover-dark-color);
+footer {
+  padding: 1rem;
+  background-color: var(--btn-hover-dark-color);
 }
-
-
-
 
 /* ==================== UTILITIES  ==================== */
 
-.btn{
-    padding: 0.5rem 1rem;
-    border-radius: 0.3rem;
-    border: 1px solid var(--btn-color);
-    background-color: var(--btn-color);
-    color: var(--secondary-text-color);
-    text-decoration: none;
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  border: 1px solid var(--btn-color);
+  background-color: var(--btn-color);
+  color: var(--secondary-text-color);
+  text-decoration: none;
 }
 
-.btn:hover{
-    background-color: var(--btn-hover-dark-color);
+.btn:hover {
+  background-color: var(--btn-hover-dark-color);
 }
 
-.btn-outline{
-    padding: 0.5rem 1rem;
-    border-radius: 0.3rem;
-    border: 1px solid var(--btn-color);
-    background-color: var(--secondary-bg-color);
-    color: var(--btn-color);
-    text-decoration: none;
+.btn-outline {
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  border: 1px solid var(--btn-color);
+  background-color: var(--secondary-bg-color);
+  color: var(--btn-color);
+  text-decoration: none;
 }
 
-.btn-outline:hover{
-    background-color: var(--btn-hover-light-color);
+.btn-outline:hover {
+  background-color: var(--btn-hover-light-color);
 }
 
-.menu-item{
-    padding: 0.5rem 1rem;
-    border-radius: 0.3rem;
-    background-color: var(--secondary-bg-color);
-    color: var(--main-text-color);
-    text-decoration: none;
-    border: 1px solid transparent;
+.menu-item {
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  background-color: var(--secondary-bg-color);
+  color: var(--main-text-color);
+  text-decoration: none;
+  border: 1px solid transparent;
 }
 
-.menu-item:hover{
-    background-color: var(--btn-hover-light-color);
-    color: var(--btn-color);
+.menu-item:hover {
+  background-color: var(--btn-hover-light-color);
+  color: var(--btn-color);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -24,7 +24,7 @@ main {
   & .container-form_title {
     margin-bottom: 2rem;
     width: 60%;
-    color: var(--h1-color);
+    /*color: var(--h1-color);*/
     text-align: center;
   }
 
@@ -40,6 +40,19 @@ main {
       border-radius: 0.2rem;
       border: 1px solid var(--input-border-color);
       padding: 10px 15px;
+    }
+
+    & .form-error {
+      list-style: none;
+
+      & li {
+        color: var(--danger-color);
+      }
+    }
+
+    & .is-invalid {
+      border: 1px solid var(--danger-color);
+      background-color: rgba(254, 0, 0, 0.31);
     }
 
     & input:focus {
@@ -170,3 +183,5 @@ main {
     }
   }
 }
+
+/* ==================== 📱 FORM ERRORS 📱 ==================== */

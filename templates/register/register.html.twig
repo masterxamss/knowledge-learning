@@ -14,27 +14,64 @@
             </div>
             {{ form_start(form) }}
                 <div>
-                    {{ form_widget(form.first_name) }}
-                    {{ form_errors(form.first_name) }}
+                    {{ form_widget(form.first_name, {
+                        'attr': {
+                            'class': form.first_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                                            }
+                    }) }}
+                    
+                    <ul class="form-error">
+                        {% for error in form.first_name.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <div>
-                    {{ form_widget(form.last_name) }}
-                    {{ form_errors(form.last_name) }}
+                    {{ form_widget(form.last_name, {
+                        'attr': {
+                            'class': form.last_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                             }
+                    }) }}
+                    
+                    <ul class="form-error">
+                        {% for error in form.last_name.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div> 
+                <div>
+                    {{ form_widget(form.email, {
+                        'attr': {
+                            'class': form.email.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                                 }
+                    }) }}
+                    
+                    <ul class="form-error">
+                        {% for error in form.email.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <div>
-                    {{ form_widget(form.email) }}
-                    {{ form_errors(form.email) }}
+                    {{ form_widget(form.password, {
+                        'attr': {
+                            'class': form.password.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                              }
+                    }) }}
+                    
+                    <ul class="form-error">
+                        {% for error in form.password.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <div>
-                    {{ form_widget(form.password) }}
-                    {{ form_errors(form.password) }}
-                </div>
-                <div>
-                    {{ form_widget(form.confirmPassword) }}
-                    {{ form_errors(form.confirmPassword) }}
-                </div>
-                <div>
-                    {{ form_widget(form.submit) }}
+                    {{ form_widget(form.confirmPassword, {
+                        'attr': {
+                            'class': form.confirmPassword.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                       }
+                    }) }}
+                    
+                    <ul class="form-error">
+                        {% for error in form.confirmPassword.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
             {{ form_end(form) }}
             <div>

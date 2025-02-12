@@ -1,80 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RegisterController!{% endblock %}
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }} {# Mantém o CSS global #}
+    {{ encore_entry_link_tags('register') }}
+{% endblock %}
 
 {% block main %}
-    <main>
-        <section class="container-img">
-            {#<img src={{ asset('images/register_1.png') }}></img>#}
+    <main class="register-container">
+        <section class="register-container_img">
+            {# <img src={{ asset('images/register_1.png') }}></img> #}
         </section>
-        
-        <section class="container-form">
-            <div class="container-form_title">
+        <section class="register-container_form">
+            <div class="register-container_form__title">
                 <h1>Inscrivez-vous et commencez à apprendre</h1>
+                {{ include('partials/flash_messages.html.twig') }}
             </div>
             {{ form_start(form) }}
                 <div>
                     {{ form_widget(form.first_name, {
-                        'attr': {
-                            'class': form.first_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                                            }
+                        attr: {
+                            class: form.first_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+                        },
                     }) }}
-                    
+
                     <ul class="form-error">
                         {% for error in form.first_name.vars.errors %}
-                            <li>{{ error.message }}</li>
+                            <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div>
                     {{ form_widget(form.last_name, {
-                        'attr': {
-                            'class': form.last_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                             }
+                        attr: {
+                            class: form.last_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+                        },
                     }) }}
-                    
+
                     <ul class="form-error">
                         {% for error in form.last_name.vars.errors %}
-                            <li>{{ error.message }}</li>
+                            <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
                         {% endfor %}
                     </ul>
-                </div> 
+                </div>
                 <div>
                     {{ form_widget(form.email, {
-                        'attr': {
-                            'class': form.email.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                                 }
+                        attr: {
+                            class: form.email.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+                        },
                     }) }}
-                    
+
                     <ul class="form-error">
                         {% for error in form.email.vars.errors %}
-                            <li>{{ error.message }}</li>
+                            <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div>
                     {{ form_widget(form.password, {
-                        'attr': {
-                            'class': form.password.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                              }
+                        attr: {
+                            class: form.password.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+                        },
                     }) }}
-                    
+
                     <ul class="form-error">
                         {% for error in form.password.vars.errors %}
-                            <li>{{ error.message }}</li>
+                            <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div>
                     {{ form_widget(form.confirmPassword, {
-                        'attr': {
-                            'class': form.confirmPassword.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control'                       }
+                        attr: {
+                            class: form.confirmPassword.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+                        },
                     }) }}
-                    
+
                     <ul class="form-error">
                         {% for error in form.confirmPassword.vars.errors %}
-                            <li>{{ error.message }}</li>
+                            <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
                         {% endfor %}
                     </ul>
                 </div>
             {{ form_end(form) }}
-            <div>
+            <div class="form-link">
                 <p>Vous avez deja un compte ? <a href="#">Connectez-vous</a></p>
             </div>
         </section>

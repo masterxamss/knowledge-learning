@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterType;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ class RegisterController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         UserPasswordHasherInterface $hasher,
+        MailService $mailService
     ): Response {
 
         $user = new User();
@@ -62,7 +64,11 @@ class RegisterController extends AbstractController
                 $em->persist($user);
                 $em->flush();
 
-                $this->addFlash('success', 'Utilisateur enregistré avec succès');
+                //send activation email
+                $mailService->sendActivationEmail($user->getEmail(), $user->getActivationToken());
+
+                $this->addFlash('success', 'Enregistrement réussi. Vérifiez votre e-mail pour activer votre compte 🎉');
+
                 return $this->redirectToRoute('app_register');
             } catch (\Exception $e) {
                 // log the error

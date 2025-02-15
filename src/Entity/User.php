@@ -41,10 +41,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $address = [];
 
     #[ORM\Column]
-    private ?bool $is_verified = null;
+    private ?bool $isVerified = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $activation_token = null;
+    private ?string $activationToken = null;
 
     #[ORM\Column]
     private ?bool $active = null;
@@ -168,24 +168,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getIsVerified(): ?bool
     {
-        return $this->is_verified;
+        return $this->isVerified;
     }
 
-    public function setIsVerified(bool $is_verified): static
+    public function setIsVerified(bool $isVerified): static
     {
-        $this->is_verified = $is_verified;
+        $this->isVerified = $isVerified;
 
         return $this;
     }
 
     public function getActivationToken(): ?string
     {
-        return $this->activation_token;
+        return $this->activationToken;
     }
 
-    public function setActivationToken(string $activation_token): static
+    public function setActivationToken(?string $activationToken): self
     {
-        $this->activation_token = $activation_token;
+        $this->activationToken = $activationToken;
 
         return $this;
     }

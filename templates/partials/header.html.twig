@@ -17,12 +17,21 @@
             <li>
                 <a href="#" class="menu-item">Teste</a>
             </li>
-            <li>
+            {% if not app.user %}
+              <li>
                 <a href="{{ path('app_login') }}" class="btn-outline">Log in</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="{{ path('app_register') }}" class="btn">Register</a>
-            </li>
+              </li>
+            {% else %}
+              <li class="menu-item_profile">
+                <em>{{ app.user.firstName|slice(0, 1)}} {{ app.user.lastName|slice(0, 1) }}</em>
+                <div class="menu-item_profile__dropdown">
+                
+                </div>
+              </li>
+            {% endif %}
         </ul>
     </nav>
 </header>

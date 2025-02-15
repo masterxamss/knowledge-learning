@@ -1,37 +1,73 @@
 <header class="main-header">
-    <div class="logo">
-        <a href="/"><img src="/images/logo.png" alt="Logo"></a>
-    </div>
-    <nav class="menu">
-        <ul>
-            <li>
-                <a href="#" class="menu-item">Explorer</a>
-            </li>
-            <li>
-                <input type="text" placeholder="Search">
-                <img src="/images/icons/search.png" alt="Search">
-            </li>
-            <li>
-                <i class="fa-solid fa-cart-shopping menu-item"></i>
-            </li>
-            <li>
-                <a href="#" class="menu-item">Teste</a>
-            </li>
-            {% if not app.user %}
+  <div class="logo">
+    <a href="/"><img src="/images/logo.png" alt="Logo"></a>
+  </div>
+  <nav class="menu">
+    <ul>
+      <li>
+        <a href="#" class="menu-item">Explorer</a>
+      </li>
+      <li>
+        <input type="text" placeholder="Search">
+        <img src="/images/icons/search.png" alt="Search">
+      </li>
+      <li>
+        <i class="fa-solid fa-cart-shopping menu-item" aria-hidden="true"></i>
+      </li>
+      <li>
+        <a href="#" class="menu-item">Teste</a>
+      </li>
+      {% if not app.user %}
+        <li>
+          <a href="{{ path('app_login') }}" class="btn-outline">Log in</a>
+        </li>
+        <li>
+          <a href="{{ path('app_register') }}" class="btn">Register</a>
+        </li>
+      {% else %}
+        <li class="menu-item_profile menu-item">
+          <span class="">{{ app.user.firstName|slice(0, 1) }} {{ app.user.lastName|slice(0, 1) }}</span>
+
+          <div class="menu-item_profile__dropdown">
+            <ul>
               <li>
-                <a href="{{ path('app_login') }}" class="btn-outline">Log in</a>
-              </li>
-              <li>
-                <a href="{{ path('app_register') }}" class="btn">Register</a>
-              </li>
-            {% else %}
-              <li class="menu-item_profile">
-                <em>{{ app.user.firstName|slice(0, 1)}} {{ app.user.lastName|slice(0, 1) }}</em>
-                <div class="menu-item_profile__dropdown">
-                
+                <span>
+                  {{ app.user.firstName|slice(0, 1) }} {{ app.user.lastName|slice(0, 1) }}
+                </span>
+                <div>
+                  <a href="#">{{ app.user.firstName }} {{ app.user.lastName }}</a>
+                  <p>{{ app.user.email }}</p>
                 </div>
               </li>
-            {% endif %}
-        </ul>
-    </nav>
+              <li>
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <a href="#">Mon apprentissage</a>
+              </li>
+              <li>
+                <i class="fa-solid fa-graduation-cap"></i>
+                <a href="#">Mes certifications</a>
+              </li>
+              <li>
+                <i class="fa-solid fa-cart-shopping"></i>
+                <a href="#">Mon panier</a>
+              </li>
+              <li>
+                <i class="fa-solid fa-lock"></i>
+                <a href="#">Sécurité</a>
+              </li>
+              <li>
+                <i class="fa-solid fa-user"></i>
+                <a href="#">Modifier mon profil</a>
+              </li>
+              <li>
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <a href="/logout">Déconnexion</a>
+              </li>
+            </ul>
+          </div>
+
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
 </header>

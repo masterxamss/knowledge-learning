@@ -11,6 +11,8 @@ import "./styles/app.css";
 import "./styles/home.css";
 import "./styles/register.css";
 import "./styles/login.css";
+import "./styles/user.css";
 
 /* 🚀 JavaScript */
 import "./js/dropdown_profile.js";
+import "./js/import_image.js";

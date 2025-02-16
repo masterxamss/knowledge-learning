@@ -1,0 +1,19 @@
+{{ include('partials/flash_messages.html.twig') }}
+
+{{ form_start(form, {action: path('app_user_avatar', {id: app.user.id})}) }}
+  <div>
+    <p>Visualisation d'image</p>
+    <img
+      src="{{ app.user.image ? asset('uploads/' ~ app.user.image) : asset('images/default.jpg') }}"
+      id="holderAvatar"
+      style="width: 200px; height: 200px;"
+      alt="Image de profil"
+    ">
+  </div>
+  <div>
+    {{ form_widget(form.image) }}
+  </div>
+  <div>
+    {{ form_widget(form.save) }}
+  </div>
+{{ form_end(form) }}

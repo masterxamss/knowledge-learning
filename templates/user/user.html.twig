@@ -29,10 +29,20 @@
             <a href="#">Voir le profil public</a>
           </li>
           <li>
-            <a href="#">Profil</a>
+            <a
+              href="#"
+              class="{% if path == 'user' %} active {% endif %}"
+            >
+              Profil
+            </a>
           </li>
           <li>
-            <a href="{{ path('app_user_avatar', {id: app.user.id}) }}">Photo</a>
+            <a
+              href="{{ path('app_user_avatar', {id: app.user.id}) }}"
+              class="{% if path == 'userAvatar' %} active {% endif %}"
+            >
+              Photo
+            </a>
           </li>
           <li>
             <a href="#">Sécurité</a>
@@ -46,13 +56,13 @@
       <section>
         <header>
           <h1>
-            Profil public
+            {{ title }}
           </h1>
           <p>
-            Ajouter des informations sur vous-même
+            {{ subtitle }}
           </p>
         </header>
-        <section>
+        <section class="content">
           {% if path == 'userAvatar' %}
             {{ include('user/userAvatar.html.twig') }}
           {% endif %}

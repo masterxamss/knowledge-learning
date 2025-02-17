@@ -20,13 +20,14 @@ class UserAvatarType extends AbstractType
       ])
 
       ->add('image', FileType::class, [
+        'label' => 'Ajouter/modifier une image',
         'data_class' => null,
         'required' => false,
         'mapped' => false,
         'attr' => [
           'id' => 'inputImageHolder',
           'data-preview' => 'holderAvatar',
-          'class' => 'input-image',
+          'class' => 'input-image btn-outline',
         ]
       ])
 

@@ -1,0 +1,43 @@
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+form .avatar-img_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & img {
+    width: 30%;
+    border: 3px dotted gray;
+  }
+
+  & p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+form .avatar-img_actions {
+  width: 100%;
+  text-align: center;
+
+  & div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.5rem;
+
+    & input[type="file"] {
+      font-size: 0.6rem;
+    }
+  }
+}

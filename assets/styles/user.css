@@ -1,3 +1,5 @@
+@import "./userAvatar.css";
+
 .user-data {
   display: flex;
   flex-direction: column;
@@ -69,6 +71,7 @@
   color: var(--main-text-color);
   width: 100%;
   padding: 0.5rem;
+  font-size: 0.8rem;
 }
 
 .container aside ul li a:hover {
@@ -87,8 +90,24 @@
   align-items: center;
   padding: 1rem;
   border-bottom: 1px solid var(--input-border-color);
+  width: 100%;
 }
 
 .container section header h1 {
   font-size: 2rem;
+}
+
+.container section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container section .content {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
 }

@@ -116,3 +116,8 @@
     color: var(--btn-color);
   }
 }
+
+.active {
+  background-color: var(--btn-hover-dark-color);
+  color: var(--secondary-text-color) !important;
+}

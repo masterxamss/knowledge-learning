@@ -18,6 +18,8 @@ final class UserController extends AbstractController
   {
     return $this->render('user/user.html.twig', [
       'path' => 'user',
+      'title' => 'Profil public',
+      'subtitle' => 'Ajouter des informations sur vous-même'
     ]);
   }
 
@@ -55,6 +57,8 @@ final class UserController extends AbstractController
     return $this->render('user/user.html.twig', [
       'path' => 'userAvatar',
       'form' => $form->createView(),
+      'title' => 'Photo',
+      'subtitle' => 'Ajouter une photo à votre profil',
     ]);
   }
 

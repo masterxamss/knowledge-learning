@@ -26,13 +26,23 @@
         </li>
       {% else %}
         <li class="menu-item_profile menu-item">
-          <span class="">{{ app.user.firstName|slice(0, 1) }} {{ app.user.lastName|slice(0, 1) }}</span>
+          <span>
+            {% if app.user.image is not null %}
+              <img src="{{ asset('uploads/' ~ app.user.image) }}">
+            {% else %}
+              {{ app.user.firstName|slice(0, 1) }} {{ app.user.lastName|slice(0, 1) }}
+            {% endif %}
+          </span>
 
           <div class="menu-item_profile__dropdown">
             <ul>
               <li>
                 <span>
-                  {{ app.user.firstName|slice(0, 1) }} {{ app.user.lastName|slice(0, 1) }}
+                  {% if app.user.image is not null %}
+                    <img src="{{ asset('uploads/' ~ app.user.image) }}">
+                  {% else %}
+                    {{ app.user.firstName|slice(0, 1) }} {{ app.user.lastName|slice(0, 1) }}
+                  {% endif %}
                 </span>
                 <div>
                   <a href="#">{{ app.user.firstName }} {{ app.user.lastName }}</a>

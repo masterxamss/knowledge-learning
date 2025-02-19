@@ -65,6 +65,8 @@
         <section class="content">
           {% if path == 'userAvatar' %}
             {{ include('user/userAvatar.html.twig') }}
+          {% elseif path == 'userData' %}
+            {{ include('user/UserData.html.twig') }}
           {% endif %}
         </section>
       </section>

@@ -1,0 +1,294 @@
+{{ form_start(form, {
+    attr: {
+      class: 'form-user',
+      method: 'POST',
+      enctype: 'multipart/form-data',
+      action: path('app_user_data', {id: app.user.id}),
+      'data-turbo': 'false',
+    },
+  })
+}}
+  <div>
+    {{ include('partials/flash_messages.html.twig') }}
+  </div>
+  <section class="user-container">
+
+    <header class="user-container__title">
+      <div>
+        <h2>Informations personnelles</h2>
+      </div>
+      <div> 
+        <h2>Address</h2>
+      </div>
+    </header>
+
+    <section class="user-container__infos">
+      <div class="basic-data">
+        {# FIRST NAME && LAST NAME #}
+        <div class="basic-data__name">
+          <div>
+            <div>
+              {{ form_widget(form.first_name, {
+                attr: {
+                  class: form.first_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+                }})
+              }}
+              {% if form.first_name.vars.errors|length > 0 %}
+                <ul class="form-error">
+                  {% for error in form.first_name.vars.errors %}
+                    <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div>
+              {{ form_widget(form.last_name, {
+                attr: {
+                  class: form.last_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+                }})
+              }}
+              {% if form.last_name.vars.errors|length > 0%}
+                <ul class="form-error">
+                  {% for error in form.last_name.vars.errors %}
+                    <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        {# EMAIL #}
+        <div class="basic-data__email">
+          {{ form_widget(form.email, {
+            attr: {
+              class: form.email.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+            }})
+          }}
+          {% if form.email.vars.errors|length > 0 %}
+            <ul class="form-error">
+              {% for error in form.email.vars.errors %}
+                <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        {# TITLE #}
+        <div class="basic-data__title">
+          {{ form_widget(form.title, {
+            attr: {
+              class: form.title.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+            }})
+          }}
+          {% if form.title.vars.errors|length > 0 %}
+            <ul class="form-error">
+              {% for error in form.title.vars.errors %}
+                <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="address">
+        {# ADDRESS-STREET #}
+        <div class="address-street">
+          {{ form_widget(form.address.street, {
+            attr: {
+              class: form.address.street.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+            }})
+          }}
+          {% if form.address.street.vars.errors|length > 0 %}
+            <ul class="form-error">
+              {% for error in form.address.street.vars.errors %}
+                <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        {# ADDRESS-COMPLEMENT #}
+        <div class="address-complement">
+          {{ form_widget(form.address.complement, {
+            attr: {
+              class: form.address.complement.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+            }})
+          }}
+          {% if form.address.complement.vars.errors|length > 0 %}
+            <ul class="form-error">
+              {% for error in form.address.complement.vars.errors %}
+                <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        {# ADDRESS-CITY-ZIPCODE #}
+        <div class="address-city-zipcode">
+          <div>
+            {{ form_widget(form.address.city, {
+              attr: {
+                class: form.address.city.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+              }})
+            }}
+            {% if form.address.city.vars.errors|length > 0 %}
+              <ul class="form-error">
+                {% for error in form.address.complement.vars.errors %}
+                  <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+          <div>
+            {{ form_widget(form.address.zipcode, {
+              attr: {
+                class: form.address.zipcode.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+              }})
+            }}
+            {% if form.address.zipcode.vars.errors %}
+              <ul class="form-error">
+                {% for error in form.address.complement.vars.errors %}
+                  <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+
+        {# REGION-COUNTRY #}
+        <div class="address-region-country">
+          <div>
+            {{ form_widget(form.address.state, {
+              attr: {
+                class: form.address.state.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+              }})
+            }}
+            {% if form.address.state.vars.errors|length > 0 %}
+              <ul class="form-error">
+                {% for error in form.address.state.vars.errors %}
+                  <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+          <div>
+            {{ form_widget(form.address.country, {
+              attr: {
+                class: form.address.country.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+              }})
+            }}
+            {% if form.address.country.vars.errors|length > 0 %}
+              <ul class="form-error">
+                {% for error in form.address.complement.vars.errors %}
+                  <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="user-container__description">
+      {# DESCRIPTION #}
+      <div class="basic-data__description">
+        {{ form_widget(form.description, {
+          attr: {
+            class: form.description.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+          }})
+        }}
+        {% if form.description.vars.errors|length > 0 %}
+          <ul class="form-error">
+            {% for error in form.description.vars.errors %}
+              <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </section>
+      
+    <section class="user-container__links">
+      {# WEBSITE #}
+      <div>
+        {{ form_widget(form.links.website, {
+          attr: {
+            class: form.links.website.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+          }})
+        }}
+        {% if form.links.website.vars.errors|length > 0 %}
+          <ul class="form-error">
+            {% for error in form.links.website.vars.errors %}
+              <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      {# TWITTER #}
+      <div>
+        {{ form_widget(form.links.twitter, {
+          attr: {
+            class: form.links.twitter.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+          }})
+        }}
+        {% if form.links.twitter.vars.errors|length > 0 %}
+          <ul class="form-error">
+            {% for error in form.links.twitter.vars.errors %}
+              <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      {# FACEBOOK #}
+      <div>
+        {{ form_widget(form.links.facebook, {
+          attr: {
+            class: form.links.facebook.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+          }})
+        }}
+        {% if form.links.facebook.vars.errors|length > 0 %}
+          <ul class="form-error">
+            {% for error in form.links.facebook.vars.errors %}
+              <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      {# LINKEDIN #}
+      <div>
+        {{ form_widget(form.links.linkedin, {
+          attr: {
+            class: form.links.linkedin.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+          }})
+        }}
+        {% if form.links.linkedin.vars.errors|length > 0 %}
+          <ul class="form-error">
+            {% for error in form.links.linkedin.vars.errors %}
+              <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      {# YOUTUBE #}
+      <div>
+        {{ form_widget(form.links.youtube, {
+          attr: {
+            class: form.links.youtube.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+          }})
+        }}
+        {% if form.links.youtube.vars.errors|length > 0 %}
+          <ul class="form-error">
+            {% for error in form.links.youtube.vars.errors %}
+              <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </section>
+
+  </section>
+{{ form_end(form) }}

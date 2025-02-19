@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\UserAvatarType;
+use App\Form\UserDataType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,11 +14,33 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class UserController extends AbstractController
 {
-  #[Route('/user/{id}', name: 'app_user')]
-  public function user(): Response
+  #[Route('/user/{id}', name: 'app_user_data', methods: ['GET', 'POST'])]
+  public function user(int $id, EntityManagerInterface $entityManager, Request $request): Response
   {
+    // Find user
+    $user = $entityManager->getRepository(User::class)->find($id);
+    if (!$user) {
+      $this->addFlash('alert-danger', 'Utilisateur introuvable');
+    }
+
+    // Prepare form
+    $form = $this->createForm(UserDataType::class, $user);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      try {
+        $entityManager->flush();
+
+        $this->addFlash('alert-success', 'Informations mises à jour');
+      } catch (\Exception $e) {
+        $this->addFlash('alert-danger', $e->getMessage());
+      }
+
+      return $this->redirectToRoute('app_user_data', ['id' => $user->getId()]);
+    }
     return $this->render('user/user.html.twig', [
-      'path' => 'user',
+      'form' => $form->createView(),
+      'path' => 'userData',
       'title' => 'Profil public',
       'subtitle' => 'Ajouter des informations sur vous-même'
     ]);
@@ -33,7 +56,6 @@ final class UserController extends AbstractController
       $this->addFlash('alert-danger', 'User not found');
     }
 
-
     // Prepare form
     $form = $this->createForm(UserAvatarType::class, $user);
     $form->handleRequest($request);
@@ -42,7 +64,6 @@ final class UserController extends AbstractController
       try {
         //Update image
         $this->handleImageUpload($form, $user, $user->getImage());
-
 
         $entityManager->flush();
 

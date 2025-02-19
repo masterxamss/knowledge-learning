@@ -12,8 +12,8 @@ document.addEventListener("turbo:load", function () {
         reader.onload = function (e) {
           if (preview) {
             preview.src = e.target.result; // Atualiza o `src` da imagem
-            preview.style.display = "block"; // Exibe a imagem
-            preview.style.width = "100%"; // Ajusta a largura
+            //preview.style.display = "block"; // Exibe a imagem
+            //preview.style.width = "100%"; // Ajusta a largura
           }
         };
         reader.readAsDataURL(file); // Lê o arquivo como URL

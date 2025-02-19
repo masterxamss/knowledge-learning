@@ -33,21 +33,8 @@
     gap: 1rem;
     width: 60%;
 
-    & .form-error {
-      list-style: none;
-
-      & li {
-        font-size: 0.8rem;
-        color: var(--danger-color);
-        & i {
-          color: var(--danger-color);
-          margin-right: 0.5rem;
-        }
-      }
-    }
-
-    & .is-invalid {
-      border: 1px solid var(--danger-color);
+    & div {
+      width: 100%;
     }
 
     & button {

@@ -1,5 +1,5 @@
 @import "./userAvatar.css";
-
+@import "./userData.css";
 .user-data {
   display: flex;
   flex-direction: column;

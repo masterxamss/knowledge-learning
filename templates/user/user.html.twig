@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Édition du profil | Knowledge{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }} {# Mantém o CSS global #}
+    {{ encore_entry_link_tags('user') }}
+{% endblock %}
+
+{% block main %}
+  <main class="user-data">
+    <section class="container">
+
+      <aside>
+        <ul>
+          <li>
+            {% if app.user.image is not null %}
+              <img src="{{ asset('uploads/' ~ app.user.image) }}">
+            {% else %}
+              <span>
+                {{ app.user.firstName|slice(0, 1) }} {{ app.user.lastName|slice(0, 1) }}
+              </span>
+            {% endif %}
+          </li>
+          <li>
+            <p>{{ app.user.firstName }} {{ app.user.lastName }}</p>
+          </li>
+          <li>
+            <a href="{{ path('app_user_profile', {id: app.user.id}) }}"
+            class="{{ app.current_route == 'app_user_profile' ? 'active' : '' }}"
+            >
+              Voir le profil public
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('app_user_data', {id: app.user.id}) }}"
+            class="{{ app.current_route == 'app_user_data' ? 'active' : '' }}"
+            >
+              Profil
+            </a>
+          </li>
+          <li>
+            <a
+              href="{{ path('app_user_avatar', {id: app.user.id}) }}"
+              class="{{ app.current_route == 'app_user_avatar' ? 'active' : '' }}"
+            >
+              Photo
+            </a>
+          </li>
+          <li>
+            <a href="#">Sécurité</a>
+          </li>
+          <li>
+            <a href="#">Clôturer le compte</a>
+          </li>
+        </ul>
+      </aside>
+
+      <section>
+        <header class="user-data__title">
+          <h1>
+            {{ title }}
+          </h1>
+          <p>
+            {{ subtitle }}
+          </p>
+        </header>
+        <section class="content">
+          {% if app.current_route == 'app_user_avatar' %}
+            {{ include('user/userAvatar.html.twig') }}
+          {% elseif app.current_route == 'app_user_data' %}
+           {{ include('user/UserData.html.twig') }}
+          {% elseif app.current_route == 'app_user_profile' %}
+            {{ include('user/UserProfile.html.twig') }}
+          {% endif %}
+        </section>
+      </section>
+
+    </section>
+  </main>
+{% endblock %}

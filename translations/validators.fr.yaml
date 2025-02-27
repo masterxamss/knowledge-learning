@@ -1,0 +1,6 @@
+constraints:
+  not_blank: "Ce champ doit être rempli."
+  min_length: "Ce champ doit comporter au moins {{ limit }} caractères."
+  max_length: "Ce champ doit comporter au maximum {{ limit }} caractères."
+  regex: "Ce champ contient des caractères non autorisés."
+  email: "Ce champ doit contenir une adresse email valide."

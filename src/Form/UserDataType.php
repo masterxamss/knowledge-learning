@@ -20,23 +20,25 @@ class UserDataType extends AbstractType
       // First Name 🙋
       ->add('first_name', TextType::class, [
         'attr' => [
-          'placeholder' => 'Prenom',
+          'placeholder' => 'user_form.first_name.placeholder',
           'class' => 'form-control'
         ],
         'label' => false,
         'required' => false,
         'empty_data' => '',
         'constraints' => [
-          new Assert\NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+          new Assert\NotBlank([
+            'message' => 'constraints.not_blank',
+          ]),
           new Assert\Length([
             'min' => 3,
-            'minMessage' => 'Le prenom doit comporter au moins {{ limit }} caractères.',
+            'minMessage' => 'constraints.min_length',
             'max' => 250,
-            'maxMessage' => 'Le prenom ne peut pas dépasser {{ limit }} caractères.',
+            'maxMessage' => 'constraints.max_length',
           ]),
           new Assert\Regex([
             'pattern' => '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/',
-            'message' => 'Le nom ne doit contenir que des lettres et des espaces.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
@@ -44,45 +46,45 @@ class UserDataType extends AbstractType
       // Last Name 🙋
       ->add('last_name', TextType::class, [
         'attr' => [
-          'placeholder' => 'Nom',
+          'placeholder' => 'user_form.last_name.placeholder',
           'class' => 'form-control'
         ],
         'label' => false,
         'required' => false,
         'empty_data' => '',
         'constraints' => [
-          new Assert\NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+          new Assert\NotBlank(['message' => 'constarints.not_blank']),
           new Assert\Length([
             'min' => 3,
-            'minMessage' => 'Le nom doit comporter au moins {{ limit }} caractères.',
+            'minMessage' => 'constraints.min_length',
             'max' => 250,
-            'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères.',
+            'maxMessage' => 'constraints.max_length',
           ]),
           new Assert\Regex([
             'pattern' => '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/',
-            'message' => 'Le nom ne doit contenir que des lettres et des espaces.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
 
       // Title 🧑 💻
       ->add('title', TextType::class, [
+        'label' => 'user_form.title.label',
         'attr' => [
-          'placeholder' => 'Titre',
+          'placeholder' => 'user_form.title.placeholder',
           'class' => 'form-control'
         ],
-        'label' => false,
         'required' => false,
         'constraints' => [
           new Assert\Length([
             'min' => 3,
-            'minMessage' => 'Le nom doit comporter au moins {{ limit }} caractères.',
+            'minMessage' => 'constraints.min_length',
             'max' => 250,
-            'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères.',
+            'maxMessage' => 'constraints.max_length',
           ]),
           new Assert\Regex([
             'pattern' => '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/',
-            'message' => 'Le nom ne doit contenir que des lettres et des espaces.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
@@ -90,16 +92,17 @@ class UserDataType extends AbstractType
       // Email 📧
       ->add('email', EmailType::class, [
         'attr' => [
-          'placeholder' => 'Email',
-          'class' => 'form-control'
+          'placeholder' => 'user_form.email.placeholder',
+          'readonly' => true,
+          'class' => 'form-control',
         ],
         'label' => false,
         'required' => false,
         'empty_data' => '',
         'constraints' => [
-          new Assert\NotBlank(['message' => 'L\'email ne peut pas être vide.']),
+          new Assert\NotBlank(['message' => 'constraints.not_blank']),
           new Assert\Email([
-            'message' => 'L\'email « {{ value }} » n\'est pas valide.',
+            'message' => 'constraints.email',
             'mode' => 'strict',
           ]),
         ],
@@ -108,24 +111,24 @@ class UserDataType extends AbstractType
       // Description 📝
       ->add('description', TextareaType::class, [
         'attr' => [
-          'placeholder' => 'Description',
+          'placeholder' => 'user_form.description.placeholder',
           'class' => 'form-control',
           'rows' => 15,
           'cols' => 150,
           'style' => 'resize: none;'
         ],
-        'label' => false,
+        'label' => 'user_form.description.label',
         'required' => false,
         'constraints' => [
           new Assert\Length([
-            'min' => 3,
-            'minMessage' => 'La description doit comporter au moins {{ limit }} caractères.',
+            'min' => 10,
+            'minMessage' => 'constraints.min_length',
             'max' => 500,
-            'maxMessage' => 'La description ne peut pas dépasser {{ limit }} caractères.',
+            'maxMessage' => 'constraints.max_length',
           ]),
           new Assert\Regex([
-            'pattern' => '/^[a-zA-Z0-9 ]+$/',
-            'message' => 'La description ne doit contenir que des lettres, des chiffres et des espaces.',
+            'pattern' => "/^[a-zA-ZÀ-ÿ0-9.,!?()\-'\"ºª\s]+$/",
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
@@ -135,7 +138,7 @@ class UserDataType extends AbstractType
         'attr' => [
           'class' => 'btn'
         ],
-        'label' => 'Enregistrer'
+        'label' => 'user_form.submit.label'
       ])
     ;
 
@@ -150,7 +153,7 @@ class UserDataType extends AbstractType
 
       ->add('street', TextType::class, [
         'attr' => [
-          'placeholder' => 'Rue',
+          'placeholder' => 'user_form.street.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
@@ -158,29 +161,29 @@ class UserDataType extends AbstractType
         'constraints' => [
           new Assert\Regex([
             'pattern' => "/^[a-zA-ZÀ-ÿ0-9\s.,'’-]+$/",
-            'message' => 'Saisir une adresse valide',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
 
       ->add('complement', TextType::class, [
         'attr' => [
-          'placeholder' => 'Complément d\'adresse',
+          'placeholder' => 'user_form.complement.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
         'label' => false,
         'constraints' => [
           new Assert\Regex([
-            'pattern' => '/^[a-zA-Z0-9 ]+$/',
-            'message' => 'Ce champ ne doit contenir que des lettres, des chiffres et des espaces.',
+            'pattern' => '/^[a-zA-ZÀ-ÿ0-9\s.,ºª#-]{1,100}$/',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
 
       ->add('city', TextType::class, [
         'attr' => [
-          'placeholder' => 'Ville',
+          'placeholder' => 'user_form.city.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
@@ -188,14 +191,14 @@ class UserDataType extends AbstractType
         'constraints' => [
           new Assert\Regex([
             'pattern' => "/^[a-zA-ZÀ-ÿ'’\- ]+$/",
-            'message' => 'Ce champ ne doit contenir que des lettres, des chiffres et des espaces.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
 
       ->add('zipcode', TextType::class, [
         'attr' => [
-          'placeholder' => 'Code postal',
+          'placeholder' => 'user_form.zip_code.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
@@ -203,14 +206,14 @@ class UserDataType extends AbstractType
         'constraints' => [
           new Assert\Regex([
             'pattern' => "/^\d{5}$/",
-            'message' => 'Ce champ ne doit contenir que des chiffres.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
 
       ->add('country', TextType::class, [
         'attr' => [
-          'placeholder' => 'Pays',
+          'placeholder' => 'user_form.country.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
@@ -218,14 +221,14 @@ class UserDataType extends AbstractType
         'constraints' => [
           new Assert\Regex([
             'pattern' => "/^[a-zA-ZÀ-ÿ\s'-]+$/",
-            'message' => 'Champ non valide',
+            'message' => 'constraints.regex',
           ])
         ],
       ])
 
       ->add('state', TextType::class, [
         'attr' => [
-          'placeholder' => 'Region',
+          'placeholder' => 'user_form.state.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
@@ -233,7 +236,7 @@ class UserDataType extends AbstractType
         'constraints' => [
           new Assert\Regex([
             'pattern' => '/^[a-zA-Z ]+$/',
-            'message' => 'Ce champ ne doit contenir que des lettres et des espaces.',
+            'message' => 'constraints.regex',
           ])
         ],
       ])
@@ -250,75 +253,74 @@ class UserDataType extends AbstractType
 
       ->add('website', TextType::class, [
         'attr' => [
-          'placeholder' => 'Site web',
+          'placeholder' => 'user_form.website.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
-        'label' => false,
         'constraints' => [
           new Assert\Regex([
             'pattern' => '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?$/',
-            'message' => 'Ce champ doit contenir une URL valide.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
 
       ->add('twitter', TextType::class, [
         'attr' => [
-          'placeholder' => 'Twitter',
+          'placeholder' => 'user_form.twitter.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
-
+        'label' => 'user_form.twitter.label',
         'constraints' => [
           new Assert\Regex([
             'pattern' => '/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})(\/[^\s]*)?$/',
-            'message' => 'Ce champ doit contenir une URL valide.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
 
       ->add('facebook', TextType::class, [
         'attr' => [
-          'placeholder' => 'Facebook',
+          'placeholder' => 'user_form.facebook.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
-
+        'label' => 'user_form.facebook.label',
         'constraints' => [
           new Assert\Regex([
             'pattern' => '/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})(\/[^\s]*)?$/',
-            'message' => 'Ce champ doit contenir une URL valide.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
 
       ->add('linkedin', TextType::class, [
         'attr' => [
-          'placeholder' => 'LinkedIn',
+          'placeholder' => 'user_form.linkedin.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
-
+        'label' => 'user_form.linkedin.label',
         'constraints' => [
           new Assert\Regex([
             'pattern' => '/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})(\/[^\s]*)?$/',
-            'message' => 'Ce champ doit contenir une URL valide.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
 
       ->add('youtube', TextType::class, [
         'attr' => [
-          'placeholder' => 'YouTube',
+          'placeholder' => 'user_form.youtube.placeholder',
           'class' => 'form-control'
         ],
         'required' => false,
-
+        'label' => 'user_form.youtube.label',
         'constraints' => [
           new Assert\Regex([
             'pattern' => '/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})(\/[^\s]*)?$/',
-            'message' => 'Ce champ doit contenir une URL valide.',
+            'message' => 'constraints.regex',
           ]),
         ],
       ])
@@ -329,6 +331,7 @@ class UserDataType extends AbstractType
   {
     $resolver->setDefaults([
       'data_class' => User::class,
+      'translation_domain' => 'forms',
     ]);
   }
 }

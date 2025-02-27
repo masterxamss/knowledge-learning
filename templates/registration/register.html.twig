@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }} {# Mantém o CSS global #}
+    {{ encore_entry_link_tags('register') }}
+{% endblock %}
+
+{% block title %}Register{% endblock %}
+
+{% block main %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+  
+  <main>
+    
+    <section class="registration-container">
+
+      <section class="registration-image">
+        <img src="{{ asset('images/register_1.png') }}">  
+      </section>
+      
+      <section class="registration-form">  
+        {{ form_start(form) }}
+          <div>
+            <h1>Inscrivez-vous</h1>
+          </div>
+          {# FIRST NAME 👤 #}
+          <div>
+            {{ form_widget(form.first_name, {
+              attr: {
+                class: form.first_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+              },
+            }) }}
+
+            <ul class="form-error">
+              {% for error in form.first_name.vars.errors %}
+                <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {# LAST NAME 👤 #}
+          <div>
+            {{ form_widget(form.last_name, {
+              attr: {
+                  class: form.last_name.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+              },
+            }) }}
+
+            <ul class="form-error">
+              {% for error in form.last_name.vars.errors %}
+                  <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {# EMAIL 📧 #}
+          <div>
+            {{ form_widget(form.email, {
+              attr: {
+                  class: form.email.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+              },
+            }) }}
+
+            <ul class="form-error">
+              {% for error in form.email.vars.errors %}
+                  <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {# PASSWORD 🔑 #}
+          <div>
+            {{ form_widget(form.password, {
+              attr: {
+                  class: form.password.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+              },
+            }) }}
+
+            <ul class="form-error">
+              {% for error in form.password.vars.errors %}
+                  <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {# CONFIRM PASSWORD 🔑 #}
+          <div>
+            {{ form_widget(form.confirmPassword, {
+              attr: {
+                  class: form.confirmPassword.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+              },
+            }) }}
+
+            <ul class="form-error">
+              {% for error in form.confirmPassword.vars.errors %}
+                  <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {# AGREE TO TERMS 📝 #}
+          <div>
+            {{ form_label(form.agreeTerms) }}
+            {{ form_widget(form.agreeTerms) }}
+            <ul class="form-error">
+              {% for error in form.agreeTerms.vars.errors %}
+                  <li><i class="fa-solid fa-circle-exclamation"></i>{{ error.message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {# SUBMIT 🚀 #}
+          <div>
+            {{ form_widget(form.submit) }}
+          </div>
+
+          <div class="registration-footer">
+            <p>Vous avez déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a></p>
+          </div>
+        {{ form_end(form) }}
+      </section>
+
+    </section>
+
+  </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#    {% include "partials/flash_messages.html.twig" %}
+
+    <h1>Register</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.password, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}#}
+{% endblock %}

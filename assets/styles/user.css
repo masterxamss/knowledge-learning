@@ -1,5 +1,6 @@
 @import "./userAvatar.css";
 @import "./userData.css";
+
 .user-data {
   display: flex;
   flex-direction: column;
@@ -110,4 +111,31 @@
   align-items: center;
   padding: 1rem;
   width: 100%;
+}
+
+/* tablet  */
+@media (min-width: 0px) and (max-width: 1024px) {
+  .user-data {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .user-data .container {
+    flex-direction: column;
+    width: 90%;
+
+    & aside {
+      width: 100%;
+      border-right: none;
+    }
+  }
+
+  .container section {
+    width: 100%;
+  }
+
+  .user-data__title {
+    border-top: 1px solid var(--input-border-color);
+  }
 }

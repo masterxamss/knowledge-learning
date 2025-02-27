@@ -99,7 +99,6 @@
 
 .form-control::placeholder {
   color: var(--tertiary-text-color);
-  font-weight: bold;
 }
 
 .form-link {

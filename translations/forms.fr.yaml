@@ -1,0 +1,42 @@
+user_form:
+  first_name: 
+    placeholder: "Prénom"
+  last_name:
+    placeholder: "Nom"
+  title:
+    placeholder: "Titre"
+    label: "Ajoutez un titre professionnel, tel que « étudiant » ou « architecte »."
+  email:
+    placeholder: "Email"
+  description:
+    placeholder: "Description"
+    label: "Ajoutez une description de vous."
+  street:
+    placeholder: "Rue"
+  complement:
+    placeholder: "Complément d'adresse"
+  city:
+    placeholder: "Ville"
+  zip_code:
+    placeholder: "Code postal"
+  country:
+    placeholder: "Pays"
+  state:
+    placeholder: "Region"
+  website:
+    placeholder: "Site web"
+  twitter:
+    placeholder: "Twitter"
+    label: "Ajoutez votre nom d'utilisateur Twitter (par exemple johndoe)."
+  facebook:
+    placeholder: "Facebook"
+    label: "Ajoutez votre nom d'utilisateur Facebook (par exemple johndoe)."
+  linkedin:
+    placeholder: "Linkedin"
+    label: "Ajoutez votre nom d'utilisateur Linkedin (par exemple johndoe)."
+  youtube:
+    placeholder: "Youtube"
+    label: "Ajoutez votre nom d'utilisateur Youtube (par exemple johndoe)."
+  submit:
+    label: "Enregistrer"
+

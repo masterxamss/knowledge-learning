@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Knowledge | Log in!{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }} {# Mantém o CSS global #}
+    {{ encore_entry_link_tags('login') }}
+{% endblock %}
+
+{% block main %}
+  <main>
+
+    <section class="login-container">
+      <section class="login-image">
+        <img src="{{ asset('images/login.jpg') }}" alt="Login image">
+      </section>
+
+      <section class="login-form">    
+        <h1>Veuillez vous connecter</h1>
+        <form method="post">
+          {% if error %}
+              <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+          {% endif %}    
+
+          <input 
+            type="email" 
+            value="{{ last_username }}" 
+            name="email" id="inputEmail" 
+            class="form-control" 
+            autocomplete="email" 
+            required 
+            autofocus
+            placeholder="Email"
+          >
+          <input 
+            type="password" 
+            name="password" 
+            id="inputPassword" 
+            class="form-control" 
+            autocomplete="current-password" 
+            required
+            palaceholder="Password"
+          >
+
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+          <div class="login-cta">
+            <button class="btn" type="submit">
+              Sign in
+            </button>
+
+            <label>
+              <input type="checkbox" name="_remember_me"> se souvenir de moi
+            </label>
+          </div>
+
+        </form>
+        <div class="login-footer">
+          <p>Vous n'avez pas de compte ? <a href="{{ path('app_register') }}">S'inscrire</a></p>
+        </div>
+      </section>
+    </section>
+
+  </main>
+
+
+{% endblock %}

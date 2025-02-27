@@ -8,22 +8,16 @@
     },
   })
 }}
-  <div>
-    {{ include('partials/flash_messages.html.twig') }}
-  </div>
   <section class="user-container">
-
-    <header class="user-container__title">
-      <div>
-        <h2>Informations personnelles</h2>
-      </div>
-      <div> 
-        <h2>Address</h2>
-      </div>
-    </header>
-
+    
+    {{ include('partials/flash_messages.html.twig') }}
+    
     <section class="user-container__infos">
       <div class="basic-data">
+
+        <div class="infos-title">
+          <h2>Informations personnelles</h2>
+        </div>
         {# FIRST NAME && LAST NAME #}
         <div class="basic-data__name">
           <div>
@@ -81,6 +75,7 @@
               class: form.title.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
             }})
           }}
+          {{ form_label(form.title) }}
           {% if form.title.vars.errors|length > 0 %}
             <ul class="form-error">
               {% for error in form.title.vars.errors %}
@@ -92,6 +87,10 @@
       </div>
 
       <div class="address">
+
+        <div class="infos-title"> 
+          <h2>Address</h2>
+        </div>
         {# ADDRESS-STREET #}
         <div class="address-street">
           {{ form_widget(form.address.street, {
@@ -193,11 +192,12 @@
     <section class="user-container__description">
       {# DESCRIPTION #}
       <div class="basic-data__description">
-        {{ form_widget(form.description, {
+        {{ form_widget(form.description,{
           attr: {
             class: form.description.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
           }})
         }}
+        {{ form_label(form.description) }}
         {% if form.description.vars.errors|length > 0 %}
           <ul class="form-error">
             {% for error in form.description.vars.errors %}
@@ -207,8 +207,14 @@
         {% endif %}
       </div>
     </section>
-      
+
+    <hr> 
+
     <section class="user-container__links">
+      <div>
+        <h2>Links</h2>
+      </div>
+
       {# WEBSITE #}
       <div>
         {{ form_widget(form.links.website, {
@@ -227,11 +233,15 @@
 
       {# TWITTER #}
       <div>
-        {{ form_widget(form.links.twitter, {
-          attr: {
-            class: form.links.twitter.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
-          }})
-        }}
+        <div class='links-placeholder'>
+          <input type="text" value="https://twitter.com/" class='placeholder form-control' readonly disabled>
+          {{ form_widget(form.links.twitter, {
+            attr: {
+              class: form.links.twitter.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+            }})
+          }}
+        </div>
+        {{ form_label(form.links.twitter) }}
         {% if form.links.twitter.vars.errors|length > 0 %}
           <ul class="form-error">
             {% for error in form.links.twitter.vars.errors %}
@@ -243,11 +253,15 @@
 
       {# FACEBOOK #}
       <div>
-        {{ form_widget(form.links.facebook, {
-          attr: {
-            class: form.links.facebook.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
-          }})
-        }}
+        <div class='links-placeholder'>
+          <input type="text" value="https://www.facebook.com/" class='placeholder form-control' readonly disabled>
+          {{ form_widget(form.links.facebook, {
+            attr: {
+              class: form.links.facebook.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+            }})
+          }}
+        </div>
+        {{ form_label(form.links.facebook) }}
         {% if form.links.facebook.vars.errors|length > 0 %}
           <ul class="form-error">
             {% for error in form.links.facebook.vars.errors %}
@@ -259,11 +273,15 @@
 
       {# LINKEDIN #}
       <div>
-        {{ form_widget(form.links.linkedin, {
-          attr: {
-            class: form.links.linkedin.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
-          }})
-        }}
+        <div class='links-placeholder'>
+          <input type="text" value="https://www.linkedin.com/" class='placeholder form-control' readonly disabled>
+          {{ form_widget(form.links.linkedin, {
+            attr: {
+              class: form.links.linkedin.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+            }})
+          }}
+        </div>
+        {{ form_label(form.links.linkedin) }}
         {% if form.links.linkedin.vars.errors|length > 0 %}
           <ul class="form-error">
             {% for error in form.links.linkedin.vars.errors %}
@@ -275,11 +293,15 @@
 
       {# YOUTUBE #}
       <div>
-        {{ form_widget(form.links.youtube, {
-          attr: {
-            class: form.links.youtube.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
-          }})
-        }}
+        <div class='links-placeholder'>
+          <input type="text" value="https://www.youtube.com/" class='placeholder form-control' readonly disabled>
+          {{ form_widget(form.links.youtube, {
+            attr: {
+              class: form.links.youtube.vars.errors|length > 0 ? 'form-control is-invalid' : 'form-control',
+            }})
+          }}
+        </div>
+        {{ form_label(form.links.youtube) }}
         {% if form.links.youtube.vars.errors|length > 0 %}
           <ul class="form-error">
             {% for error in form.links.youtube.vars.errors %}
@@ -290,5 +312,8 @@
       </div>
     </section>
 
+    <div class="user-container__submit">
+      {{ form_widget(form.submit) }}  
+    </div>
   </section>
 {{ form_end(form) }}

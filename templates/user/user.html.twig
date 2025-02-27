@@ -26,12 +26,15 @@
             <p>{{ app.user.firstName }} {{ app.user.lastName }}</p>
           </li>
           <li>
-            <a href="#">Voir le profil public</a>
+            <a href="{{ path('app_user_profile', {id: app.user.id}) }}"
+            class="{{ app.current_route == 'app_user_profile' ? 'active' : '' }}"
+            >
+              Voir le profil public
+            </a>
           </li>
           <li>
-            <a
-              href="#"
-              class="{% if path == 'user' %} active {% endif %}"
+            <a href="{{ path('app_user_data', {id: app.user.id}) }}"
+            class="{{ app.current_route == 'app_user_data' ? 'active' : '' }}"
             >
               Profil
             </a>
@@ -39,7 +42,7 @@
           <li>
             <a
               href="{{ path('app_user_avatar', {id: app.user.id}) }}"
-              class="{% if path == 'userAvatar' %} active {% endif %}"
+              class="{{ app.current_route == 'app_user_avatar' ? 'active' : '' }}"
             >
               Photo
             </a>
@@ -54,7 +57,7 @@
       </aside>
 
       <section>
-        <header>
+        <header class="user-data__title">
           <h1>
             {{ title }}
           </h1>
@@ -63,10 +66,12 @@
           </p>
         </header>
         <section class="content">
-          {% if path == 'userAvatar' %}
+          {% if app.current_route == 'app_user_avatar' %}
             {{ include('user/userAvatar.html.twig') }}
-          {% elseif path == 'userData' %}
-            {{ include('user/UserData.html.twig') }}
+          {% elseif app.current_route == 'app_user_data' %}
+           {{ include('user/UserData.html.twig') }}
+          {% elseif app.current_route == 'app_user_profile' %}
+            {{ include('user/UserProfile.html.twig') }}
           {% endif %}
         </section>
       </section>

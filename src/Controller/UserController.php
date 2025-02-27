@@ -4,56 +4,67 @@ namespace App\Controller;
 
 use App\Form\UserAvatarType;
 use App\Form\UserDataType;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class UserController extends AbstractController
 {
   #[Route('/user/{id}', name: 'app_user_data', methods: ['GET', 'POST'])]
+  #[IsGranted('ROLE_USER')]
   public function user(int $id, EntityManagerInterface $entityManager, Request $request): Response
   {
-    // Find user
-    $user = $entityManager->getRepository(User::class)->find($id);
-    if (!$user) {
-      $this->addFlash('alert-danger', 'Utilisateur introuvable');
-    }
+    try {
+      // Find user
+      $user = $entityManager->getRepository(User::class)->find($id);
 
-    // Prepare form
-    $form = $this->createForm(UserDataType::class, $user);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-      try {
-        $entityManager->flush();
-
-        $this->addFlash('alert-success', 'Informations mises à jour');
-      } catch (\Exception $e) {
-        $this->addFlash('alert-danger', $e->getMessage());
+      // Check if user exists
+      if (!$user) {
+        $this->addFlash('error', 'Utilisateur introuvable');
+        return $this->redirectToRoute('app_home');
       }
 
-      return $this->redirectToRoute('app_user_data', ['id' => $user->getId()]);
+      // Check if user is verified
+      if (!$user->getIsVerified()) {
+        $this->addFlash('error', 'Votre compte n\'est pas encore activé');
+        return $this->redirectToRoute('app_home');
+      }
+
+      // Prepare form
+      $form = $this->createForm(UserDataType::class, $user);
+      $form->handleRequest($request);
+
+      // Update user
+      if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->flush();
+        $this->addFlash('success', 'Informations mises à jour');
+      }
+    } catch (\Exception $e) {
+      $this->addFlash('error', 'Une erreur est survenue' . $e->getMessage());
+      return $this->redirectToRoute('app_home');
     }
+
     return $this->render('user/user.html.twig', [
       'form' => $form->createView(),
-      'path' => 'userData',
-      'title' => 'Profil public',
+      'title' => 'Profil',
       'subtitle' => 'Ajouter des informations sur vous-même'
     ]);
   }
 
   #[Route('/user/{id}/avatar', name: 'app_user_avatar')]
+  #[IsGranted('ROLE_USER')]
   public function userAvatar(int $id, EntityManagerInterface $entityManager, Request $request): Response
   {
 
     // Find user
     $user = $entityManager->getRepository(User::class)->find($id);
     if (!$user) {
-      $this->addFlash('alert-danger', 'User not found');
+      $this->addFlash('error', 'User not found');
     }
 
     // Prepare form
@@ -67,19 +78,29 @@ final class UserController extends AbstractController
 
         $entityManager->flush();
 
-        $this->addFlash('alert-success', 'Avatar updated successfully');
+        $this->addFlash('success', 'Avatar updated successfully');
       } catch (\Exception $e) {
-        $this->addFlash('alert-danger', $e->getMessage());
+        $this->addFlash('error', $e->getMessage());
       }
 
       return $this->redirectToRoute('app_user_avatar', ['id' => $user->getId()]);
     }
 
     return $this->render('user/user.html.twig', [
-      'path' => 'userAvatar',
       'form' => $form->createView(),
       'title' => 'Photo',
       'subtitle' => 'Ajouter une photo à votre profil',
+    ]);
+  }
+
+
+  #[Route('/user/{id}/profil', name: 'app_user_profile')]
+  #[IsGranted('ROLE_USER')]
+  public function userProfil(): Response
+  {
+    return $this->render('user/user.html.twig', [
+      'title' => 'Profile Public',
+      'subtitle' => 'Aperçu de votre profil'
     ]);
   }
 

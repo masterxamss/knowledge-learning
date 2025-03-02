@@ -40,3 +40,12 @@ user_form:
   submit:
     label: "Enregistrer"
 
+register_form:
+  password:
+    placeholder: "Mot de passe"
+  password_confirmation:
+    placeholder: "Confirmer le mot de passe"
+  agreement:
+    label: "J'accepte les conditions générales"
+  submit:
+    label: "S'inscrire"

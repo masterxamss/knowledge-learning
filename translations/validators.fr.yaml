@@ -4,3 +4,5 @@ constraints:
   max_length: "Ce champ doit comporter au maximum {{ limit }} caractères."
   regex: "Ce champ contient des caractères non autorisés."
   email: "Ce champ doit contenir une adresse email valide."
+  password: 'Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial.'
+  agreement: 'Vous devez accepter nos conditions générales'

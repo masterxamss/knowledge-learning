@@ -28,6 +28,7 @@ Encore.copyFiles({
   .addStyleEntry("login", "./assets/styles/login.css")
   .addStyleEntry("register", "./assets/styles/registration.css")
   .addStyleEntry("user", "./assets/styles/user.css")
+  .addStyleEntry("admin", "./assets/styles/admin.css")
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()
 

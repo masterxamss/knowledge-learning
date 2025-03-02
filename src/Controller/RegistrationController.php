@@ -20,7 +20,10 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-  public function __construct(private EmailVerifier $emailVerifier) {}
+
+  public function __construct(
+    private EmailVerifier $emailVerifier
+  ) {}
 
   #[Route('/register', name: 'app_register')]
   public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
@@ -60,7 +63,7 @@ class RegistrationController extends AbstractController
       $this->addFlash('success', 'Check your email to verify your account!');
       return $security->login($user, AppAuthenticator::class, 'main');
 
-      //return $this->redirectToRoute('app_login');
+      // return $this->redirectToRoute('app_login');
     }
 
     return $this->render('registration/register.html.twig', [

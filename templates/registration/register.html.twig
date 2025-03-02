@@ -9,19 +9,15 @@
 {% block title %}Register{% endblock %}
 
 {% block main %}
-    {% for flash_error in app.flashes('verify_email_error') %}
+  {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-  
+  {% endfor %}
   <main>
-    
     <section class="registration-container">
 
       <section class="registration-image">
-        <img src="{{ asset('images/register_1.png') }}">  
       </section>
-      
-      <section class="registration-form">  
+      <section class="registration-form">
         {{ form_start(form) }}
           <div>
             <h1>Inscrivez-vous</h1>
@@ -116,9 +112,7 @@
           </div>
         {{ form_end(form) }}
       </section>
-
     </section>
-
   </main>
 
 

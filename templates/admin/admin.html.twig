@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }} {# Keep the global CSS #}
+    {{ encore_entry_link_tags('admin') }}
+{% endblock %}
+
+{% block title %}Administration{% endblock %}
+
+{% block main %}
+    <main>
+
+    </main>
+{% endblock %}

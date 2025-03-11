@@ -24,13 +24,13 @@ class RegistrationFormType extends AbstractType
       //  EMAIL 📧
       ->add('email', EmailType::class, [
         'attr' => [
-          'placeholder' => 'Email',
+          'placeholder' => 'user_form.email.placeholder',
           'class' => 'form-control'
         ],
         'constraints' => [
-          new Assert\NotBlank(['message' => 'L\'email ne peut pas être vide.']),
+          new Assert\NotBlank(['message' => 'constraints.not_blank']),
           new Assert\Email([
-            'message' => 'L\'email « {{ value }} » n\'est pas valide.',
+            'message' => 'constraints.email',
             'mode' => 'strict',
           ]),
         ],
@@ -40,20 +40,20 @@ class RegistrationFormType extends AbstractType
       ->add('first_name', TextType::class, [
         'label' => false,
         'attr' => [
-          'placeholder' => 'form.user.first_name',
+          'placeholder' => 'user_form.first_name.placeholder',
           'class' => 'form-control'
         ],
         'constraints' => [
-          new Assert\NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+          new Assert\NotBlank(['message' => 'constraints.not_blank']),
           new Assert\Length([
             'min' => 2,
-            'minMessage' => 'Le prenom doit comporter au moins {{ limit }} caractères.',
+            'minMessage' => 'constraints.min_length',
             'max' => 250,
-            'maxMessage' => 'Le prenom ne peut pas dépasser {{ limit }} caractères.',
+            'maxMessage' => 'constraints.max_length',
           ]),
           new Assert\Regex([
             'pattern' => '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/',
-            'message' => 'Le prenom ne doit contenir que des lettres et des espaces.',
+            'message' => 'constraints.regex',
           ]),
         ],
         'required' => false
@@ -61,20 +61,20 @@ class RegistrationFormType extends AbstractType
       // LAST NAME 👤
       ->add('last_name', TextType::class, [
         'attr' => [
-          'placeholder' => 'Nom',
+          'placeholder' => 'user_form.last_name.placeholder',
           'class' => 'form-control'
         ],
         'constraints' => [
-          new Assert\NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+          new Assert\NotBlank(['message' => 'constraints.not_blank']),
           new Assert\Length([
             'min' => 2,
-            'minMessage' => 'Le nom doit comporter au moins {{ limit }} caractères.',
+            'minMessage' => 'constraints.min_length',
             'max' => 250,
-            'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères.',
+            'maxMessage' => 'constraints.max_length',
           ]),
           new Assert\Regex([
             'pattern' => '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/',
-            'message' => 'Le nom ne doit contenir que des lettres et des espaces.',
+            'message' => 'constraints.regex',
           ]),
         ],
         'required' => false
@@ -82,23 +82,23 @@ class RegistrationFormType extends AbstractType
       // PASSWORD 🔑
       ->add('password', PasswordType::class, [
         'attr' => [
-          'placeholder' => 'Mot de passe',
+          'placeholder' => 'register_form.password.placeholder',
           'class' => 'form-control',
           'autocomplete' => 'new-password'
         ],
         'constraints' => [
           new NotBlank([
-            'message' => 'Ce champ est obligatoire',
+            'message' => 'constraints.not_blank',
           ]),
           new Assert\Length([
             'min' => 8,
-            'minMessage' => 'Le mot de passe doit comporter au moins {{ limit }} caractères.',
+            'minMessage' => 'constraints.min_length',
             'max' => 250,
-            'maxMessage' => 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.',
+            'maxMessage' => 'constraints.max_length',
           ]),
           new Assert\Regex([
             'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/',
-            'message' => 'Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial.',
+            'message' => 'constraints.password',
           ]),
         ],
         'required' => false
@@ -106,13 +106,13 @@ class RegistrationFormType extends AbstractType
       // PASSWORD CONFIRM 🔑
       ->add('confirmPassword', PasswordType::class, [
         'attr' => [
-          'placeholder' => 'Confirmer le mot de passe',
+          'placeholder' => 'register_form.password_confirmation.placeholder',
           'class' => 'form-control'
         ],
         'mapped' => false,
         'constraints' => [
           new NotBlank([
-            'message' => 'Ce champ est obligatoire',
+            'message' => 'constraints.not_blank',
           ]),
           new PasswordMatch(),
         ],
@@ -121,10 +121,10 @@ class RegistrationFormType extends AbstractType
       // AGREE TERMS 📝
       ->add('agreeTerms', CheckboxType::class, [
         'mapped' => false,
-        'label' => 'J\'accepte les conditions générales',
+        'label' => 'register_form.agreement.label',
         'constraints' => [
           new IsTrue([
-            'message' => 'Vous devez accepter nos conditions générales',
+            'message' => 'constraints.agreement',
           ]),
         ],
         'required' => false
@@ -134,7 +134,7 @@ class RegistrationFormType extends AbstractType
         'attr' => [
           'class' => 'btn'
         ],
-        'label' => 'S\'inscrire'
+        'label' => 'register_form.submit.label'
       ])
     ;
   }
@@ -143,6 +143,7 @@ class RegistrationFormType extends AbstractType
   {
     $resolver->setDefaults([
       'data_class' => User::class,
+      'translation_domain' => 'forms',
     ]);
   }
 }

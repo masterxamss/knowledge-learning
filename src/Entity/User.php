@@ -52,8 +52,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\Column]
   private ?bool $isVerified = null;
 
-  #[ORM\Column(length: 255, nullable: true)]
-  private ?string $activationToken = null;
+  /*#[ORM\Column(length: 255, nullable: true)]
+  private ?string $activationToken = null;*/
 
   #[ORM\Column]
   private ?bool $active = null;
@@ -239,7 +239,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     return $this;
   }
 
-  public function getActivationToken(): ?string
+  /*public function getActivationToken(): ?string
   {
     return $this->activationToken;
   }
@@ -249,7 +249,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     $this->activationToken = $activationToken;
 
     return $this;
-  }
+  }*/
 
   public function getActive(): ?bool
   {
@@ -418,6 +418,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
   public function isVerified(): bool
   {
-      return $this->isVerified;
+    return $this->isVerified;
   }
 }

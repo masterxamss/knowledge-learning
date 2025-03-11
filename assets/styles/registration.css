@@ -13,12 +13,17 @@ main {
 
 .registration-image {
   width: 50%;
-  display: flex;
+  background-image: url("/public/images/register_1.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  /*display: flex;
   flex-grow: 1;
 
   & img {
     width: 100%;
-  }
+  }*/
 }
 
 .registration-form {
@@ -64,5 +69,45 @@ main {
 
   & a {
     color: var(--btn-color);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .registration-container {
+    flex-direction: column;
+  }
+
+  .registration-image {
+    background-image: url("/public/images/register_4.jpg");
+    background-size: 90% 90%;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 50vh;
+    width: 100%;
+  }
+
+  .registration-form {
+    width: 100%;
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 768px) {
+  .registration-container {
+    flex-direction: column;
+  }
+
+  .registration-image {
+    background-image: url("/public/images/register_4.jpg");
+    background-size: 90% 90%;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 30vh;
+    width: 100%;
+  }
+
+  .registration-form {
+    width: 100%;
+    padding: 1rem;
   }
 }

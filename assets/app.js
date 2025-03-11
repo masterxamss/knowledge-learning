@@ -12,7 +12,6 @@ import "./styles/home.css";
 import "./styles/user.css";
 import "./styles/login.css";
 import "./styles/registration.css";
-import "./styles/admin.css";
 /* 🚀 JavaScript */
 import "./js/dropdown_profile.js";
 import "./js/import_image.js";

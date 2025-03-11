@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ controller_name }}{% endblock %}
+{% block title %}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }} {# Mantém o CSS global #}
@@ -8,9 +8,34 @@
 {% endblock %}
 
 {% block main %}
-    <section>
-        <h1>Home</h1>
-        <a href="\logout">logout</a>
-        {% include "partials/flash_messages.html.twig" %}
-    </section>
+    <main class="home">
+      <section class="banner">
+        <div class="banner-img">
+          <h1>Apprendre, pratiquer, maîtriser</h1>
+          <h4>Vos connaissances en un clic !</h4>
+        </div>
+      </section>
+
+      {{ include('partials/flash_messages.html.twig') }}
+
+      <section class="themes">
+        <div class="cards">
+          {% for themes in themes %}
+            <div class="card">
+              <div class="card-image">
+                <img src="{{ asset('images/themes/' ~ themes.image) }}">
+              </div>
+              <div class="card-content">
+                <h4>{{ themes.name }}</h4>
+                <a href="/themes/{{ themes.slug }}" class="">
+                  En savoir plus
+                  <i class="fa-regular fa-square-plus"></i>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+    </main>
 {% endblock %}

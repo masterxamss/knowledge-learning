@@ -17,10 +17,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class UserController extends AbstractController
 {
   #[Route('/user/{id}', name: 'app_user_data', methods: ['GET', 'POST'])]
-  #[IsGranted(UserVoter::EDIT, subject: 'user')]
+  //#[IsGranted(UserVoter::EDIT, subject: 'user')]
   public function user(int $id, EntityManagerInterface $entityManager, Request $request, User $user): Response
   {
     try {
+
+      if (!$this->isGranted('USER_EDIT', $user)) {
+        return $this->redirectToRoute('app_home'); // Redireciona se não tiver permissão
+      }
       // Find user
       $user = $entityManager->getRepository(User::class)->find($id);
 
@@ -58,8 +62,8 @@ final class UserController extends AbstractController
   }
 
   #[Route('/user/{id}/avatar', name: 'app_user_avatar')]
-  #[IsGranted('ROLE_USER')]
-  public function userAvatar(int $id, EntityManagerInterface $entityManager, Request $request): Response
+  #[IsGranted(UserVoter::EDIT, subject: 'user')]
+  public function userAvatar(int $id, EntityManagerInterface $entityManager, Request $request, User $user): Response
   {
 
     // Find user
@@ -96,9 +100,10 @@ final class UserController extends AbstractController
 
 
   #[Route('/user/{id}/profil', name: 'app_user_profile')]
-  #[IsGranted('ROLE_USER')]
-  public function userProfil(): Response
+  #[IsGranted(UserVoter::EDIT, subject: 'user')]
+  public function userProfil(User $user): Response
   {
+    // HACK: Make user public profile
     return $this->render('user/user.html.twig', [
       'title' => 'Profile Public',
       'subtitle' => 'Aperçu de votre profil'

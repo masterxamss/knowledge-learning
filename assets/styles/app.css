@@ -11,6 +11,11 @@
   src: url("../fonts/roboto/Roboto-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Nunito Regular";
+  src: url("../fonts/Nunito/Nunito-Regular.ttf") format("truetype");
+}
+
 :root {
   --secondary-bg-color: #ffffff;
   --h1-color: #384050;
@@ -44,16 +49,13 @@ body {
   position: relative;
 }
 
-h1 {
-  color: var(--h1-color);
-}
-
+h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  color: var(--h2-color);
+  color: var(--h1-color);
 }
 
 ul {
@@ -69,6 +71,10 @@ table {
   font-size: 1rem;
   font-family: "Roboto Regular";
   color: var(--tertiary-text-color);
+}
+
+hr {
+  color: var(--input-border-color);
 }
 
 /* ==================== FOOTER  ==================== */

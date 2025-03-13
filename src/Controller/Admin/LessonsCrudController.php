@@ -2,19 +2,20 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Themes;
+use App\Entity\Lessons;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
-class ThemesCrudController extends AbstractCrudController
+class LessonsCrudController extends AbstractCrudController
 {
   public static function getEntityFqcn(): string
   {
-    return Themes::class;
+    return Lessons::class;
   }
 
 
@@ -23,16 +24,15 @@ class ThemesCrudController extends AbstractCrudController
     return [
       IdField::new('id')
         ->hideOnForm(),
-      TextField::new('name'),
       TextField::new('title'),
       TextEditorField::new('description'),
-      // SlugField::new('slug')
-      //   ->setTargetFieldName('name')
-      //   ->hideOnForm(),
-      ImageField::new('image')
-        ->setUploadDir('public/images/themes')
-        ->setBasePath('/images/themes')
-        ->setRequired(false),
+      MoneyField::new('price', 'Prix')
+        ->setCurrency('EUR')
+        ->setStoredAsCents(false),
+      UrlField::new('video'),
+      AssociationField::new('course', 'Cours')
+        ->setRequired(true)
+        ->autocomplete(),
     ];
   }
 }

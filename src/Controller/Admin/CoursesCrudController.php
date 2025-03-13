@@ -34,7 +34,9 @@ class CoursesCrudController extends AbstractCrudController
       AssociationField::new('theme', 'Théme')
         ->setRequired(true)
         ->autocomplete(),
-      MoneyField::new('price', 'Prix')->setCurrency('EUR'),
+      MoneyField::new('price', 'Prix')
+        ->setCurrency('EUR')
+        ->setStoredAsCents(false),
       // SlugField::new('slug')
       //   ->setTargetFieldName('title')
       //   ->hideOnForm(),

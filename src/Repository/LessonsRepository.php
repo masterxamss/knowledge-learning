@@ -2,41 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Themes;
-
+use App\Entity\Lessons;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Themes>
+ * @extends ServiceEntityRepository<Lessons>
  */
-class ThemesRepository extends ServiceEntityRepository
+class LessonsRepository extends ServiceEntityRepository
 {
   public function __construct(ManagerRegistry $registry)
   {
-    parent::__construct($registry, Themes::class);
+    parent::__construct($registry, Lessons::class);
   }
 
-
   //    /**
-  //     * @return Themes[] Returns an array of Themes objects
+  //     * @return Lessons[] Returns an array of Lessons objects
   //     */
   //    public function findByExampleField($value): array
   //    {
-  //        return $this->createQueryBuilder('t')
-  //            ->andWhere('t.exampleField = :val')
+  //        return $this->createQueryBuilder('l')
+  //            ->andWhere('l.exampleField = :val')
   //            ->setParameter('val', $value)
-  //            ->orderBy('t.id', 'ASC')
+  //            ->orderBy('l.id', 'ASC')
   //            ->setMaxResults(10)
   //            ->getQuery()
   //            ->getResult()
   //        ;
   //    }
 
-  //    public function findOneBySomeField($value): ?Themes
+  //    public function findOneBySomeField($value): ?Lessons
   //    {
-  //        return $this->createQueryBuilder('t')
-  //            ->andWhere('t.exampleField = :val')
+  //        return $this->createQueryBuilder('l')
+  //            ->andWhere('l.exampleField = :val')
   //            ->setParameter('val', $value)
   //            ->getQuery()
   //            ->getOneOrNullResult()

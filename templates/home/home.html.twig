@@ -27,7 +27,7 @@
               </div>
               <div class="card-content">
                 <h4>{{ themes.name }}</h4>
-                <a href="/themes/{{ themes.slug }}" class="">
+                <a href="{{ path('app_categories', {'slug': themes.slug}) }}">
                   En savoir plus
                   <i class="fa-regular fa-square-plus"></i>
                 </a>

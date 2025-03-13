@@ -11,33 +11,42 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CoursesRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Courses::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, Courses::class);
+  }
 
-    //    /**
-    //     * @return Courses[] Returns an array of Courses objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+  public function findCoursesByTheme($slug)
+  {
+    return $this->createQueryBuilder('c')
+      ->join('c.theme', 't')
+      ->where('t.slug = :slug')
+      ->setParameter('slug', $slug)
+      ->getQuery()
+      ->getResult();
+  }
+  //    /**
+  //     * @return Courses[] Returns an array of Courses objects
+  //     */
+  //    public function findByExampleField($value): array
+  //    {
+  //        return $this->createQueryBuilder('c')
+  //            ->andWhere('c.exampleField = :val')
+  //            ->setParameter('val', $value)
+  //            ->orderBy('c.id', 'ASC')
+  //            ->setMaxResults(10)
+  //            ->getQuery()
+  //            ->getResult()
+  //        ;
+  //    }
 
-    //    public function findOneBySomeField($value): ?Courses
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+  //    public function findOneBySomeField($value): ?Courses
+  //    {
+  //        return $this->createQueryBuilder('c')
+  //            ->andWhere('c.exampleField = :val')
+  //            ->setParameter('val', $value)
+  //            ->getQuery()
+  //            ->getOneOrNullResult()
+  //        ;
+  //    }
 }

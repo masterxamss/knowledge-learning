@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Knowledge Learning - {{ courses[0].theme.name }}{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  {{ encore_entry_link_tags('categories') }}
+{% endblock %}
+
+{% block main %}
+  <main class="d-courses">
+    <header class="d-courses__title">
+      <h1>{{ courses[0].theme.name }}<h1>
+    </header>
+    <section class="d-courses__content">
+      {% if courses %}
+        <aside class="d-courses__aside">
+          <ul>
+            <li>teste</li>
+            <li>teste</li>
+            <li>teste</li>
+            <li>teste</li>
+            <li>teste</li>
+            <li>teste</li>
+            <li>teste</li>
+          </ul>
+        </aside>
+        <div class="d-courses__list">
+          {% for course_data in coursesData %}
+            <div class="d-courses__card">
+              <div class="d-courses__image">
+                <img src="{{ asset('images/courses/') ~ course_data.course.image }}" alt="course image">
+              </div>
+              <div class="d-courses__cta">
+                <div>
+                  <h3>{{ course_data.course.title }}</h3>
+                  <h4>Leçons</h4>
+                  {% for lesson in course_data.lessons %}
+                    <p>
+                      <span>{{ loop.index }}</span>
+                      -
+                      {{ lesson.title }}
+                    </p>
+                  {% endfor %}
+                </div>
+                <div>
+                  <p>{{ course_data.course.price }} €</p>
+                  <a href="{{ path('app_courses', {'slug': course_data.course.slug}) }}" class="btn-cta">
+                  <i class="fa-regular fa-square-plus"></i>
+                    En savoir plus
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="d-courses__message">
+          <i class="fa-regular fa-face-frown-open"></i>
+          <h2>Il n'y a pas de cours disponibles dans cette catégorie<h2>
+        <div>
+      {% endif %}
+    </section>
+  </main>
+{% endblock %}

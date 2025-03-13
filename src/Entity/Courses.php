@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CoursesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -41,6 +43,17 @@ class Courses
   #[ORM\Column(length: 255)]
   private ?string $slug = null;
 
+  /**
+   * @var Collection<int, Lessons>
+   */
+  #[ORM\OneToMany(targetEntity: Lessons::class, mappedBy: 'course')]
+  private Collection $lessons;
+
+  public function __construct()
+  {
+    $this->lessons = new ArrayCollection();
+  }
+
   #[ORM\PrePersist]
   public function setCreatedAtValue(): void
   {
@@ -77,6 +90,11 @@ class Courses
     $this->title = $title;
 
     return $this;
+  }
+
+  public function __toString(): string
+  {
+    return $this->title;
   }
 
   public function getDescription(): ?string
@@ -159,6 +177,36 @@ class Courses
   public function setSlug(string $slug): static
   {
     $this->slug = $slug;
+
+    return $this;
+  }
+
+  /**
+   * @return Collection<int, Lessons>
+   */
+  public function getLessons(): Collection
+  {
+    return $this->lessons;
+  }
+
+  public function addLesson(Lessons $lesson): static
+  {
+    if (!$this->lessons->contains($lesson)) {
+      $this->lessons->add($lesson);
+      $lesson->setCourse($this);
+    }
+
+    return $this;
+  }
+
+  public function removeLesson(Lessons $lesson): static
+  {
+    if ($this->lessons->removeElement($lesson)) {
+      // set the owning side to null (unless already changed)
+      if ($lesson->getCourse() === $this) {
+        $lesson->setCourse(null);
+      }
+    }
 
     return $this;
   }

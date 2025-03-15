@@ -2,21 +2,20 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Lessons;
+use App\Entity\Chapters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
-class LessonsCrudController extends AbstractCrudController
+class ChaptersCrudController extends AbstractCrudController
 {
   public static function getEntityFqcn(): string
   {
-    return Lessons::class;
+    return Chapters::class;
   }
 
 
@@ -25,23 +24,19 @@ class LessonsCrudController extends AbstractCrudController
     return [
       IdField::new('id')
         ->hideOnForm(),
-      TextField::new('title'),
-      TextEditorField::new('description'),
-      MoneyField::new('price', 'Prix')
-        ->setCurrency('EUR')
-        ->setStoredAsCents(false),
-      UrlField::new('video'),
-      ImageField::new('image_1')
-        ->setUploadDir('public/images/icons')
-        ->setBasePath('/images/icons')
-        ->setRequired(false),
-      ImageField::new('image_2')
-        ->setUploadDir('public/images/icons')
-        ->setBasePath('/images/icons')
-        ->setRequired(false),
-      AssociationField::new('course', 'Cours')
+      TextField::new('title', 'Titre'),
+      TextEditorField::new('content', 'Contenu'),
+      AssociationField::new('lessonId', 'Leçon')
         ->setRequired(true)
         ->autocomplete(),
+      ImageField::new('image', 'Image')
+        ->setUploadDir('public/images/icons')
+        ->setBasePath('/images/icons')
+        ->setRequired(false),
+      DateField::new('created_at', 'Date de création')
+        ->hideOnForm(),
+      DateField::new('updated_at', 'Date de modification')
+        ->hideOnForm(),
     ];
   }
 }

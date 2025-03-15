@@ -12,13 +12,14 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
-final class CategoriesController extends AbstractController
+final class ThemesController extends AbstractController
 {
-  #[Route('/category/{slug}', name: 'app_categories')]
+  #[Route('/themes/{slug}', name: 'app_categories')]
   public function index(string $slug, EntityManagerInterface $em): Response
   {
     try {
       // Return courses related to theme
+      // dd($slug);
       $courses = $em->getRepository(Courses::class)->findCoursesByTheme($slug);
 
       // Return lessons related to course
@@ -33,18 +34,18 @@ final class CategoriesController extends AbstractController
       // Check if there are courses
       if (!$courses) {
         $this->addFlash('error', 'Il n\'y a pas de cours connexes');
-        return $this->redirectToRoute('app_courses');
+        return $this->redirectToRoute('app_home');
       }
 
       // Render page
-      return $this->render('categories/categories.html.twig', [
+      return $this->render('themes/themes.html.twig', [
         'courses' => $courses,
         'coursesData' => $data
       ]);
     } catch (\Exception $e) {
       // Handle error
       $this->addFlash('error', 'Une erreur est survenue' . $e->getMessage());
-      return $this->redirectToRoute('app_courses');
+      return $this->redirectToRoute('app_home');
     }
   }
 }

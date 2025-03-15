@@ -70,7 +70,7 @@ class Courses
   #[ORM\PreUpdate]
   public function generateSlug(): void
   {
-    if (!empty($this->title) && empty($this->slug)) {
+    if (!empty($this->title)) {
       $this->slug = (new AsciiSlugger())->slug($this->title)->lower();
     }
   }

@@ -45,7 +45,7 @@ class Themes
   #[ORM\PreUpdate]
   public function generateSlug(): void
   {
-    if (!empty($this->name) && empty($this->slug)) {
+    if (!empty($this->name)) {
       $this->slug = (new AsciiSlugger())->slug($this->name)->lower();
     }
   }

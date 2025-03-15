@@ -26,9 +26,6 @@ class ThemesCrudController extends AbstractCrudController
       TextField::new('name'),
       TextField::new('title'),
       TextEditorField::new('description'),
-      // SlugField::new('slug')
-      //   ->setTargetFieldName('name')
-      //   ->hideOnForm(),
       ImageField::new('image')
         ->setUploadDir('public/images/themes')
         ->setBasePath('/images/themes')

@@ -32,6 +32,11 @@
   --info-color: #85c1e9;
   --input-border-color: #ccd1d1;
   --input-hover-color: #f8f9f9;
+  --green: #008000;
+  --orange: #ff8c00;
+  --soft-green: rgba(149, 213, 155, 0.5);
+  --vibrant-gold: rgba(255, 215, 0, 0.5);
+  --blue-sky: rgba(185, 224, 247, 0.5);
 }
 * {
   margin: 0;

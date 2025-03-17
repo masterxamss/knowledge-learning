@@ -44,16 +44,26 @@ class Lessons
   private ?\DateTimeImmutable $updated_at = null;
 
   #[ORM\Column(length: 255, nullable: true)]
-  private ?string $image_1 = null;
+  private ?string $icon1 = null;
 
   #[ORM\Column(length: 255, nullable: true)]
-  private ?string $image_2 = null;
+  private ?string $icon2 = null;
 
   /**
    * @var Collection<int, Chapters>
    */
   #[ORM\OneToMany(targetEntity: Chapters::class, mappedBy: 'lessonId')]
   private Collection $chapters;
+
+  #[ORM\Column(nullable: true)]
+  private ?bool $highlight = null;
+
+  #[ORM\Column(length: 255, nullable: true)]
+  private ?string $image = null;
+
+  #[ORM\ManyToOne(targetEntity: Badges::class, inversedBy: 'lessons')]
+  #[ORM\JoinColumn(name: 'badge', referencedColumnName: 'id', nullable: true)]
+  private ?Badges $badge = null;
 
   public function __construct()
   {
@@ -188,26 +198,26 @@ class Lessons
     return $this;
   }
 
-  public function getImage1(): ?string
+  public function getIcon1(): ?string
   {
-    return $this->image_1;
+    return $this->icon1;
   }
 
-  public function setImage1(?string $image_1): static
+  public function setIcon1(?string $icon1): static
   {
-    $this->image_1 = $image_1;
+    $this->icon1 = $icon1;
 
     return $this;
   }
 
-  public function getImage2(): ?string
+  public function getIcon2(): ?string
   {
-    return $this->image_2;
+    return $this->icon2;
   }
 
-  public function setImage2(?string $image_2): static
+  public function setIcon2(?string $icon2): static
   {
-    $this->image_2 = $image_2;
+    $this->icon2 = $icon2;
 
     return $this;
   }
@@ -238,6 +248,42 @@ class Lessons
         $chapter->setLessonId(null);
       }
     }
+
+    return $this;
+  }
+
+  public function isHighlight(): ?bool
+  {
+    return $this->highlight;
+  }
+
+  public function setHighlight(?bool $highlight): static
+  {
+    $this->highlight = $highlight;
+
+    return $this;
+  }
+
+  public function getImage(): ?string
+  {
+    return $this->image;
+  }
+
+  public function setImage(?string $image): static
+  {
+    $this->image = $image;
+
+    return $this;
+  }
+
+  public function getBadge(): ?Badges
+  {
+    return $this->badge;
+  }
+
+  public function setBadge(?Badges $badge): static
+  {
+    $this->badge = $badge;
 
     return $this;
   }

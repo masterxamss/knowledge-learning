@@ -10,32 +10,91 @@
 {% block main %}
     <main class="home">
       <section class="banner">
-        <div class="banner-img">
+        {#<img src="{{ asset('images/banner_1920.jpg') }}">#}
+        <div class="banner-title">
           <h1>Apprendre, pratiquer, maîtriser</h1>
-          <h4>Vos connaissances en un clic !</h4>
+          <p>Vos connaissances en un clic !</p>
         </div>
       </section>
-
-      {{ include('partials/flash_messages.html.twig') }}
-
-      <section class="themes">
-        <div class="cards">
-          {% for themes in themes %}
-            <div class="card">
-              <div class="card-image">
-                <img src="{{ asset('images/themes/' ~ themes.image) }}">
-              </div>
-              <div class="card-content">
-                <h4>{{ themes.name }}</h4>
-                <a href="{{ path('app_categories', {'slug': themes.slug}) }}">
-                  En savoir plus
-                  <i class="fa-regular fa-square-plus"></i>
-                </a>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
+      <section class="about">
+        <h2>Que fait Knowledge ?</h2>
+        <p>Knowledge est une plateforme qui vous permet de trouver des cours en ligne et de pratiquer vos connaissances !</p>
       </section>
 
+      {% if themes %}
+        <section class="themes-highlight">
+          <div>
+            {% for theme in themes %}
+              <a href="#" class="themes-highlight__card">
+                {{ theme.name }}
+                <img src="{{ asset('images/themes/' ~ theme.image) }}">
+              </a>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+
+      {% if courses %}
+        <section class="courses-highlight">
+          <div class="courses-highlight__title">
+            <h3>Cours populaires</h3>
+            <article>
+              Développez vos compétences avec nos cours interactifs et adaptés à tous les niveaux. Apprenez à votre rythme avec des contenus de qualité créés par des experts. Rejoignez notre communauté et accédez à des ressources exclusives. Commencez dès aujourd’hui et transformez votre apprentissage
+            </article>
+          </div>
+          <div class="cards">
+            {% for courses in courses %}
+              <div class="card">
+                <div class="card-image">
+                  <img src="{{ courses.image ? asset('images/courses/' ~ courses.image) : asset('images/placeholder.jpg') }}">
+                </div>
+                <div class="card-content">
+                  <h4>{{ courses.title }}</h4>
+                  <p>€ {{ courses.price }}</p>
+                  {% if courses.badge %}
+                    <span class="{{ courses.badge.cssClass }}">{{ courses.badge.name }}</span>
+                  {% endif %}
+                  <a href="#">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    Ajouter au panier
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+
+      {% if lessons %}
+        <section class="lessons-highlight">
+          <div class="lessons-highlight__title">
+            <h3>Leçons populaires</h3>
+            <article>
+              Progressez rapidement avec nos leçons claires et structurées. Adaptées à tous les niveaux, elles vous offrent un apprentissage efficace et flexible. Profitez de contenus interactifs créés par des experts et avancez à votre rythme. Rejoignez-nous et commencez à apprendre dès aujourd’hui !
+            </article>
+          </div>
+          <div class="cards">
+            {% for lesson in lessons %}
+              <div class="card">
+                <div class="card-image">
+                  <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}">
+                  {{ lesson.icon1 }}
+                </div>
+                <div class="card-content">
+                  <h4>{{ lesson.title }}</h4>
+                  <p>€ {{ lesson.price }}</p>
+                  {% if lesson.badge %}
+                    <span class="{{ lesson.badge.cssClass }}">{{ lesson.badge.name }}</span>
+                  {% endif %}
+                  <a href="">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    Ajouter au panier
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
     </main>
 {% endblock %}

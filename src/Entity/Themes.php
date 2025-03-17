@@ -41,6 +41,9 @@ class Themes
   #[ORM\OneToMany(targetEntity: Courses::class, mappedBy: 'theme')]
   private Collection $courses;
 
+  #[ORM\Column(nullable: true)]
+  private ?bool $highlight = null;
+
   #[ORM\PrePersist]
   #[ORM\PreUpdate]
   public function generateSlug(): void
@@ -166,5 +169,17 @@ class Themes
     }
 
     return $this;
+  }
+
+  public function isHighlight(): ?bool
+  {
+      return $this->highlight;
+  }
+
+  public function setHighlight(?bool $highlight): static
+  {
+      $this->highlight = $highlight;
+
+      return $this;
   }
 }

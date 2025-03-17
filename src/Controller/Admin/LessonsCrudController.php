@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class LessonsCrudController extends AbstractCrudController
 {
@@ -31,17 +32,25 @@ class LessonsCrudController extends AbstractCrudController
         ->setCurrency('EUR')
         ->setStoredAsCents(false),
       UrlField::new('video'),
-      ImageField::new('image_1')
+      ImageField::new('icon_1')
         ->setUploadDir('public/images/icons')
         ->setBasePath('/images/icons')
         ->setRequired(false),
-      ImageField::new('image_2')
+      ImageField::new('icon_2')
         ->setUploadDir('public/images/icons')
         ->setBasePath('/images/icons')
+        ->setRequired(false),
+      ImageField::new('image')
+        ->setUploadDir('public/images/lessons')
+        ->setBasePath('/images/lessons')
         ->setRequired(false),
       AssociationField::new('course', 'Cours')
         ->setRequired(true)
         ->autocomplete(),
+      AssociationField::new('badge', 'Badge')
+        ->setRequired(false)
+        ->autocomplete(),
+      BooleanField::new('highlight', 'Mise en avant')
     ];
   }
 }

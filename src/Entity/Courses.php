@@ -49,6 +49,13 @@ class Courses
   #[ORM\OneToMany(targetEntity: Lessons::class, mappedBy: 'course')]
   private Collection $lessons;
 
+  #[ORM\Column(nullable: true)]
+  private ?bool $highlight = null;
+
+  #[ORM\ManyToOne(targetEntity: Badges::class, inversedBy: 'courses')]
+  #[ORM\JoinColumn(name: 'badge', referencedColumnName: 'id', nullable: true)]
+  private ?Badges $badge = null;
+
   public function __construct()
   {
     $this->lessons = new ArrayCollection();
@@ -207,6 +214,30 @@ class Courses
         $lesson->setCourse(null);
       }
     }
+
+    return $this;
+  }
+
+  public function isHighlight(): ?bool
+  {
+    return $this->highlight;
+  }
+
+  public function setHighlight(?bool $highlight): static
+  {
+    $this->highlight = $highlight;
+
+    return $this;
+  }
+
+  public function getBadge(): ?Badges
+  {
+    return $this->badge;
+  }
+
+  public function setBadge(?Badges $badge): static
+  {
+    $this->badge = $badge;
 
     return $this;
   }

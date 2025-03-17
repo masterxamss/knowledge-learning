@@ -7,8 +7,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class ThemesCrudController extends AbstractCrudController
 {
@@ -23,10 +23,11 @@ class ThemesCrudController extends AbstractCrudController
     return [
       IdField::new('id')
         ->hideOnForm(),
-      TextField::new('name'),
+      TextField::new('name', 'Nom'),
       TextField::new('title'),
-      TextEditorField::new('description'),
-      ImageField::new('image')
+      TextEditorField::new('description', 'Description'),
+      BooleanField::new('highlight', 'Mise en avant'),
+      ImageField::new('image', 'Image')
         ->setUploadDir('public/images/themes')
         ->setBasePath('/images/themes')
         ->setRequired(false),

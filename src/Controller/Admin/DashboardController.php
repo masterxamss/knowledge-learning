@@ -7,6 +7,7 @@ use App\Entity\Themes;
 use App\Entity\Courses;
 use App\Entity\Lessons;
 use App\Entity\Chapters;
+use App\Entity\Badges;
 
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -65,5 +66,6 @@ class DashboardController extends AbstractDashboardController
     yield MenuItem::linkToCrud('Courses', 'fas fa-book', Courses::class);
     yield MenuItem::linkToCrud('Lessons', 'fas fa-video', Lessons::class);
     yield MenuItem::linkToCrud('Chapters', 'fas fa-book-open', Chapters::class);
+    yield MenuItem::linkToCrud('Badges', 'fas fa-tag', Badges::class);
   }
 }

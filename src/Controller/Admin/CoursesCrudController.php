@@ -10,7 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class CoursesCrudController extends AbstractCrudController
 {
@@ -25,8 +25,8 @@ class CoursesCrudController extends AbstractCrudController
     return [
       IdField::new('id')
         ->hideOnForm(),
-      TextField::new('title'),
-      TextEditorField::new('description'),
+      TextField::new('title', 'Titre'),
+      TextEditorField::new('description', 'Description'),
       ImageField::new('image')
         ->setUploadDir('public/images/courses')
         ->setBasePath('/images/courses')
@@ -37,6 +37,10 @@ class CoursesCrudController extends AbstractCrudController
       MoneyField::new('price', 'Prix')
         ->setCurrency('EUR')
         ->setStoredAsCents(false),
+      AssociationField::new('badge', 'Badge')
+        ->setRequired(false)
+        ->autocomplete(),
+      BooleanField::new('highlight', 'Mise en avant'),
       // SlugField::new('slug')
       //   ->setTargetFieldName('title')
       //   ->hideOnForm(),

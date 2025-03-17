@@ -73,7 +73,6 @@
   padding: 0.5rem 1rem;
   border-radius: 0.3rem;
   width: 100%;
-  background-color: rgba(185, 236, 255);
   color: var(--info-color);
   border: 1px solid var(--info-color);
   & i {
@@ -136,4 +135,30 @@
 
 .is-invalid {
   border: 1px solid var(--danger-color);
+}
+
+.mv,
+.nv,
+.mc {
+  align-self: self-start;
+  font-family: "Nunito Regular";
+  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  width: fit-content;
+  border-radius: 0.2rem;
+  opacity: 0.8;
+}
+
+.mv {
+  color: var(--btn-hover-dark-color);
+  background-color: var(--blue-sky);
+}
+.nv {
+  color: var(--green);
+  background-color: var(--soft-green);
+}
+
+.mc {
+  color: var(--orange);
+  background-color: var(--vibrant-gold);
 }

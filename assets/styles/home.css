@@ -6,7 +6,7 @@
   flex-grow: 1;
   align-items: center;
   background-color: var(--main-bg-color);
-  margin: 0;
+  margin-top: 100px;
 }
 
 .banner {
@@ -206,7 +206,7 @@
 }
 
 .lessons-highlight {
-  background-color: #fff;
+  background-color: var(--main-bg-color);
 }
 
 /* Tablet */

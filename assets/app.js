@@ -15,9 +15,12 @@ import "./styles/registration.css";
 import "./styles/categories.css";
 import "./styles/courses.css";
 import "./styles/lessons.css";
+import "./styles/themes.css";
 
 /* 🚀 JavaScript */
 import "./js/dropdown_profile.js";
 import "./js/import_image.js";
 import "./js/videos.js";
 import "./js/accordion.js";
+import "./js/menu.js";
+import "./js/dropdown_explore.js";

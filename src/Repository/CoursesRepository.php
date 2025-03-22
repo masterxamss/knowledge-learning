@@ -16,12 +16,12 @@ class CoursesRepository extends ServiceEntityRepository
     parent::__construct($registry, Courses::class);
   }
 
-  public function findCoursesByTheme($slug)
+  public function findCoursesByTheme($id)
   {
     return $this->createQueryBuilder('c')
       ->join('c.theme', 't')
-      ->where('t.slug = :slug')
-      ->setParameter('slug', $slug)
+      ->where('t.id = :id')
+      ->setParameter('id', $id)
       ->getQuery()
       ->getResult();
   }

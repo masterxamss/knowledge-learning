@@ -1,5 +1,6 @@
 @import url("utils.css");
 @import url("header.css");
+@import url("footer.css");
 
 @font-face {
   font-family: "Comic Sans MS";
@@ -17,7 +18,8 @@
 }
 
 :root {
-  --secondary-bg-color: #ffffff;
+  --main-bg-color: #ffffff;
+  --secondary-bg-color: #f6f7f9;
   --h1-color: #384050;
   --h2-color: #595c73;
   --main-text-color: #000000;
@@ -80,10 +82,4 @@ table {
 
 hr {
   color: var(--input-border-color);
-}
-
-/* ==================== FOOTER  ==================== */
-.main-footer {
-  padding: 1rem;
-  background-color: var(--btn-hover-dark-color);
 }

@@ -15,6 +15,7 @@ import "./styles/registration.css";
 import "./styles/categories.css";
 import "./styles/courses.css";
 import "./styles/lessons.css";
+import "./styles/themes.css";
 
 /* 🚀 JavaScript */
 import "./js/dropdown_profile.js";

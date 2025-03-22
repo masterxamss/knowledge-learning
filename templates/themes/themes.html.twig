@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Thémes{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  {{ encore_entry_link_tags('themes') }}
+{% endblock %}
+
+{% block main %}
+  <main class="themes-container">
+    <header class="themes-header">
+      <div class="themes-header__wrapper">
+        <div>
+          <h1>Thémes formation</h1>
+          <p>Découvrez nos formations en ligne dans des domaines variés tels que la musique, l’informatique et le jardinage. Apprenez à votre rythme grâce à des contenus de qualité, accessibles partout et à tout moment. Progressez et atteignez vos objectifs avec Knowledge Learning.</p>
+          <p>Thémes disponibles : {{ themes|length }}</p>
+        </div>
+        <div>
+          <img src="{{ asset('images/lamp.png') }}" alt="themes" />
+        </div>
+      </div>
+    </header>
+
+    <section class="themes-list">
+      {% if themes %}
+        {% for theme in themes %}
+          <div class="theme-content">
+            <div class="theme-content__image">
+              <img src="{{ asset('images/themes/' ~ theme.image) }}" alt="{{ theme.name }}" />
+            </div>
+            <div class="theme-content__description">
+              <h2>{{ theme.name }}</h2>
+              {{ theme.description|raw }}
+              <p><strong>{{ themeCoursesCounts[theme.id]|default(0) }}</strong> formations disponible(s)</p>
+              <a href="#" class="btn-outline">
+                <i class="fa-solid fa-plus"></i>
+                En savoir plus
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        {% include 'partials/flash_messages.html.twig' %}
+      {% endif %}
+    </section>
+  </main>
+{% endblock %}

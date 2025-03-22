@@ -39,7 +39,7 @@ class HomeController extends AbstractController
         }
 
         if (empty($results)) {
-          $this->addFlash('info', "Aucun" . $key . " n\'a été trouvé.");
+          $this->addFlash('info', "Aucun " . $key . " trouvé.");
         }
       }
 

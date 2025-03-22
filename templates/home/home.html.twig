@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }} {# Mantém o CSS global #}
@@ -10,7 +10,6 @@
 {% block main %}
     <main class="home">
       <section class="banner">
-        {#<img src="{{ asset('images/banner_1920.jpg') }}">#}
         <div class="banner-title">
           <h1>Apprendre, pratiquer, maîtriser</h1>
           <p>Vos connaissances en un clic !</p>
@@ -31,6 +30,10 @@
               </a>
             {% endfor %}
           </div>
+        </section>
+      {% else %}
+        <section class="messages">
+          {% include 'partials/flash_messages.html.twig' %}
         </section>
       {% endif %}
 
@@ -63,6 +66,10 @@
             {% endfor %}
           </div>
         </section>
+      {% else %}
+        <section class="messages">
+          {% include 'partials/flash_messages.html.twig' %}
+        </section>
       {% endif %}
 
       {% if lessons %}
@@ -94,6 +101,10 @@
               </div>
             {% endfor %}
           </div>
+        </section>
+      {% else %}
+        <section class="messages">
+          {% include 'partials/flash_messages.html.twig' %}
         </section>
       {% endif %}
     </main>

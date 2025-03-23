@@ -6,8 +6,11 @@
   <nav class="menu">
     <ul>
       <li>
-        <input type="text" placeholder="Cours">
-        <img src="/images/icons/search.png" alt="Search">
+        <form action=" {{ path('app_courses') }} " method="GET">
+          {#<input type="text" placeholder="Cours" name="search" onchange="this.form.submit()" >#}
+          <input type="text" name="search" placeholder="Rechercher un cours..." value="{{ app.request.query.get('search') }}" onkeydown="if(event.key === 'Enter'){this.form.submit();}">
+          <img src="/images/icons/search.png" alt="Search">
+        </form>
       </li>
 
       <li class="menu-item__explore">
@@ -23,9 +26,9 @@
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="{{ path('app_themes') }}">
                 <i class="fa-solid fa-list"></i>
-                <span>Formations</span>
+                <span>Thémes</span>
               </a>
             </li>
             <li>
@@ -184,9 +187,9 @@
       <button class="close-btn">✖</button>
       <ul class="sidebar-menu__items">
         <li class="sidebar-menu__item">
-          <a href="#">
+          <a href="{{ path('app_themes') }}">
             <i class="fa-solid fa-list"></i>
-            <span>Formations</span>
+            <span>Thémes</span>
           </a>
         </li>
         <li class="sidebar-menu__item course-item">

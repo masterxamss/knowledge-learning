@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Courses{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('courses') }}
+{% endblock %}
+
+{% block main %}
+  <main class="courses-container">
+    <header class="courses-header">
+      <div class="courses-header__wrapper">
+        <div>
+          <h1>Cours Knowledge</h1>
+          <p>Découvrez nos cours variés, adaptés à tous les niveaux. Apprenez à votre rythme et développez de nouvelles compétences dès aujourd'hui !</p>
+          <p>Cours disponibles : {{ courses|length }}</p>
+        </div>
+        <div>
+          <img src="{{ asset('images/lamp.png') }}" alt="themes" />
+        </div>
+      </div>
+    </header>
+
+    <section class="courses-wrapper">
+      <aside class="courses-sidebar">
+        <div class="courses-sidebar__header">
+          <i class="fa-solid fa-filter"></i>
+          <h2>Filtres</h2>
+        </div>
+
+        <div class="courses-filter">
+          <form action="{{ path('app_courses') }}" method="GET">
+            <h3>Thème</h3>
+            <select name="theme" onchange="this.form.submit()">
+              <option value="">Choisir un thème</option>
+              {% for theme in themes %}
+                <option value="{{ theme.name }}" {% if app.request.get('theme') == theme.name %}selected{% endif %}>{{ theme.name }}</option>
+              {% endfor %}
+            </select>
+            <h3>Prix</h3>
+            <select name="price_range" onchange="this.form.submit()">
+              <option value="">Prix</option>
+              <option value="30-40" {% if app.request.get('price_range') == '30-40' %}selected{% endif %}>30 à 40 €</option>
+              <option value="40-50" {% if app.request.get('price_range') == '40-50' %}selected{% endif %}>40 à 50 €</option>
+              <option value="50-60" {% if app.request.get('price_range') == '50-60' %}selected{% endif %}>50 à 60 €</option>
+            </select>
+            <h3>Tag</h3>
+            {% for badge in badges %}
+              <div>
+                <input
+                  type="checkbox"
+                  name="badges[]"
+                  value="{{ badge.id }}"
+                  id="{{ badge.id }}"
+                  {% if badge.id in app.request.query.all('badges') %}checked{% endif %}
+                  onchange="this.form.submit()"
+                >
+                <label for="{{ badge.id }}">{{ badge.name }}</label>
+              </div>
+            {% endfor %}
+
+            <a href="{{ path('app_courses') }}">
+              <button type="button" class="btn">Reset</button>
+            </a>
+          </form>
+        </div>
+
+      </aside>
+
+      <section class="courses-content">
+        {% if courses %}
+          {% for course in courses %}
+            <div class="course-card">
+              <div class="course-card__image">
+                <img src="{{ asset('images/courses/' ~ course.image) }}">
+              </div>
+              <div class="course-card__content">
+                <h3>{{ course.title }}</h3>
+                {{ course.description|raw }}
+                <p>€ {{ course.price }}</p>
+                {% if course.badge %}
+                  <span class="{{ course.badge.cssClass }}">
+                    {{ course.badge.name }}
+                  </span>
+                {% endif %}
+                <a href="#" class="btn-outline">
+                  <i class="fa-solid fa-cart-plus"></i>
+                  Ajouter au panier
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          {% include 'partials/flash_messages.html.twig' %}
+        {% endif %}
+      </section>
+
+    </section>
+  </main>
+{% endblock %}

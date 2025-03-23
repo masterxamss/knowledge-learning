@@ -25,28 +25,47 @@ class CoursesRepository extends ServiceEntityRepository
       ->getQuery()
       ->getResult();
   }
-  //    /**
-  //     * @return Courses[] Returns an array of Courses objects
-  //     */
-  //    public function findByExampleField($value): array
-  //    {
-  //        return $this->createQueryBuilder('c')
-  //            ->andWhere('c.exampleField = :val')
-  //            ->setParameter('val', $value)
-  //            ->orderBy('c.id', 'ASC')
-  //            ->setMaxResults(10)
-  //            ->getQuery()
-  //            ->getResult()
-  //        ;
-  //    }
 
-  //    public function findOneBySomeField($value): ?Courses
-  //    {
-  //        return $this->createQueryBuilder('c')
-  //            ->andWhere('c.exampleField = :val')
-  //            ->setParameter('val', $value)
-  //            ->getQuery()
-  //            ->getOneOrNullResult()
-  //        ;
-  //    }
+  public function findCoursesByFilters(?string $themeName, ?string $search, ?string $priceRange, array $badges): array
+  {
+    $qb = $this->createQueryBuilder('c');
+
+    if (!empty($badges)) {
+      $qb->join('c.badge', 'b')
+        ->andwhere('b.id IN (:badges)')
+        ->setParameter('badges', $badges);
+    }
+
+    if (!empty($themeName)) {
+      $qb->join('c.theme', 't')
+        ->andwhere('t.name = :name')
+        ->setParameter('name', $themeName);
+    }
+
+    if (!empty($search)) {
+      $qb->andWhere('c.title LIKE :search')
+        ->setParameter('search', '%' . $search . '%');
+    }
+
+    if ($priceRange) {
+      switch ($priceRange) {
+        case '30-40':
+          $qb->andWhere('c.price BETWEEN :min AND :max')
+            ->setParameter('min', 30)
+            ->setParameter('max', 40);
+          break;
+        case '40-50':
+          $qb->andWhere('c.price BETWEEN :min AND :max')
+            ->setParameter('min', 40)
+            ->setParameter('max', 50);
+          break;
+        case '50-60':
+          $qb->andWhere('c.price BETWEEN :min AND :max')
+            ->setParameter('min', 50)
+            ->setParameter('max', 60);
+          break;
+      }
+    }
+    return $qb->getQuery()->getResult();
+  }
 }

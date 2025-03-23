@@ -41,8 +41,7 @@
 }
 
 .alert-danger {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: normal;
+  font-family: "Nunito Regular";
   margin: 1rem 0;
   padding: 0.5rem 1rem;
   border-radius: 0.3rem;
@@ -55,11 +54,11 @@
 }
 
 .alert-success {
+  font-family: "Nunito Regular";
   margin: 1rem 0;
   padding: 0.5rem 1rem;
   border-radius: 0.3rem;
   width: 100%;
-  background-color: rgba(222, 246, 219);
   color: var(--success-color);
   border: 1px solid var(--success-color);
   & i {
@@ -68,7 +67,7 @@
 }
 
 .alert-info {
-  margin: 1rem 0;
+  font-family: "Nunito Regular";
   padding: 0.5rem 1rem;
   border-radius: 0.3rem;
   width: 100%;

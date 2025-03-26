@@ -18,13 +18,16 @@
       <section class="about">
         <h2>Que fait Knowledge ?</h2>
         <p>Knowledge est une plateforme qui vous permet de trouver des cours en ligne et de pratiquer vos connaissances !</p>
+        {% if app.session.flashbag is not empty %}
+          {% include 'partials/flash_messages.html.twig' %}
+        {% endif %}
       </section>
 
       {% if themes %}
         <section class="themes-highlight">
           <div>
             {% for theme in themes %}
-              <a href="#" class="themes-highlight__card">
+              <a href="{{ path('app_courses', {'theme': theme.name}) }}" class="themes-highlight__card">
                 {{ theme.name }}
                 <img src="{{ asset('images/themes/' ~ theme.image) }}">
               </a>
@@ -57,10 +60,23 @@
                   {% if courses.badge %}
                     <span class="{{ courses.badge.cssClass }}">{{ courses.badge.name }}</span>
                   {% endif %}
-                  <a href="#">
-                    <i class="fa-solid fa-cart-plus"></i>
-                    Ajouter au panier
-                  </a>
+
+                  {% if app.user %}
+                    <form action="{{ path('app_cart_add') }}" method="POST">
+                      <input type="hidden" name="course_id" value="{{ courses.id }}">
+                      <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                      <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
+                      <button type="submit">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        Ajouter au panier
+                      </button>
+                    </form>
+                  {% else %}
+                    <a href="{{ path('app_login') }}">
+                      <i class="fa-solid fa-cart-plus"></i>
+                      Ajouter au panier
+                    </a>
+                  {% endif %}
                 </div>
               </div>
             {% endfor %}
@@ -93,10 +109,22 @@
                   {% if lesson.badge %}
                     <span class="{{ lesson.badge.cssClass }}">{{ lesson.badge.name }}</span>
                   {% endif %}
-                  <a href="">
-                    <i class="fa-solid fa-cart-plus"></i>
-                    Ajouter au panier
-                  </a>
+                  {% if app.user %}
+                    <form action="{{ path('app_cart_add') }}" method="POST">
+                      <input type="hidden" name="lesson_id" value="{{ lesson.id }}">
+                      <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                      <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
+                      <button type="submit">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        Ajouter au panier
+                      </button>
+                    </form>
+                  {% else %}
+                    <a href="{{ path('app_login') }}">
+                      <i class="fa-solid fa-cart-plus"></i>
+                      Ajouter au panier
+                    </a>
+                  {% endif %}
                 </div>
               </div>
             {% endfor %}

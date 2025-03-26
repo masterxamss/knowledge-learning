@@ -16,6 +16,15 @@ class LessonsRepository extends ServiceEntityRepository
     parent::__construct($registry, Lessons::class);
   }
 
+  public function findLessonsByCourse($id)
+  {
+    return $this->createQueryBuilder('l')
+      ->join('l.course', 'c')
+      ->where('c.id = :id')
+      ->setParameter('id', $id)
+      ->getQuery()
+      ->getResult();
+  }
   //    /**
   //     * @return Lessons[] Returns an array of Lessons objects
   //     */

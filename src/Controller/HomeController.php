@@ -48,8 +48,8 @@ class HomeController extends AbstractController
         'themes' => $themes,
         'lessons' => $lessons
       ]);
-    } catch (\Exception) {
-      $this->addFlash('error', 'Une erreur est survenue');
+    } catch (\Exception $e) {
+      $this->addFlash('error', 'Une erreur est survenue' . $e->getMessage());
       return $this->render('home/home.html.twig', [
         'courses' => null,
         'themes' => null,

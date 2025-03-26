@@ -1,0 +1,138 @@
+.cart-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+  margin-top: 100px;
+  background-color: var(--main-bg-color);
+}
+
+.cart-header {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 80%;
+  height: 15vh;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+}
+
+.cart-header h1 {
+  color: var(--btn-hover-dark-color);
+  font-size: 2rem;
+}
+
+.cart-header p {
+  color: var(--main-text-color);
+  font-family: "Nunito Regular";
+  margin-top: auto;
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 80%;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.cart-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-top: 1px solid var(--input-border-color);
+  padding: 1rem 0;
+}
+
+.cart-item__image {
+  flex: 4 1 calc(20% - 1rem);
+}
+
+.cart-item__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 0 1 calc(60% - 1rem);
+
+  & div {
+    font-size: 0.8rem;
+    font-family: "Nunito Regular";
+    text-align: justify;
+    width: 100%;
+  }
+}
+
+.cart-item__content h4 {
+  font-family: "Nunito Regular";
+  color: var(--btn-hover-dark-color);
+}
+
+.cart-item__options {
+  flex: 0 1 calc(10% - 1rem);
+}
+
+.cart-item__options button {
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  border: none;
+  cursor: pointer;
+}
+
+.cart-item__options button i {
+  color: var(--danger-color);
+}
+
+.cart-item__price {
+  flex: 0 1 calc(10% - 1rem);
+}
+
+.cart-item__price span {
+  color: var(--main-text-color);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cart-item__image img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.cart-total {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  padding: 0 1rem;
+}
+
+.cart-total__title {
+  color: var(--tertiary-text-color);
+  font-family: "Nunito Regular";
+  margin-bottom: 1rem;
+}
+
+.cart-total__price {
+  color: var(--main-text-color);
+  font-size: 1.5rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.cart-total form {
+  width: 100%;
+  border-bottom: 1px solid var(--input-border-color);
+  padding-bottom: 1rem;
+}
+
+.cart-total button {
+  width: 100%;
+}

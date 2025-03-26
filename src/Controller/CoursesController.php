@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Courses;
 use App\Entity\Themes;
 use App\Entity\Badges;
+use App\Entity\Lessons;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CoursesController extends AbstractController
 {
-  #[Route('/courses', name: 'app_courses')]
+  #[Route('/courses', name: 'app_courses', methods: ['GET'])]
   public function getAllCourses(Request $request, EntityManagerInterface $em): Response
   {
     try {
@@ -51,6 +52,34 @@ final class CoursesController extends AbstractController
         'courses' => null,
         'themes' => null,
         'badges' => null
+      ]);
+    }
+  }
+
+
+  #[Route('/courses/{slug}', name: 'app_course_show', methods: ['GET'])]
+  public function getCourse(Request $request, EntityManagerInterface $em): Response
+  {
+    try {
+      $slug = $request->attributes->get('slug');
+      $course = $em->getRepository(Courses::class)->findOneBy(['slug' => $slug]);
+      if (empty($course)) {
+        $this->addFlash('info', 'Aucun cours trouvé');
+      }
+
+      $lessons = $em->getRepository(Lessons::class)->findLessonsByCourse($course->getId());
+      if (empty($lessons)) {
+        $this->addFlash('info', 'Aucune leçon trouvée');
+      }
+
+      return $this->render('courses/course.html.twig', [
+        'course' => $course,
+        'lessons' => $lessons,
+      ]);
+    } catch (\Exception $e) {
+      $this->addFlash('error', 'Une erreur est survenue: ' . $e->getMessage());
+      return $this->render('courses/course.html.twig', [
+        'course' => null
       ]);
     }
   }

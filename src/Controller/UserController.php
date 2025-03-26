@@ -17,14 +17,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class UserController extends AbstractController
 {
   #[Route('/user/{id}', name: 'app_user_data', methods: ['GET', 'POST'])]
-  //#[IsGranted(UserVoter::EDIT, subject: 'user')]
-  public function user(int $id, EntityManagerInterface $entityManager, Request $request, User $user): Response
+  #[IsGranted(UserVoter::EDIT, subject: 'user')]
+  public function user(int $id, Request $request, EntityManagerInterface $entityManager): Response
   {
     try {
 
-      if (!$this->isGranted('USER_EDIT', $user)) {
+      /*if (!$this->isGranted('USER_EDIT', $user)) {
         return $this->redirectToRoute('app_home'); // Redireciona se não tiver permissão
-      }
+      }*/
       // Find user
       $user = $entityManager->getRepository(User::class)->find($id);
 

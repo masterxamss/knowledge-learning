@@ -192,6 +192,13 @@
   overflow: hidden;
 }
 
+.course-card__content .course-card__actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+}
+
 .course-card__content i {
   color: inherit;
 }
@@ -200,6 +207,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   gap: 0.5rem;
   margin-top: auto;
   text-align: center;

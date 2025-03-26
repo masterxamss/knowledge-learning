@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('cart') }}
+{% endblock %}
+
+{% block main %}
+  <main class="cart-container">
+    <header class="cart-header">
+      <h1 class="cart-title">Panier</h1>
+      <p>{{ cart|length }} articles dans le panier</p>
+      {% if app.session.flashbag|length > 0 %}{{ include('partials/flash_messages.html.twig') }}{% endif %}
+    </header>
+    <section class="cart-list">
+      {% if cart|length > 0 %}
+        <div class="cart-items">
+          {% for item in cart %}
+            <div class="cart-item">
+              <div class="cart-item__image">
+                {% if item.lesson %}
+                  <img src="{{ item.lesson.image ? asset('images/lessons/' ~ item.lesson.image) : asset('images/placeholder.jpg') }}" alt="{{ item.lesson.title }}" />
+                {% elseif item.course %}
+                  <img src="{{ item.course.image ? asset('images/courses/' ~ item.course.image) : asset('images/placeholder.jpg') }}" alt="{{ item.course.title }}" />
+                {% endif %}
+              </div>
+              <div class="cart-item__content">
+                {% if item.lesson %}
+                  <h4 class="cart-item__title">Leçon : {{ item.lesson.title }}</h4>
+                  {{ item.lesson.description|raw }}
+                  <span class="{{ item.lesson.badge.cssClass }}">{{ item.lesson.badge }}</span>
+                {% elseif item.course %}
+                  <h4 class="cart-item__title">Cours : {{ item.course.title }}</h4>
+                  {{ item.course.description|raw }}
+                  <span class="{{ item.course.badge.cssClass }}">{{ item.course.badge }}</span>
+                {% endif %}
+              </div>
+              <div class="cart-item__options">
+                <form action="{{ path('app_cart_delete') }}" method="POST">
+                  <input type="hidden" name="token" value="{{ csrf_token('cart-delete') }}">
+                  <input type="hidden" name="id" value="{{ item.id }}">
+                  <button type="submit">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </form>
+              </div>
+              <div class="cart-item__price">
+                <span>€ {{ item.price }}</span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <aside class="cart-total">
+          <span class="cart-total__title">Total :</span>
+          <span class="cart-total__price">€ {{ total|round(2, 'common') }}</span>
+          <form action="" method="POST">
+            <input type="hidden" name="token" value="{{ csrf_token('order') }}">
+            <button type="submit" class="btn">Passer la commande</button>
+          </form>
+        </aside>
+      {% else %}
+        {{ include('partials/flash_messages.html.twig') }}
+      {% endif %}
+    </section>
+  </main>
+{% endblock %}

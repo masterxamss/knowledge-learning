@@ -7,7 +7,6 @@
     <ul>
       <li>
         <form action=" {{ path('app_courses') }} " method="GET">
-          {#<input type="text" placeholder="Cours" name="search" onchange="this.form.submit()" >#}
           <input type="text" name="search" placeholder="Rechercher un cours..." value="{{ app.request.query.get('search') }}" onkeydown="if(event.key === 'Enter'){this.form.submit();}">
           <img src="/images/icons/search.png" alt="Search">
         </form>
@@ -32,7 +31,7 @@
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="{{ path('app_courses') }}">
                 <i class="fa-solid fa-book"></i>
                 <span>Cours</span>
               </a>
@@ -161,13 +160,13 @@
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a href="#">
+          <a href="{{ path('app_themes') }}">
             <i class="fa-solid fa-list"></i>
-            <span>Formations</span>
+            <span>Thémes</span>
           </a>
         </li>
         <li class="sidebar-menu__item course-item">
-          <a href="#">
+          <a href="{{ path('app_courses') }}">
             <i class="fa-solid fa-book"></i>
             <span>Courses</span>
           </a>

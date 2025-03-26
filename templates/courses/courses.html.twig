@@ -21,14 +21,12 @@
         </div>
       </div>
     </header>
-
     <section class="courses-wrapper">
       <aside class="courses-sidebar">
         <div class="courses-sidebar__header">
           <i class="fa-solid fa-filter"></i>
           <h2>Filtres</h2>
         </div>
-
         <div class="courses-filter">
           <form action="{{ path('app_courses') }}" method="GET">
             <h3>Thème</h3>
@@ -59,15 +57,12 @@
                 <label for="{{ badge.id }}">{{ badge.name }}</label>
               </div>
             {% endfor %}
-
             <a href="{{ path('app_courses') }}">
               <button type="button" class="btn">Reset</button>
             </a>
           </form>
         </div>
-
       </aside>
-
       <section class="courses-content">
         {% if courses %}
           {% for course in courses %}
@@ -84,10 +79,16 @@
                     {{ course.badge.name }}
                   </span>
                 {% endif %}
-                <a href="#" class="btn-outline">
-                  <i class="fa-solid fa-cart-plus"></i>
-                  Ajouter au panier
-                </a>
+                <div class="course-card__actions">
+                  <a href="#" class="btn-outline">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    Ajouter au panier
+                  </a>
+                  <a href="{{ path('app_course_show', {slug: course.slug}) }}" class="btn">
+                    <i class="fa-solid fa-eye"></i>
+                    Voir le cours
+                  </a>
+                </div>
               </div>
             </div>
           {% endfor %}
@@ -95,7 +96,6 @@
           {% include 'partials/flash_messages.html.twig' %}
         {% endif %}
       </section>
-
     </section>
   </main>
 {% endblock %}

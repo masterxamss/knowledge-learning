@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('lesson') }}
+{% endblock %}
+
+{% block main %}
+  <main class="lesson">
+    <header class="lesson-header">
+      <div class="lesson-header__wrapper">
+        <div class="lesson-header__content">
+          <h1>{{ lesson.title }}</h1>
+          {{ lesson.description|raw }}
+          <span class="lesson-header__badge">Chapitres disponibles : {{ chapters|length }}</span>
+        </div>
+        <div class="lesson-header__image">
+          <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}" alt="{{ lesson.title }}" />
+        </div>
+      </div>
+    </header>
+    <section class="lesson-content">
+      <aside class="chapters-list">
+        <div class="chapters-list__title">
+          <i class="fa-solid fa-list"></i>
+          <h4>Chapitres</h4>
+        </div>
+        <ul>
+          {% for chapter in chapters %}
+            <li class="{% if chapter == selectedChapter %}active{% endif %}">
+              <img src="{{ chapter.image ? asset('images/icons/' ~ chapter.image) : asset('images/placeholder.jpg') }}" alt="{{ chapter.title }}">
+              <a href="{{ path('app_lesson', {'slug': lesson.slug, 'chapterSlug': chapter.slug}) }}">{{ chapter.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </aside>
+      <article class="chapters-content">
+
+        {% if selectedChapter %}
+          <h4>{{ selectedChapter.title }}<h4>
+
+          {% if videoId %}
+            <div class="player-wrapper">
+              <div id="player" data-video-id="{{ videoId }}"></div>
+            </div>
+          {% else %}
+            <p>Aucune vidéo disponible</p>
+          {% endif %}
+
+
+          {{ selectedChapter.content|raw }}
+        {% else %}
+          <p>Sélectionnez un chapitre</p>
+        {% endif %}
+
+      </article>
+    <section>
+  </main>
+{% endblock %}

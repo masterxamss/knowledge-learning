@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Courses;
 use App\Entity\Themes;
 use App\Entity\Lessons;
+use App\Service\CompletedCoursesService;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class HomeController extends AbstractController
 {
+  private CompletedCoursesService $completedCoursesService;
+
+  public function __construct(CompletedCoursesService $completedCoursesService)
+  {
+    $this->completedCoursesService = $completedCoursesService;
+  }
+
   #[Route('/', name: 'app_home')]
   public function index(EntityManagerInterface $em): Response
   {
@@ -43,17 +51,22 @@ class HomeController extends AbstractController
         }
       }
 
+      $userId = $this->getUser()->getId();
+      $getCompletedCourses = $this->completedCoursesService->getCompletedCourses($userId);
+
       return $this->render('home/home.html.twig', [
         'courses' => $courses,
         'themes' => $themes,
-        'lessons' => $lessons
+        'lessons' => $lessons,
+        'completedCourses' => $getCompletedCourses
       ]);
     } catch (\Exception $e) {
       $this->addFlash('error', 'Une erreur est survenue' . $e->getMessage());
       return $this->render('home/home.html.twig', [
         'courses' => null,
         'themes' => null,
-        'lessons' => null
+        'lessons' => null,
+        'completedCourses' => null
       ]);
     }
   }

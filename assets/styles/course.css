@@ -77,24 +77,22 @@
   color: var(--btn-color);
 }
 
-.course-header__badges a {
+.course-header__badges form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-grow: 1;
-  text-decoration: none;
   font-size: 1rem;
   width: fit-content;
-  font-family: "Nunito Regular";
-  text-align: center;
-  border-radius: 0.3rem;
-  padding: 0.5rem;
-  background-color: var(--btn-color);
-  color: var(--secondary-text-color);
 }
 
-.course-header__badges a:hover {
-  background-color: var(--btn-hover-dark-color);
+.course-header__badges form button {
+  padding: 0;
+  border: none;
+  height: 100%;
 }
 
-.course-header__badges a i {
+.course-header__badges button i {
   color: inherit;
 }
 
@@ -120,6 +118,15 @@
   flex-grow: 1;
   width: 100%;
   background-color: var(--main-bg-color);
+  padding: 2rem 0;
+}
+
+.lessons-container .course-messages {
+  width: 80%;
+}
+
+.course-messages div {
+  width: 100%;
 }
 
 .lessons-card {
@@ -173,8 +180,24 @@
   gap: 1rem;
 }
 
-.lessons-card__content a {
+.lessons-card__content form {
+  display: flex;
+  align-items: start;
+}
+
+.lessons-card__content a,
+form button {
   font-family: "Nunito Regular";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+  margin-top: auto;
+  text-align: center;
+  height: 30px;
+  font-size: 0.8rem;
+  cursor: pointer;
 }
 
 .lessons-card__content i {

@@ -203,7 +203,7 @@
   color: inherit;
 }
 
-.course-card__content a {
+.course-card__actions form button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -212,7 +212,23 @@
   margin-top: auto;
   text-align: center;
   height: 30px;
+  font-family: "Nunito Regular";
   font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.course-card__content a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+  margin-top: auto;
+  text-align: center;
+  font-family: "Nunito Regular";
+  height: 30px;
+  font-size: 0.8rem;
+  cursor: pointer;
 }
 
 /* Tablet */

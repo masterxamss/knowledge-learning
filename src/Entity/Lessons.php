@@ -27,9 +27,6 @@ class Lessons
   #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
   private ?string $price = null;
 
-  #[ORM\Column(length: 255, nullable: true)]
-  private ?string $video = null;
-
   #[ORM\ManyToOne(targetEntity: Courses::class, inversedBy: 'lessons')]
   #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'id', nullable: false)]
   private ?Courses $course = null;
@@ -42,12 +39,6 @@ class Lessons
 
   #[ORM\Column]
   private ?\DateTimeImmutable $updated_at = null;
-
-  #[ORM\Column(length: 255, nullable: true)]
-  private ?string $icon1 = null;
-
-  #[ORM\Column(length: 255, nullable: true)]
-  private ?string $icon2 = null;
 
   /**
    * @var Collection<int, Chapters>
@@ -65,9 +56,16 @@ class Lessons
   #[ORM\JoinColumn(name: 'badge', referencedColumnName: 'id', nullable: true)]
   private ?Badges $badge = null;
 
+  /**
+   * @var Collection<int, OrderItem>
+   */
+  #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'lesson')]
+  private Collection $orderItems;
+
   public function __construct()
   {
     $this->chapters = new ArrayCollection();
+    $this->orderItems = new ArrayCollection();
   }
 
   #[ORM\PrePersist]
@@ -138,18 +136,6 @@ class Lessons
     return $this;
   }
 
-  public function getVideo(): ?string
-  {
-    return $this->video;
-  }
-
-  public function setVideo(?string $video): static
-  {
-    $this->video = $video;
-
-    return $this;
-  }
-
   public function getCourse(): ?Courses
   {
     return $this->course;
@@ -194,30 +180,6 @@ class Lessons
   public function setUpdatedAt(\DateTimeImmutable $updated_at): static
   {
     $this->updated_at = $updated_at;
-
-    return $this;
-  }
-
-  public function getIcon1(): ?string
-  {
-    return $this->icon1;
-  }
-
-  public function setIcon1(?string $icon1): static
-  {
-    $this->icon1 = $icon1;
-
-    return $this;
-  }
-
-  public function getIcon2(): ?string
-  {
-    return $this->icon2;
-  }
-
-  public function setIcon2(?string $icon2): static
-  {
-    $this->icon2 = $icon2;
 
     return $this;
   }
@@ -284,6 +246,36 @@ class Lessons
   public function setBadge(?Badges $badge): static
   {
     $this->badge = $badge;
+
+    return $this;
+  }
+
+  /**
+   * @return Collection<int, OrderItem>
+   */
+  public function getOrderItems(): Collection
+  {
+    return $this->orderItems;
+  }
+
+  public function addOrderItem(OrderItem $orderItem): static
+  {
+    if (!$this->orderItems->contains($orderItem)) {
+      $this->orderItems->add($orderItem);
+      $orderItem->setLesson($this);
+    }
+
+    return $this;
+  }
+
+  public function removeOrderItem(OrderItem $orderItem): static
+  {
+    if ($this->orderItems->removeElement($orderItem)) {
+      // set the owning side to null (unless already changed)
+      if ($orderItem->getLesson() === $this) {
+        $orderItem->setLesson(null);
+      }
+    }
 
     return $this;
   }

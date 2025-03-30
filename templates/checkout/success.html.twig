@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Success - commande #{{ order.id }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('order-success') }}
+{% endblock %}
+
+{% block main %}
+    <main class="order-success">
+      <header>
+        <div>
+          {% if app.session.flashBag|length > 0 %}
+            {{ include('/partials/flash_messages.html.twig') }}
+          {% endif %}
+          <h1>Recapitulatif de votre commande</h1>
+          <p>Commande: #{{ order.id }}</p>
+          <a href="#" class="btn">Mon apprentissage</a>
+        </div>
+      </header>
+      {% if orderItems %}
+        <section class="order-items">
+          <div class="order-item__wrapper">
+            {% for order_item in orderItems %}
+              {% if order_item.course %}
+                <div class="order-item">
+                  <div class="order-item__image">
+                    <img src="{{ order_item.course.image ? asset('images/courses/' ~ order_item.course.image) : asset('images/placeholder.jpg') }}">
+                  </div>
+                  <div class="order-item__details">
+                    <h3>Cours : {{ order_item.course.title }}</h3>
+                    <p>€ {{ order_item.course.price }}</p>
+                  </div>
+                </div>
+              {% else %}
+                <div class="order-item">
+                  <div class="order-item__image">
+                    <img src="{{ order_item.lesson.image ? asset('images/lessons/' ~ order_item.lesson.image) : asset('images/placeholder.jpg') }}">
+                  </div>
+                  <div class="order-item__details">
+                    <h3>Lesson : {{ order_item.lesson.title }}</h3>
+                    <p>€ {{ order_item.lesson.price }}</p>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="order-item__total">
+            <p>Total : € {{ order.totalPrice }}</p>
+          </div>
+        </section>
+      {% endif %}
+    </main>
+{% endblock %}

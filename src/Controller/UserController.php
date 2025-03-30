@@ -18,7 +18,7 @@ final class UserController extends AbstractController
 {
   #[Route('/user/{id}', name: 'app_user_data', methods: ['GET', 'POST'])]
   #[IsGranted(UserVoter::EDIT, subject: 'user')]
-  public function user(int $id, Request $request, EntityManagerInterface $entityManager): Response
+  public function user(int $id, Request $request, EntityManagerInterface $entityManager, User $user): Response
   {
     try {
 

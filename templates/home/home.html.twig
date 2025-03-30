@@ -60,19 +60,33 @@
                   {% if courses.badge %}
                     <span class="{{ courses.badge.cssClass }}">{{ courses.badge.name }}</span>
                   {% endif %}
-
                   {% if app.user %}
-                    <form action="{{ path('app_cart_add') }}" method="POST">
-                      <input type="hidden" name="course_id" value="{{ courses.id }}">
-                      <input type="hidden" name="user_id" value="{{ app.user.id }}">
-                      <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
-                      <button type="submit">
-                        <i class="fa-solid fa-cart-plus"></i>
-                        Ajouter au panier
-                      </button>
-                    </form>
+                    {% set get_courses = false %}
+                    {% if completedCourses['course'] is not empty %}
+                      {% for completed_course in completedCourses['course'] %}
+                        {% if completed_course == courses.id %}
+                          {% set get_courses = true %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                    {% if get_courses %}
+                      <a href="{{ path('app_course_show', {'slug': courses.slug}) }}" class="btn-outline">
+                        <i class="fa-solid fa-eye"></i>
+                        Voir le cours
+                      </a>
+                    {% else %}
+                      <form action="{{ path('app_cart_add') }}" method="POST">
+                        <input type="hidden" name="course_id" value="{{ courses.id }}">
+                        <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                        <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
+                        <button type="submit">
+                          <i class="fa-solid fa-cart-plus"></i>
+                          Ajouter au panier
+                        </button>
+                      </form>
+                    {% endif %}
                   {% else %}
-                    <a href="{{ path('app_login') }}">
+                    <a href="{{ path('app_login') }}" class="btn">
                       <i class="fa-solid fa-cart-plus"></i>
                       Ajouter au panier
                     </a>
@@ -93,7 +107,7 @@
           <div class="lessons-highlight__title">
             <h3>Leçons populaires</h3>
             <article>
-              Progressez rapidement avec nos leçons claires et structurées. Adaptées à tous les niveaux, elles vous offrent un apprentissage efficace et flexible. Profitez de contenus interactifs créés par des experts et avancez à votre rythme. Rejoignez-nous et commencez à apprendre dès aujourd’hui !
+              Progressez rapidement avec nos leçons claires et structurées. Adaptées à tous les niveaux, elles vous offrent un apprentissage efficace et flexible. Profitez de contenus interactifs créés par des experts et avancez à votre rythme. Rejoignez-nous et commencez à apprendre dès aujourd’hui
             </article>
           </div>
           <div class="cards">
@@ -101,26 +115,48 @@
               <div class="card">
                 <div class="card-image">
                   <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}">
-                  {{ lesson.icon1 }}
                 </div>
                 <div class="card-content">
                   <h4>{{ lesson.title }}</h4>
+                  <p>Cours : {{ lesson.course.title }}</p>
                   <p>€ {{ lesson.price }}</p>
                   {% if lesson.badge %}
                     <span class="{{ lesson.badge.cssClass }}">{{ lesson.badge.name }}</span>
                   {% endif %}
                   {% if app.user %}
-                    <form action="{{ path('app_cart_add') }}" method="POST">
-                      <input type="hidden" name="lesson_id" value="{{ lesson.id }}">
-                      <input type="hidden" name="user_id" value="{{ app.user.id }}">
-                      <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
-                      <button type="submit">
-                        <i class="fa-solid fa-cart-plus"></i>
-                        Ajouter au panier
-                      </button>
-                    </form>
+                    {% set get_lessons = false %}
+                    {% if completedCourses['lesson'] %}
+                      {% for completed_course in completedCourses['lesson'] %}
+                        {% if completed_course == lesson.id %}
+                          {% set get_lessons = true %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                    {% if completedCourses['course'] %}
+                      {% for completed_course in completedCourses['course'] %}
+                        {% if completed_course == lesson.course.id %}
+                          {% set get_lessons = true %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                    {% if get_lessons %}
+                      <a href="" class="btn-outline">
+                        <i class="fa-solid fa-eye"></i>
+                        Voir la leçon
+                      </a>
+                    {% else %}
+                      <form action="{{ path('app_cart_add') }}" method="POST">
+                        <input type="hidden" name="lesson_id" value="{{ lesson.id }}">
+                        <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                        <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
+                        <button type="submit">
+                          <i class="fa-solid fa-cart-plus"></i>
+                          Ajouter au panier
+                        </button>
+                      </form>
+                    {% endif %}
                   {% else %}
-                    <a href="{{ path('app_login') }}">
+                    <a href="{{ path('app_login') }}" class="btn">
                       <i class="fa-solid fa-cart-plus"></i>
                       Ajouter au panier
                     </a>

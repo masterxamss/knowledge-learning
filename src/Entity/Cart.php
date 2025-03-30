@@ -29,6 +29,18 @@ class Cart
   #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
   private ?string $price = null;
 
+  #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+  private ?string $discount = null;
+
+  #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+  private ?string $subTotal = null;
+
+  #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+  private ?string $tva = null;
+
+  #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+  private ?string $total = null;
+
   public function getId(): ?int
   {
     return $this->id;
@@ -80,5 +92,53 @@ class Cart
     $this->price = $price;
 
     return $this;
+  }
+
+  public function getDiscount(): ?string
+  {
+    return $this->discount;
+  }
+
+  public function setDiscount(?string $discount): static
+  {
+    $this->discount = $discount;
+
+    return $this;
+  }
+
+  public function getSubTotal(): ?string
+  {
+    return $this->subTotal;
+  }
+
+  public function setSubTotal(?string $subTotal): static
+  {
+    $this->subTotal = $subTotal;
+
+    return $this;
+  }
+
+  public function getTva(): ?string
+  {
+    return $this->tva;
+  }
+
+  public function setTva(string $tva): static
+  {
+    $this->tva = $tva;
+
+    return $this;
+  }
+
+  public function getTotal(): ?string
+  {
+      return $this->total;
+  }
+
+  public function setTotal(string $total): static
+  {
+      $this->total = $total;
+
+      return $this;
   }
 }

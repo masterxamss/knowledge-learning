@@ -56,9 +56,16 @@ class Courses
   #[ORM\JoinColumn(name: 'badge', referencedColumnName: 'id', nullable: true)]
   private ?Badges $badge = null;
 
+  /**
+   * @var Collection<int, OrderItem>
+   */
+  #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'course')]
+  private Collection $orderItems;
+
   public function __construct()
   {
     $this->lessons = new ArrayCollection();
+    $this->orderItems = new ArrayCollection();
   }
 
   #[ORM\PrePersist]
@@ -240,5 +247,35 @@ class Courses
     $this->badge = $badge;
 
     return $this;
+  }
+
+  /**
+   * @return Collection<int, OrderItem>
+   */
+  public function getOrderItems(): Collection
+  {
+      return $this->orderItems;
+  }
+
+  public function addOrderItem(OrderItem $orderItem): static
+  {
+      if (!$this->orderItems->contains($orderItem)) {
+          $this->orderItems->add($orderItem);
+          $orderItem->setCourse($this);
+      }
+
+      return $this;
+  }
+
+  public function removeOrderItem(OrderItem $orderItem): static
+  {
+      if ($this->orderItems->removeElement($orderItem)) {
+          // set the owning side to null (unless already changed)
+          if ($orderItem->getCourse() === $this) {
+              $orderItem->setCourse(null);
+          }
+      }
+
+      return $this;
   }
 }

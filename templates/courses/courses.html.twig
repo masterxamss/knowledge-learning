@@ -80,14 +80,32 @@
                   </span>
                 {% endif %}
                 <div class="course-card__actions">
-                  <a href="#" class="btn-outline">
-                    <i class="fa-solid fa-cart-plus"></i>
-                    Ajouter au panier
-                  </a>
-                  <a href="{{ path('app_course_show', {slug: course.slug}) }}" class="btn">
-                    <i class="fa-solid fa-eye"></i>
-                    Voir le cours
-                  </a>
+                  {% set get_courses = false %}
+                    {% for completed_course in completedCourses['course'] %}
+                      {% if completed_course == course.id %}
+                        {% set get_courses = true %}
+                      {% endif %}
+                    {% endfor %}
+                  {% if get_courses %}
+                    <a href="{{ path('app_course_show', {'slug': course.slug}) }}" class="btn-outline">
+                      <i class="fa-solid fa-eye"></i>
+                      Voir le cours
+                    </a>
+                  {% else %}
+                    <form action="{{ path('app_cart_add') }}" method="POST">
+                      <input type="hidden" name="course_id" value="{{ course.id }}">
+                      <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                      <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
+                      <button type="submit" class="btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        Ajouter au panier
+                      </button>
+                    </form>
+                    <a href="{{ path('app_course_show', {slug: course.slug}) }}" class="btn-outline">
+                      <i class="fa-solid fa-eye"></i>
+                      Voir le cours
+                    </a>
+                  {% endif %}
                 </div>
               </div>
             </div>

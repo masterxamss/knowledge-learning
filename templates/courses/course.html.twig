@@ -17,24 +17,42 @@
           <div class="course-header__badges">
             <p>Leçons disponibles : {{ lessons|length }}</p>
             <span class="{{ course.badge.cssClass }}">{{ course.badge.name }}</span>
-            <span class="{{ course.badge.cssClass }}"><strong>€ {{ course.price }}</strong></span>
-            <a href="#">
-              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-              Acheter ce cours complet
-            </a>
+            <span class="{{ course.badge.cssClass }}">€ {{ course.price }}</span>
+            {% set get_course = false %}
+            {% for completed_course in completedCourses['course'] %}
+              {% if completed_course == course.id %}
+                  {% set get_course = true %}
+              {% endif %}
+            {% endfor %}
+            {% if not get_course %}
+              <form action="{{ path('app_cart_add') }}" method="POST">
+                <input type="hidden" name="course_id" value="{{ course.id }}">
+                <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
+                <button type="submit" class="btn">
+                  <i class="fa-solid fa-cart-plus"></i>
+                  Acheter ce cours complet
+                </button>
+              </form>
+            {% endif %}
           </div>
         </div>
         <div class="course-header__image">
-          <img src="{{ asset('images/courses/' ~ course.image) }}" alt="themes" />
+          <img src="{{ course.image ? asset('images/courses/' ~ course.image) : asset('images/placeholder.jpg') }}" alt="themes" />
         </div>
       </div>
     </header>
     <section class="lessons-container">
+      <div class="course-messages">
+        {% if app.session.flashbag|length > 0 %}
+          {{ include('partials/flash_messages.html.twig') }}
+        {% endif %}
+      </div>
       {% if lessons %}
         {% for lesson in lessons %}
           <div class="lessons-card">
             <div class="lessons-card__image">
-              <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}">
+              <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}" alt="Image de la leçon">
             </div>
             <div class="lessons-card__content">
               <h2>{{ lesson.title }}</h2>
@@ -45,10 +63,37 @@
                   <span class="{{ lesson.badge.cssClass }}">{{ lesson.badge.name }}</span>
                 {% endif %}
               </div>
-              <a href="" class="btn">
-                <i class="fa-solid fa-cart-plus"></i>
-                Acheter cette leçon
-              </a>
+                {% set get_lessons = false %}
+                {% if completedCourses['lesson'] %}
+                  {% for completed_course in completedCourses['lesson'] %}
+                    {% if completed_course == lesson.id %}
+                      {% set get_lessons = true %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if completedCourses['course'] %}
+                  {% for completed_course in completedCourses['course'] %}
+                    {% if completed_course == lesson.course.id %}
+                      {% set get_lessons = true %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if get_lessons %}
+                  <a href="{{ path('app_lesson', {'slug': lesson.slug}) }}" class="btn-outline">
+                    <i class="fa-solid fa-eye"></i>
+                    Voir la leçon
+                  </a>
+                {% else %}
+                  <form action="{{ path('app_cart_add') }}" method="POST">
+                    <input type="hidden" name="lesson_id" value="{{ lesson.id }}">
+                    <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                    <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
+                    <button type="submit" class="btn">
+                      <i class="fa-solid fa-cart-plus"></i>
+                      Ajouter au panier
+                    </button>
+                  </form>
+                {% endif %}
             </div>
           </div>
         {% endfor %}

@@ -41,7 +41,9 @@
       </li>
 
       <li>
-        <i class="fa-solid fa-cart-shopping menu-item" aria-hidden="true"></i>
+        <a href="{{ path('app_cart') }}">
+          <i class="fa-solid fa-cart-shopping menu-item" aria-hidden="true"></i>
+        </a>
       </li>
       {% if not app.user %}
         <li>
@@ -91,7 +93,7 @@
               </li>
               <li>
                 <i class="fa-solid fa-cart-shopping"></i>
-                <a href="#">Mon panier</a>
+                <a href="{{ path('app_cart') }}">Mon panier</a>
               </li>
               <li>
                 <i class="fa-solid fa-lock"></i>

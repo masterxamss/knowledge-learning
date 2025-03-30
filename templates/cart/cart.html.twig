@@ -11,7 +11,7 @@
   <main class="cart-container">
     <header class="cart-header">
       <h1 class="cart-title">Panier</h1>
-      <p>{{ cart|length }} articles dans le panier</p>
+      <p>{{ cart|length }} article(s) dans le panier</p>
       {% if app.session.flashbag|length > 0 %}{{ include('partials/flash_messages.html.twig') }}{% endif %}
     </header>
     <section class="cart-list">
@@ -30,7 +30,9 @@
                 {% if item.lesson %}
                   <h4 class="cart-item__title">Leçon : {{ item.lesson.title }}</h4>
                   {{ item.lesson.description|raw }}
-                  <span class="{{ item.lesson.badge.cssClass }}">{{ item.lesson.badge }}</span>
+                  {% if item.lesson.badge %}
+                    <span class="{{ item.lesson.badge.cssClass }}">{{ item.lesson.badge }}</span>
+                  {% endif %}
                 {% elseif item.course %}
                   <h4 class="cart-item__title">Cours : {{ item.course.title }}</h4>
                   {{ item.course.description|raw }}
@@ -46,16 +48,37 @@
                   </button>
                 </form>
               </div>
-              <div class="cart-item__price">
-                <span>€ {{ item.price }}</span>
-              </div>
+              {% if item.discount %}
+                <div class="cart-item__price">
+                  <span class="discount">€ {{ item.price }}</span>
+                  <span>€ {{ item.subTotal }}</span>
+                </div>
+              {% else %}
+                <div class="cart-item__price">
+                  <span>€ {{ item.price }}</span>
+                </div>
+              {% endif %}
             </div>
           {% endfor %}
         </div>
         <aside class="cart-total">
-          <span class="cart-total__title">Total :</span>
-          <span class="cart-total__price">€ {{ total|round(2, 'common') }}</span>
-          <form action="" method="POST">
+          <div>
+            <span class="cart-total__title">Discount :</span>
+            <span class="cart-total__price">€ {{ totalDiscount|number_format(2, '.', '') }}</span>
+          </div>
+          <div>
+            <span class="cart-total__title">Sous-total :</span>
+            <span class="cart-total__price">€ {{ subTotal|number_format(2, '.', '') }}</span>
+          </div>
+          <div>
+            <span class="cart-total__title">TVA 20% :</span>
+            <span class="cart-total__price">€ {{ totalTva|number_format(2, '.', '') }}</span>
+          </div>
+          <div>
+            <span class="cart-total__title total">Total :</span>
+            <span class="cart-total__price total">€ {{ total|number_format(2, '.', '') }}</span>
+          </div>
+          <form action="{{ path('app_stripe') }}" method="POST">
             <input type="hidden" name="token" value="{{ csrf_token('order') }}">
             <button type="submit" class="btn">Passer la commande</button>
           </form>

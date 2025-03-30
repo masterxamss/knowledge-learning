@@ -175,23 +175,33 @@
     color: var(--main-text-color);
   }
 
-  & button,
-  a {
+  & button {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    font-size: 0.8rem;
     font-family: "Nunito Regular";
     width: 100%;
-    text-align: left;
     color: var(--secondary-text-color);
     background-color: var(--btn-color);
     padding: 0.5rem;
-    border: none;
+    border: 1px solid var(--btn-color);
     border-radius: 0.3rem;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
+  }
+
+  & a {
+    font-size: 0.8rem;
+    font-family: "Nunito Regular";
+    width: 100%;
+    border-radius: 0.3rem;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
     text-decoration: none;
+    padding: 0.3rem;
   }
 
   & i {

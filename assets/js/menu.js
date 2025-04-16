@@ -4,33 +4,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.querySelector(".sidebar-menu");
   const overlay = document.querySelector(".overlay");
 
-  // if (!menuToggle || !closeBtn || !sidebar || !overlay) {
-  //   console.error("Erro: Um ou mais elementos não foram encontrados.");
-  //   return;
-  // }
-  //
-  console.log(menuToggle);
-
-  // Abrir menu
+  // Open menu
   menuToggle.addEventListener("click", () => {
     console.log("Abrir menu");
     sidebar.classList.add("active");
     overlay.classList.add("active");
   });
 
-  // Fechar menu
+  // Close menu
   closeBtn.addEventListener("click", () => {
     sidebar.classList.remove("active");
     overlay.classList.remove("active");
   });
 
-  // Fechar ao clicar fora
+  // Close when click outside
   overlay.addEventListener("click", () => {
     sidebar.classList.remove("active");
     overlay.classList.remove("active");
   });
 
-  // Fechar ao apertar ESC
+  // Close when press escape
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       sidebar.classList.remove("active");

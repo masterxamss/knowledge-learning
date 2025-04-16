@@ -33,7 +33,7 @@
               <h2>{{ theme.name }}</h2>
               {{ theme.description|raw }}
               <p><strong>{{ themeCoursesCounts[theme.id]|default(0) }}</strong> formations disponible(s)</p>
-              <a href="#" class="btn-outline">
+              <a href="{{ path('app_courses', {'theme': theme.name}) }}" class="btn-outline">
                 <i class="fa-solid fa-plus"></i>
                 En savoir plus
               </a>

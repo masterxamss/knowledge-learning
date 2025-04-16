@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -82,6 +84,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     'youtube'   => null,
     'facebook'  => null,
   ];
+
+  /**
+   * @var Collection<int, Order>
+   */
+  #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user', orphanRemoval: true)]
+  private Collection $orders;
+
+  /**
+   * @var Collection<int, Completion>
+   */
+  #[ORM\OneToMany(targetEntity: Completion::class, mappedBy: 'user', orphanRemoval: true)]
+  private Collection $completions;
+
+  /**
+   * @var Collection<int, Certifications>
+   */
+  #[ORM\OneToMany(targetEntity: Certifications::class, mappedBy: 'user', orphanRemoval: true)]
+  private Collection $certifications;
+
+  public function __construct()
+  {
+      $this->orders = new ArrayCollection();
+      $this->completions = new ArrayCollection();
+      $this->certifications = new ArrayCollection();
+  }
 
   public function getId(): ?int
   {
@@ -419,5 +446,95 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   public function isVerified(): bool
   {
     return $this->isVerified;
+  }
+
+  /**
+   * @return Collection<int, Order>
+   */
+  public function getOrders(): Collection
+  {
+      return $this->orders;
+  }
+
+  public function addOrder(Order $order): static
+  {
+      if (!$this->orders->contains($order)) {
+          $this->orders->add($order);
+          $order->setUser($this);
+      }
+
+      return $this;
+  }
+
+  public function removeOrder(Order $order): static
+  {
+      if ($this->orders->removeElement($order)) {
+          // set the owning side to null (unless already changed)
+          if ($order->getUser() === $this) {
+              $order->setUser(null);
+          }
+      }
+
+      return $this;
+  }
+
+  /**
+   * @return Collection<int, Completion>
+   */
+  public function getCompletions(): Collection
+  {
+      return $this->completions;
+  }
+
+  public function addCompletion(Completion $completion): static
+  {
+      if (!$this->completions->contains($completion)) {
+          $this->completions->add($completion);
+          $completion->setUser($this);
+      }
+
+      return $this;
+  }
+
+  public function removeCompletion(Completion $completion): static
+  {
+      if ($this->completions->removeElement($completion)) {
+          // set the owning side to null (unless already changed)
+          if ($completion->getUser() === $this) {
+              $completion->setUser(null);
+          }
+      }
+
+      return $this;
+  }
+
+  /**
+   * @return Collection<int, Certifications>
+   */
+  public function getCertifications(): Collection
+  {
+      return $this->certifications;
+  }
+
+  public function addCertification(Certifications $certification): static
+  {
+      if (!$this->certifications->contains($certification)) {
+          $this->certifications->add($certification);
+          $certification->setUser($this);
+      }
+
+      return $this;
+  }
+
+  public function removeCertification(Certifications $certification): static
+  {
+      if ($this->certifications->removeElement($certification)) {
+          // set the owning side to null (unless already changed)
+          if ($certification->getUser() === $this) {
+              $certification->setUser(null);
+          }
+      }
+
+      return $this;
   }
 }

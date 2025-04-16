@@ -13,9 +13,14 @@ import "./styles/user.css";
 import "./styles/login.css";
 import "./styles/registration.css";
 import "./styles/categories.css";
-import "./styles/courses.css";
-import "./styles/lessons.css";
+import "./styles/lesson.css";
 import "./styles/themes.css";
+import "./styles/courses.css";
+import "./styles/course.css";
+import "./styles/cart.css";
+import "./styles/order-success.css";
+import "./styles/study.css";
+import "./styles/certifications.css";
 
 /* 🚀 JavaScript */
 import "./js/dropdown_profile.js";
@@ -24,3 +29,4 @@ import "./js/videos.js";
 import "./js/accordion.js";
 import "./js/menu.js";
 import "./js/dropdown_explore.js";
+import "./js/modal_certification.js";

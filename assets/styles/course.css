@@ -1,0 +1,205 @@
+.course-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+  background-color: var(--main-bg-color);
+}
+
+.course-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 30vh;
+  margin-top: 100px;
+  background-color: var(--secondary-bg-color);
+  color: var(--secondary-text-color);
+}
+
+.course-header__wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  width: 80%;
+}
+
+.course-header__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 80%;
+  gap: 1rem;
+}
+
+.course-header__content h1 {
+  font-size: 2rem;
+  color: var(--btn-hover-dark-color);
+}
+
+.course-header__content div {
+  font-size: 1rem;
+  font-family: "Nunito Regular";
+  text-align: justify;
+  width: 100%;
+  margin-right: 1rem;
+}
+
+.course-header__badges {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.course-header__badges span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  width: fit-content;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  height: 100%;
+}
+
+.course-header__badges p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  width: fit-content;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  background-color: var(--blue-sky);
+  color: var(--btn-color);
+}
+
+.course-header__badges form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  font-size: 1rem;
+  width: fit-content;
+}
+
+.course-header__badges form button {
+  padding: 0;
+  border: none;
+  height: 100%;
+}
+
+.course-header__badges button i {
+  color: inherit;
+}
+
+.course-header__image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
+
+.course-header__image img {
+  width: 100%;
+  border-radius: 0.3rem;
+  box-shadow: 0px 0px 10px black;
+  border: 1px solid var(--input-border-color);
+}
+
+.lessons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+  background-color: var(--main-bg-color);
+  padding: 2rem 0;
+}
+
+.lessons-container .course-messages {
+  width: 80%;
+}
+
+.course-messages div {
+  width: 100%;
+}
+
+.lessons-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 80%;
+  padding: 1rem 0;
+}
+
+.lessons-card__image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 100%;
+}
+
+.lessons-card__image img {
+  width: 300px;
+  border-radius: 0.3rem;
+}
+
+.lessons-card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 80%;
+  gap: 1rem;
+}
+
+.lessons-card__content h2 {
+  color: var(--btn-hover-dark-color);
+}
+
+.lessons-card__content div {
+  font-size: 1rem;
+  font-family: "Nunito Regular";
+  text-align: justify;
+  width: 100%;
+  margin-right: 1rem;
+}
+
+.lessons-card__badges {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lessons-card__content form {
+  display: flex;
+  align-items: start;
+}
+
+.lessons-card__content a,
+form button {
+  font-family: "Nunito Regular";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+  margin-top: auto;
+  text-align: center;
+  height: 30px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.lessons-card__content i {
+  color: inherit;
+}

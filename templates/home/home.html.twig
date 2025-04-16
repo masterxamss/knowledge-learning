@@ -18,13 +18,16 @@
       <section class="about">
         <h2>Que fait Knowledge ?</h2>
         <p>Knowledge est une plateforme qui vous permet de trouver des cours en ligne et de pratiquer vos connaissances !</p>
+        {% if app.session.flashbag is not empty %}
+          {% include 'partials/flash_messages.html.twig' %}
+        {% endif %}
       </section>
 
       {% if themes %}
         <section class="themes-highlight">
           <div>
             {% for theme in themes %}
-              <a href="#" class="themes-highlight__card">
+              <a href="{{ path('app_courses', {'theme': theme.name}) }}" class="themes-highlight__card">
                 {{ theme.name }}
                 <img src="{{ asset('images/themes/' ~ theme.image) }}">
               </a>
@@ -49,7 +52,9 @@
             {% for courses in courses %}
               <div class="card">
                 <div class="card-image">
-                  <img src="{{ courses.image ? asset('images/courses/' ~ courses.image) : asset('images/placeholder.jpg') }}">
+                  <a href="{{ path('app_course_show', {'slug': courses.slug}) }}">
+                    <img src="{{ courses.image ? asset('images/courses/' ~ courses.image) : asset('images/placeholder.jpg') }}">
+                  </a>
                 </div>
                 <div class="card-content">
                   <h4>{{ courses.title }}</h4>
@@ -57,10 +62,37 @@
                   {% if courses.badge %}
                     <span class="{{ courses.badge.cssClass }}">{{ courses.badge.name }}</span>
                   {% endif %}
-                  <a href="#">
-                    <i class="fa-solid fa-cart-plus"></i>
-                    Ajouter au panier
-                  </a>
+                  {% if app.user %}
+                    {% set get_courses = false %}
+                    {% if completedCourses['course'] is not empty %}
+                      {% for completed_course in completedCourses['course'] %}
+                        {% if completed_course == courses.id %}
+                          {% set get_courses = true %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                    {% if get_courses %}
+                      <a href="{{ path('app_course_show', {'slug': courses.slug}) }}" class="btn-outline">
+                        <i class="fa-solid fa-eye"></i>
+                        Voir le cours
+                      </a>
+                    {% else %}
+                      <form action="{{ path('app_cart_add') }}" method="POST">
+                        <input type="hidden" name="course_id" value="{{ courses.id }}">
+                        <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                        <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
+                        <button type="submit">
+                          <i class="fa-solid fa-cart-plus"></i>
+                          Ajouter au panier
+                        </button>
+                      </form>
+                    {% endif %}
+                  {% else %}
+                    <a href="{{ path('app_login') }}" class="btn">
+                      <i class="fa-solid fa-cart-plus"></i>
+                      Ajouter au panier
+                    </a>
+                  {% endif %}
                 </div>
               </div>
             {% endfor %}
@@ -77,26 +109,62 @@
           <div class="lessons-highlight__title">
             <h3>Leçons populaires</h3>
             <article>
-              Progressez rapidement avec nos leçons claires et structurées. Adaptées à tous les niveaux, elles vous offrent un apprentissage efficace et flexible. Profitez de contenus interactifs créés par des experts et avancez à votre rythme. Rejoignez-nous et commencez à apprendre dès aujourd’hui !
+              Progressez rapidement avec nos leçons claires et structurées. Adaptées à tous les niveaux, elles vous offrent un apprentissage efficace et flexible. Profitez de contenus interactifs créés par des experts et avancez à votre rythme. Rejoignez-nous et commencez à apprendre dès aujourd’hui
             </article>
           </div>
           <div class="cards">
             {% for lesson in lessons %}
               <div class="card">
                 <div class="card-image">
-                  <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}">
-                  {{ lesson.icon1 }}
+                  <a href="{{ path('app_lesson', {'slug': lesson.course.slug}) }}">
+                    <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}">
+                  </a>
                 </div>
                 <div class="card-content">
                   <h4>{{ lesson.title }}</h4>
+                  <p>Cours : {{ lesson.course.title }}</p>
                   <p>€ {{ lesson.price }}</p>
                   {% if lesson.badge %}
                     <span class="{{ lesson.badge.cssClass }}">{{ lesson.badge.name }}</span>
                   {% endif %}
-                  <a href="">
-                    <i class="fa-solid fa-cart-plus"></i>
-                    Ajouter au panier
-                  </a>
+                  {% if app.user %}
+                    {% set get_lessons = false %}
+                    {% if completedCourses['lesson'] %}
+                      {% for completed_course in completedCourses['lesson'] %}
+                        {% if completed_course == lesson.id %}
+                          {% set get_lessons = true %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                    {% if completedCourses['course'] %}
+                      {% for completed_course in completedCourses['course'] %}
+                        {% if completed_course == lesson.course.id %}
+                          {% set get_lessons = true %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                    {% if get_lessons %}
+                      <a href="" class="btn-outline">
+                        <i class="fa-solid fa-eye"></i>
+                        Voir la leçon
+                      </a>
+                    {% else %}
+                      <form action="{{ path('app_cart_add') }}" method="POST">
+                        <input type="hidden" name="lesson_id" value="{{ lesson.id }}">
+                        <input type="hidden" name="user_id" value="{{ app.user.id }}">
+                        <input type="hidden" name="token" value="{{ csrf_token('cart-add') }}">
+                        <button type="submit">
+                          <i class="fa-solid fa-cart-plus"></i>
+                          Ajouter au panier
+                        </button>
+                      </form>
+                    {% endif %}
+                  {% else %}
+                    <a href="{{ path('app_login') }}" class="btn">
+                      <i class="fa-solid fa-cart-plus"></i>
+                      Ajouter au panier
+                    </a>
+                  {% endif %}
                 </div>
               </div>
             {% endfor %}

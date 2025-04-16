@@ -9,7 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+//use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
@@ -31,15 +31,7 @@ class LessonsCrudController extends AbstractCrudController
       MoneyField::new('price', 'Prix')
         ->setCurrency('EUR')
         ->setStoredAsCents(false),
-      UrlField::new('video'),
-      ImageField::new('icon_1')
-        ->setUploadDir('public/images/icons')
-        ->setBasePath('/images/icons')
-        ->setRequired(false),
-      ImageField::new('icon_2')
-        ->setUploadDir('public/images/icons')
-        ->setBasePath('/images/icons')
-        ->setRequired(false),
+      //UrlField::new('video'),
       ImageField::new('image')
         ->setUploadDir('public/images/lessons')
         ->setBasePath('/images/lessons')

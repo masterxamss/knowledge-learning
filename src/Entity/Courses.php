@@ -56,9 +56,23 @@ class Courses
   #[ORM\JoinColumn(name: 'badge', referencedColumnName: 'id', nullable: true)]
   private ?Badges $badge = null;
 
+  /**
+   * @var Collection<int, OrderItem>
+   */
+  #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'course')]
+  private Collection $orderItems;
+
+  /**
+   * @var Collection<int, Certifications>
+   */
+  #[ORM\OneToMany(targetEntity: Certifications::class, mappedBy: 'course')]
+  private Collection $certifications;
+
   public function __construct()
   {
     $this->lessons = new ArrayCollection();
+    $this->orderItems = new ArrayCollection();
+    $this->certifications = new ArrayCollection();
   }
 
   #[ORM\PrePersist]
@@ -240,5 +254,65 @@ class Courses
     $this->badge = $badge;
 
     return $this;
+  }
+
+  /**
+   * @return Collection<int, OrderItem>
+   */
+  public function getOrderItems(): Collection
+  {
+      return $this->orderItems;
+  }
+
+  public function addOrderItem(OrderItem $orderItem): static
+  {
+      if (!$this->orderItems->contains($orderItem)) {
+          $this->orderItems->add($orderItem);
+          $orderItem->setCourse($this);
+      }
+
+      return $this;
+  }
+
+  public function removeOrderItem(OrderItem $orderItem): static
+  {
+      if ($this->orderItems->removeElement($orderItem)) {
+          // set the owning side to null (unless already changed)
+          if ($orderItem->getCourse() === $this) {
+              $orderItem->setCourse(null);
+          }
+      }
+
+      return $this;
+  }
+
+  /**
+   * @return Collection<int, Certifications>
+   */
+  public function getCertifications(): Collection
+  {
+      return $this->certifications;
+  }
+
+  public function addCertification(Certifications $certification): static
+  {
+      if (!$this->certifications->contains($certification)) {
+          $this->certifications->add($certification);
+          $certification->setCourse($this);
+      }
+
+      return $this;
+  }
+
+  public function removeCertification(Certifications $certification): static
+  {
+      if ($this->certifications->removeElement($certification)) {
+          // set the owning side to null (unless already changed)
+          if ($certification->getCourse() === $this) {
+              $certification->setCourse(null);
+          }
+      }
+
+      return $this;
   }
 }

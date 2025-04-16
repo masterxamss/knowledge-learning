@@ -37,6 +37,9 @@ class Chapters
   #[ORM\Column(length: 255)]
   private ?string $slug = null;
 
+  #[ORM\Column(length: 255, nullable: true)]
+  private ?string $video = null;
+
   #[ORM\PrePersist]
   public function setCreatedAtValue(): void
   {
@@ -146,5 +149,17 @@ class Chapters
     $this->slug = $slug;
 
     return $this;
+  }
+
+  public function getVideo(): ?string
+  {
+      return $this->video;
+  }
+
+  public function setVideo(?string $video): static
+  {
+      $this->video = $video;
+
+      return $this;
   }
 }

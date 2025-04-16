@@ -6,8 +6,10 @@
   <nav class="menu">
     <ul>
       <li>
-        <input type="text" placeholder="Cours">
-        <img src="/images/icons/search.png" alt="Search">
+        <form action=" {{ path('app_courses') }} " method="GET">
+          <input type="text" name="search" placeholder="Rechercher un cours..." value="{{ app.request.query.get('search') }}" onkeydown="if(event.key === 'Enter'){this.form.submit();}">
+          <img src="/images/icons/search.png" alt="Search">
+        </form>
       </li>
 
       <li class="menu-item__explore">
@@ -23,13 +25,13 @@
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="{{ path('app_themes') }}">
                 <i class="fa-solid fa-list"></i>
-                <span>Formations</span>
+                <span>Thémes</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="{{ path('app_courses') }}">
                 <i class="fa-solid fa-book"></i>
                 <span>Cours</span>
               </a>
@@ -39,7 +41,9 @@
       </li>
 
       <li>
-        <i class="fa-solid fa-cart-shopping menu-item" aria-hidden="true"></i>
+        <a href="{{ path('app_cart') }}">
+          <i class="fa-solid fa-cart-shopping menu-item" aria-hidden="true"></i>
+        </a>
       </li>
       {% if not app.user %}
         <li>
@@ -81,7 +85,7 @@
               {% endif %}
               <li>
                 <i class="fa-solid fa-chalkboard-user"></i>
-                <a href="#">Mon apprentissage</a>
+                <a href="{{ path('app_study', {id: app.user.id}) }}">Mon apprentissage</a>
               </li>
               <li>
                 <i class="fa-solid fa-graduation-cap"></i>
@@ -89,7 +93,7 @@
               </li>
               <li>
                 <i class="fa-solid fa-cart-shopping"></i>
-                <a href="#">Mon panier</a>
+                <a href="{{ path('app_cart') }}">Mon panier</a>
               </li>
               <li>
                 <i class="fa-solid fa-lock"></i>
@@ -158,13 +162,13 @@
           </a>
         </li>
         <li class="sidebar-menu__item">
-          <a href="#">
+          <a href="{{ path('app_themes') }}">
             <i class="fa-solid fa-list"></i>
-            <span>Formations</span>
+            <span>Thémes</span>
           </a>
         </li>
         <li class="sidebar-menu__item course-item">
-          <a href="#">
+          <a href="{{ path('app_courses') }}">
             <i class="fa-solid fa-book"></i>
             <span>Courses</span>
           </a>
@@ -184,9 +188,9 @@
       <button class="close-btn">✖</button>
       <ul class="sidebar-menu__items">
         <li class="sidebar-menu__item">
-          <a href="#">
+          <a href="{{ path('app_themes') }}">
             <i class="fa-solid fa-list"></i>
-            <span>Formations</span>
+            <span>Thémes</span>
           </a>
         </li>
         <li class="sidebar-menu__item course-item">

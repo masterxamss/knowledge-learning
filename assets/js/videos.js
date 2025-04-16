@@ -6,19 +6,22 @@ document.addEventListener("turbo:load", function () {
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
   function onYouTubeIframeAPIReady() {
-    // Obter o elemento da div
     var playerElement = document.getElementById("player");
-    var videoId = playerElement.getAttribute("data-video-id"); // Buscar o ID do vídeo
+    if (!playerElement) return;
+
+    var videoId = playerElement.getAttribute("data-video-id");
+    if (!videoId) return;
 
     new YT.Player("player", {
       height: "315",
       width: "560",
-      videoId: videoId, // Usar o ID extraído
+      videoId: videoId,
       playerVars: {
         autoplay: 1,
         controls: 1,
       },
     });
   }
+
   window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 });

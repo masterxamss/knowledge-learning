@@ -10,9 +10,8 @@
 {% block main %}
   <main class="user-data">
     <section class="container">
-
       <aside>
-        <ul>
+        <ul
           <li>
             {% if app.user.image is not null %}
               <img src="{{ asset('uploads/' ~ app.user.image) }}">

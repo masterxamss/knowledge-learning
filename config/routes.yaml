@@ -1,8 +1,14 @@
 controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+  resource:
+    path: ../src/Controller/
+    namespace: App\Controller
+  type: attribute
 
 app_logout:
-    path: /logout
+  path: /logout
+
+error_404:
+  path: /{url}
+  controller: App\Controller\ErrorController::show404
+  requirements:
+    url: ".+"

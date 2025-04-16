@@ -1,0 +1,9 @@
+.certifications {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+  background-color: var(--main-bg-color);
+  margin-top: 100px;
+}

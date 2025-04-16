@@ -85,7 +85,7 @@
               {% endif %}
               <li>
                 <i class="fa-solid fa-chalkboard-user"></i>
-                <a href="#">Mon apprentissage</a>
+                <a href="{{ path('app_study', {id: app.user.id}) }}">Mon apprentissage</a>
               </li>
               <li>
                 <i class="fa-solid fa-graduation-cap"></i>

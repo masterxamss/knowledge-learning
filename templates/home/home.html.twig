@@ -52,7 +52,9 @@
             {% for courses in courses %}
               <div class="card">
                 <div class="card-image">
-                  <img src="{{ courses.image ? asset('images/courses/' ~ courses.image) : asset('images/placeholder.jpg') }}">
+                  <a href="{{ path('app_course_show', {'slug': courses.slug}) }}">
+                    <img src="{{ courses.image ? asset('images/courses/' ~ courses.image) : asset('images/placeholder.jpg') }}">
+                  </a>
                 </div>
                 <div class="card-content">
                   <h4>{{ courses.title }}</h4>
@@ -114,7 +116,9 @@
             {% for lesson in lessons %}
               <div class="card">
                 <div class="card-image">
-                  <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}">
+                  <a href="{{ path('app_lesson', {'slug': lesson.course.slug}) }}">
+                    <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}">
+                  </a>
                 </div>
                 <div class="card-content">
                   <h4>{{ lesson.title }}</h4>

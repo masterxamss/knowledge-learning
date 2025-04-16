@@ -27,6 +27,7 @@ class HomeController extends AbstractController
     $themes = null;
     $courses = null;
     $lessons = null;
+    $getCompletedCourses = null;
 
     $entities = [
       'themes' => Themes::class,
@@ -51,8 +52,11 @@ class HomeController extends AbstractController
         }
       }
 
-      $userId = $this->getUser()->getId();
-      $getCompletedCourses = $this->completedCoursesService->getCompletedCourses($userId);
+
+      if ($this->getUser()) {
+        $userId = $this->getUser()->getId();
+        $getCompletedCourses = $this->completedCoursesService->getCompletedCourses($userId);
+      }
 
       return $this->render('home/home.html.twig', [
         'courses' => $courses,

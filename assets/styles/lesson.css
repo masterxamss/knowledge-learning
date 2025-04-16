@@ -57,6 +57,13 @@
   color: var(--btn-color);
 }
 
+.lesson-header__check {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .lesson-header__image {
   display: flex;
   flex-direction: row;
@@ -84,8 +91,12 @@
 }
 
 .chapters-list {
+  display: flex;
+  flex-direction: column;
   width: 15%;
   border: 1px solid var(--input-border-color);
+  border-radius: 0.3rem;
+  background-color: var(--secondary-bg-color);
 }
 
 .chapters-list__title {
@@ -106,6 +117,9 @@
 }
 
 .chapters-list ul {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -119,7 +133,6 @@
   cursor: pointer;
   border-bottom: 1px solid var(--input-border-color);
   width: 100%;
-  height: 100%;
 }
 
 .chapters-list ul li a {
@@ -150,28 +163,154 @@
   color: var(--btn-hover-dark-color);
 }
 
-.chapters-content {
-  width: 85%;
-  border: 1px solid var(--input-border-color);
+.chapters-list ul li form {
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
-.chapters-content h4 {
+.chapters-list ul li form label {
+  font-family: "Nunito Regular";
+}
+
+.chapters-list ul li:last-child {
+  border-bottom: none;
+  margin-top: auto;
+}
+
+.chapters-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 85%;
+  border: 1px solid var(--input-border-color);
+  border-radius: 0.3rem;
+}
+
+.chapter-title {
+  width: 100%;
   padding: 1rem;
   color: var(--btn-hover-dark-color);
   border-bottom: 1px solid var(--input-border-color);
+  background-color: var(--secondary-bg-color);
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
 }
 
-.player-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.video-player {
   padding: 1rem;
   width: 100%;
 }
 
-.chapters-content div {
-  padding: 1rem;
+#player {
+  float: right;
+  margin: 0 0 1rem 1rem;
+  width: 50%;
+  max-width: 500px;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+}
+
+.chapter-text div {
   font-family: "Nunito Regular";
   text-align: justify;
-  color: var(--main-text-color);
+  color: var(--tertiary-text-color);
+  letter-spacing: 1px;
+  line-height: 2;
 }
+
+.chapter-text::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  position: relative;
+  width: 90%;
+  max-width: fit-content;
+  text-align: center;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.modal-body h2 {
+  justify-content: center;
+  color: var(--btn-hover-dark-color);
+}
+
+.modal-body a {
+  font-family: "Nunito Regular";
+  width: 100%;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--input-border-color);
+  background-color: var(--secondary-bg-color);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.modal-header p {
+  color: var(--btn-hover-dark-color);
+  font-size: 1rem;
+}
+
+.modal-header span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--btn-hover-dark-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+/*.modal .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  color: var(--btn-hover-dark-color);
+}*/

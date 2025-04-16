@@ -62,10 +62,17 @@ class Lessons
   #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'lesson')]
   private Collection $orderItems;
 
+  /**
+   * @var Collection<int, Completion>
+   */
+  #[ORM\OneToMany(targetEntity: Completion::class, mappedBy: 'lesson', orphanRemoval: true)]
+  private Collection $completions;
+
   public function __construct()
   {
     $this->chapters = new ArrayCollection();
     $this->orderItems = new ArrayCollection();
+    $this->completions = new ArrayCollection();
   }
 
   #[ORM\PrePersist]
@@ -278,5 +285,35 @@ class Lessons
     }
 
     return $this;
+  }
+
+  /**
+   * @return Collection<int, Completion>
+   */
+  public function getCompletions(): Collection
+  {
+      return $this->completions;
+  }
+
+  public function addCompletion(Completion $completion): static
+  {
+      if (!$this->completions->contains($completion)) {
+          $this->completions->add($completion);
+          $completion->setLesson($this);
+      }
+
+      return $this;
+  }
+
+  public function removeCompletion(Completion $completion): static
+  {
+      if ($this->completions->removeElement($completion)) {
+          // set the owning side to null (unless already changed)
+          if ($completion->getLesson() === $this) {
+              $completion->setLesson(null);
+          }
+      }
+
+      return $this;
   }
 }

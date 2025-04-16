@@ -6,6 +6,8 @@ use App\Entity\Order;
 use App\Entity\Cart;
 use App\Entity\OrderItem;
 use App\Entity\User;
+use App\Entity\Completion;
+use App\Entity\Lessons;
 use App\Security\Voter\UserVoter;
 use App\Repository\OrderRepository;
 use App\Service\StripeServiceInterface;
@@ -138,6 +140,31 @@ class CheckOutController extends AbstractController
       if ($cartItems) {
         foreach ($cartItems as $cart) {
           $this->entityManagerInterface->remove($cart);
+        }
+      }
+
+      // get order item
+      $orderItem = $this->entityManagerInterface->getRepository(OrderItem::class)->findBy(['orders' => $order->getId()]);
+
+      // create user completion
+      foreach ($orderItem as $item) {
+        if ($item->getCourse()) {
+          $getCourseLessons = $this->entityManagerInterface->getRepository(Lessons::class)->findLessonsByCourse($item->getCourse()->getId());
+          foreach ($getCourseLessons as $lesson) {
+            $completion = new Completion();
+            $completion->setLesson($lesson);
+            $completion->setUser($user);
+            $completion->setStatus('in-progress');
+            $completion->setCompletionDate(null);
+            $this->entityManagerInterface->persist($completion);
+          }
+        } elseif ($item->getLesson()) {
+          $completion = new Completion();
+          $completion->setLesson($item->getLesson());
+          $completion->setUser($user);
+          $completion->setStatus('in-progress');
+          $completion->setCompletionDate(null);
+          $this->entityManagerInterface->persist($completion);
         }
       }
 

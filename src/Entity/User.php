@@ -91,9 +91,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user', orphanRemoval: true)]
   private Collection $orders;
 
+  /**
+   * @var Collection<int, Completion>
+   */
+  #[ORM\OneToMany(targetEntity: Completion::class, mappedBy: 'user', orphanRemoval: true)]
+  private Collection $completions;
+
+  /**
+   * @var Collection<int, Certifications>
+   */
+  #[ORM\OneToMany(targetEntity: Certifications::class, mappedBy: 'user', orphanRemoval: true)]
+  private Collection $certifications;
+
   public function __construct()
   {
       $this->orders = new ArrayCollection();
+      $this->completions = new ArrayCollection();
+      $this->certifications = new ArrayCollection();
   }
 
   public function getId(): ?int
@@ -458,6 +472,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
           // set the owning side to null (unless already changed)
           if ($order->getUser() === $this) {
               $order->setUser(null);
+          }
+      }
+
+      return $this;
+  }
+
+  /**
+   * @return Collection<int, Completion>
+   */
+  public function getCompletions(): Collection
+  {
+      return $this->completions;
+  }
+
+  public function addCompletion(Completion $completion): static
+  {
+      if (!$this->completions->contains($completion)) {
+          $this->completions->add($completion);
+          $completion->setUser($this);
+      }
+
+      return $this;
+  }
+
+  public function removeCompletion(Completion $completion): static
+  {
+      if ($this->completions->removeElement($completion)) {
+          // set the owning side to null (unless already changed)
+          if ($completion->getUser() === $this) {
+              $completion->setUser(null);
+          }
+      }
+
+      return $this;
+  }
+
+  /**
+   * @return Collection<int, Certifications>
+   */
+  public function getCertifications(): Collection
+  {
+      return $this->certifications;
+  }
+
+  public function addCertification(Certifications $certification): static
+  {
+      if (!$this->certifications->contains($certification)) {
+          $this->certifications->add($certification);
+          $certification->setUser($this);
+      }
+
+      return $this;
+  }
+
+  public function removeCertification(Certifications $certification): static
+  {
+      if ($this->certifications->removeElement($certification)) {
+          // set the owning side to null (unless already changed)
+          if ($certification->getUser() === $this) {
+              $certification->setUser(null);
           }
       }
 

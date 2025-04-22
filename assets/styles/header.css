@@ -114,7 +114,7 @@
     gap: 1rem;
     margin-left: 0.5rem;
     text-decoration: none;
-    font-family: "Comic Sans MS";
+    font-family: "Nunito Regular";
     color: inherit;
   }
 
@@ -264,6 +264,7 @@
   display: inline-block;
   color: var(--main-text-color);
   text-decoration: none;
+  font-family: "Nunito Regular";
   width: 100%;
   font-size: 0.8rem;
 }

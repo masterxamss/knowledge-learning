@@ -1,10 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Página Não Encontrada{% endblock %}
+{% block title %}404 - Page not found{% endblock %}
 
-{% block body %}
-  <h1>404 - Página Não Encontrada</h1>
-  <p>A página que procuras não existe.</p>
-  <a href="{{ path('app_home') }}">Voltar à página inicial</a>
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('home') }}
+{% endblock %}
+
+{% block main %}
+  <main class="error-container">
+    <div class="error-content">
+      <h1>Page not found !</h1>
+      <p>Oups... Tu t’es perdu ? On a cherché partout, même sous le tapis... Mais cette page est introuvable ! Peut-être qu’elle a pris des vacances ? Pas de panique, tu peux toujours retourner à la page d’accueil et reprendre ton chemin.</p>
+      <a href="{{ path('app_home') }}">Accueil</a>
+    </div>
+    <div class="error-image">
+      <img src="{{ asset('/images/404.jpg') }}" alt="404">
+    </div>
+  </main>
 {% endblock %}
 

@@ -17,22 +17,18 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class UserController extends AbstractController
 {
   #[Route('/user/{id}', name: 'app_user_data', methods: ['GET', 'POST'])]
-  #[IsGranted(UserVoter::EDIT, subject: 'user')]
-  public function user(int $id, Request $request, EntityManagerInterface $entityManager, User $user): Response
+  public function user(int $id, Request $request, EntityManagerInterface $entityManager): Response
   {
     try {
-
-      /*if (!$this->isGranted('USER_EDIT', $user)) {
-        return $this->redirectToRoute('app_home'); // Redireciona se não tiver permissão
-      }*/
       // Find user
       $user = $entityManager->getRepository(User::class)->find($id);
 
       // Check if user exists
       if (!$user) {
-        $this->addFlash('error', 'Utilisateur introuvable');
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_user_data', ['id' => $this->getUser()->getId()]);
       }
+
+      $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
 
       // Check if user is verified
       if (!$user->getIsVerified()) {
@@ -49,53 +45,60 @@ final class UserController extends AbstractController
         $entityManager->flush();
         $this->addFlash('success', 'Informations mises à jour');
       }
-    } catch (\Exception $e) {
-      $this->addFlash('error', 'Une erreur est survenue' . $e->getMessage());
-      return $this->redirectToRoute('app_home');
-    }
 
-    return $this->render('user/user.html.twig', [
-      'form' => $form->createView(),
-      'title' => 'Profil',
-      'subtitle' => 'Ajouter des informations sur vous-même'
-    ]);
+      return $this->render('user/user.html.twig', [
+        'form' => $form->createView(),
+        'title' => 'Profil',
+        'subtitle' => 'Ajouter des informations sur vous-même'
+      ]);
+    } catch (\Exception $e) {
+      $this->addFlash('error', 'Une erreur est survenue');
+      return $this->redirectToRoute('app_user_data', ['id' => $this->getUser()->getId()]);
+    }
   }
 
   #[Route('/user/{id}/avatar', name: 'app_user_avatar')]
-  #[IsGranted(UserVoter::EDIT, subject: 'user')]
-  public function userAvatar(int $id, EntityManagerInterface $entityManager, Request $request, User $user): Response
+  public function userAvatar(int $id, EntityManagerInterface $entityManager, Request $request): Response
   {
+    try {
+      // Find user
+      $user = $entityManager->getRepository(User::class)->find($id);
 
-    // Find user
-    $user = $entityManager->getRepository(User::class)->find($id);
-    if (!$user) {
-      $this->addFlash('error', 'User not found');
-    }
-
-    // Prepare form
-    $form = $this->createForm(UserAvatarType::class, $user);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-      try {
-        //Update image
-        $this->handleImageUpload($form, $user, $user->getImage());
-
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Avatar updated successfully');
-      } catch (\Exception $e) {
-        $this->addFlash('error', $e->getMessage());
+      // Check if user exists
+      if (!$user) {
+        return $this->redirectToRoute('app_user_avatar', ['id' => $this->getUser()->getId()]);
       }
 
-      return $this->redirectToRoute('app_user_avatar', ['id' => $user->getId()]);
-    }
+      $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
 
-    return $this->render('user/user.html.twig', [
-      'form' => $form->createView(),
-      'title' => 'Photo',
-      'subtitle' => 'Ajouter une photo à votre profil',
-    ]);
+      // Prepare form
+      $form = $this->createForm(UserAvatarType::class, $user);
+      $form->handleRequest($request);
+
+      if ($form->isSubmitted() && $form->isValid()) {
+        try {
+          //Update image
+          $this->handleImageUpload($form, $user, $user->getImage());
+
+          $entityManager->flush();
+
+          $this->addFlash('success', 'Avatar updated successfully');
+        } catch (\Exception $e) {
+          $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_user_avatar', ['id' => $user->getId()]);
+      }
+
+      return $this->render('user/user.html.twig', [
+        'form' => $form->createView(),
+        'title' => 'Photo',
+        'subtitle' => 'Ajouter une photo à votre profil',
+      ]);
+    } catch (\Exception $e) {
+      $this->addFlash('error', 'Une erreur est survenue');
+      return $this->redirectToRoute('app_user_avatar', ['id' => $this->getUser()->getId()]);
+    }
   }
 
 

@@ -161,3 +161,18 @@
   color: var(--orange);
   background-color: var(--vibrant-gold);
 }
+
+.breadcrumb {
+  margin-top: 2rem;
+  width: 80%;
+}
+
+.breadcrumb a,
+span {
+  color: var(--btn-hover-dark-color);
+  font-family: "Nunito Regular";
+}
+
+.breadcrumb i {
+  color: var(--btn-hover-dark-color);
+}

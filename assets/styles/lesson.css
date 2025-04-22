@@ -224,6 +224,14 @@
   line-height: 2;
 }
 
+.chapter-text {
+  font-family: "Nunito Regular";
+  text-align: justify;
+  color: var(--tertiary-text-color);
+  letter-spacing: 1px;
+  line-height: 2;
+}
+
 .chapter-text::after {
   content: "";
   display: block;

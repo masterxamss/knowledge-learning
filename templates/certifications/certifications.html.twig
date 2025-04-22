@@ -9,5 +9,44 @@
 
 {% block main %}
   <main class="certifications">
+    <header class="certifications-header">
+      <div class="certifications-title">
+        <h1>Mes certifications</h1>
+      </div>
+    </header>
+    <div class="breadcrumb">
+      <i class="fa-solid fa-house"></i>
+      <a href="{{ path('app_home') }}"> Accueil</a>
+      <span>/</span>
+      <a href="{{ path('app_certifications') }}">Mes certifications</a>
+    </div>
+    <section class="certifications-list">
+      {% if app.session.flashbag|length > 0 %}
+        {{ include('partials/flash_messages.html.twig') }}
+      {% endif %}
+      {% if certifications %}
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Cours</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for certification in certifications %}
+              <tr>
+                <td class="list-title">
+                  <img src="{{ certification.course.image ? asset('images/courses/' ~ certification.course.image) : asset('images/placeholder.jpg') }}">
+                  <a href="{{ path('app_certification', {'id': certification.id}) }}">{{ certification.course.title }}</a>
+                </td>
+                <td class="list-date">{{ certification.date|date('d/m/Y') }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        {{ include('partials/flash_messages.html.twig') }}
+      {% endif %}
+    </section>
   </main>
 {% endblock %}

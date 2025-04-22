@@ -6,8 +6,6 @@ use App\Entity\User;
 use App\Entity\OrderItem;
 use App\Security\Voter\UserVoter;
 use App\Entity\Certifications;
-use App\Entity\Courses;
-use App\Entity\Lessons;
 use App\Entity\Completion;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,8 +44,7 @@ final class StudyController extends AbstractController
       ]);
     } catch (\Exception $e) {
       $this->addFlash('error', $e->getMessage());
-      //return $this->redirectToRoute('app_study', ['id' => $this->getUser()->getId()]);
-      return $this->redirectToRoute('app_home');
+      return $this->redirectToRoute('app_study', ['id' => $this->getUser()->getId()]);
     }
   }
 }

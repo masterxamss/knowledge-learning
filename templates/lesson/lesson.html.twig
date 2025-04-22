@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ lesson.title }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -27,6 +27,16 @@
         </div>
       </div>
     </header>
+    <div class="breadcrumb">
+      <i class="fa-solid fa-house"></i>
+      <a href="{{ path('app_home') }}"> Accueil</a>
+      <span>/</span>
+      <a href="{{ path('app_courses') }}">Cours</a>
+      <span>/</span>
+      <a href="{{ path('app_course_show', {'slug': lesson.course.slug}) }}">{{ lesson.course.title }}</a>
+      <span>/</span>
+      <a href="{{ path('app_lesson', {'slug': lesson.slug}) }}">{{ lesson.title }}</a>
+    </div>
     <section class="lesson-content">
       <aside class="chapters-list">
         <div class="chapters-list__title">
@@ -79,13 +89,12 @@
       <div id="course-completed-modal" class="modal show">
         <div class="modal-content">
           <div class="modal-header">
-            <p>🎓</p>
             <span class="close">&times;</span>
           </div>
           <div class="modal-body">
             <h2>{{ message }}</h2>
             <p>Tu peux maintenant télécharger ton certificat de réussite</p>
-            <a href="#" class="btn">Voir mes certificats</a>
+            <a href="{{ path('app_certifications') }}" class="btn">Voir mes certificats</a>
           </div>
         </div>
       </div>

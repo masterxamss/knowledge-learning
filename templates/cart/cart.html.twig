@@ -10,10 +10,18 @@
 {% block main %}
   <main class="cart-container">
     <header class="cart-header">
-      <h1 class="cart-title">Panier</h1>
-      <p>{{ cart|length }} article(s) dans le panier</p>
-      {% if app.session.flashbag|length > 0 %}{{ include('partials/flash_messages.html.twig') }}{% endif %}
+      <div class="cart-title">
+        <h1>Panier</h1>
+        <p>{{ cart|length }} article(s) dans le panier</p>
+      </div>
     </header>
+    <div class="breadcrumb">
+      <i class="fa-solid fa-house"></i>
+      <a href="{{ path('app_home') }}"> Accueil</a>
+      <span>/</span>
+      <a href="{{ path('app_cart') }}">Panier</a>
+    </div>
+    {% if app.session.flashbag|length > 0 %}{{ include('partials/flash_messages.html.twig') }}{% endif %}
     <section class="cart-list">
       {% if cart|length > 0 %}
         <div class="cart-items">

@@ -9,12 +9,9 @@
   })
 }}
   <section class="user-container">
-    
     {{ include('partials/flash_messages.html.twig') }}
-    
     <section class="user-container__infos">
       <div class="basic-data">
-
         <div class="infos-title">
           <h2>Informations personnelles</h2>
         </div>
@@ -87,7 +84,6 @@
       </div>
 
       <div class="address">
-
         <div class="infos-title"> 
           <h2>Address</h2>
         </div>
@@ -311,7 +307,6 @@
         {% endif %}
       </div>
     </section>
-
     <div class="user-container__submit">
       {{ form_widget(form.submit) }}  
     </div>

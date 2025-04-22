@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Musique",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "musique.jpg",
+    "created_at": "2020-01-01 00:00:00",
+    "slug": "musique",
+    "title": "Musique",
+    "highlight": 1,
+    "reference": "musique"
+  },
+  {
+    "name": "Informatique",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "informatique.jpg",
+    "created_at": "2020-01-01 00:00:00",
+    "slug": "informatique",
+    "title": "Informatique",
+    "highlight": 1,
+    "reference": "informatique"
+  },
+  {
+    "name": "Jardinage",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "jardinage.jpg",
+    "created_at": "2020-01-01 00:00:00",
+    "slug": "jardinage",
+    "title": "Jardinage",
+    "highlight": 1,
+    "reference": "jardinage"
+  },
+  {
+    "name": "Cuisine",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "cuisine.jpg",
+    "created_at": "2020-01-01 00:00:00",
+    "slug": "cuisine",
+    "title": "Cuisine",
+    "highlight": 1,
+    "reference": "cuisine"
+  }
+]

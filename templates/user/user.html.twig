@@ -9,10 +9,16 @@
 
 {% block main %}
   <main class="user-data">
+    <div class="breadcrumb">
+      <i class="fa-solid fa-house"></i>
+      <a href="{{ path('app_home') }}"> Accueil</a>
+      <span>/</span>
+      <a href="{{ path('app_user_data', {id: app.user.id}) }}">{{ app.user.firstName }}</a>
+    </div>
     <section class="container">
       <aside>
-        <ul
-          <li>
+        <ul>
+          <li class="aside-avatar">
             {% if app.user.image is not null %}
               <img src="{{ asset('uploads/' ~ app.user.image) }}">
             {% else %}
@@ -45,12 +51,6 @@
             >
               Photo
             </a>
-          </li>
-          <li>
-            <a href="#">Sécurité</a>
-          </li>
-          <li>
-            <a href="#">Clôturer le compte</a>
           </li>
         </ul>
       </aside>

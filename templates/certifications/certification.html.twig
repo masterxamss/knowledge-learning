@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ certification[0].course.title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('certification') }}
+{% endblock %}
+
+{% block main %}
+  <main class="certification">
+    <header class="certification-header">
+      <div class="certification-title">
+        <h1>Diplôme de {{ certification[0].course.title }}</h1>
+      </div>
+    </header>
+    <section class="certification-content">
+      <div class="breadcrumbs">
+        <div>
+          <i class="fa-solid fa-house"></i>
+          <a href="{{ path('app_home') }}"> Accueil</a>
+          <span>/</span>
+          <a href="/certifications">Certifications</a>
+          <span>/</span>
+          <a href="/certifications/{{ certification[0].course.slug }}">{{ certification[0].course.title }}</a>
+        </div>
+        <div>
+          <button onclick="printSection('diplome')" class="diplome-print">
+            <i class="fa-solid fa-print"></i>
+          </button>
+        </div>
+      </div>
+      <article class="diplome" id="diplome">
+        <header class="diplome-header">
+        </header>
+        <div class="diplome-body">
+          <span>Knowledge Learning</span>
+          <h2 class="title title-h2">Diplôme</h2>
+          <span>Est attribué à</span>
+          <h3 class="title title-h3">{{ certification[0].user.firstName }} {{ certification[0].user.lastName }}</h3>
+          <span>pour leurs excellentes performances et leur dévouement</span>
+          <h4 class="title title-h4">{{ certification[0].course.title }}</h4>
+          <span>terminé en {{ certification[0].date|date('d/m/Y') }}</span>
+          <div>
+            <span>John Doe - Directeur de la formation</span>
+            <img src="{{ asset('images/graduation.png') }}">
+          </div>
+        </div>
+        <footer class="diplome-footer">
+        </footer>
+      </article>
+    </section>
+  </main>
+{% endblock %}

@@ -53,8 +53,7 @@ final class LessonController extends AbstractController
         }
       }
 
-      $lessonCompletion = $em->getRepository(Completion::class)->findBy(['lesson' => $lesson->getId()]);
-
+      $lessonCompletion = $em->getRepository(Completion::class)->findBy(['lesson' => $lesson->getId(), 'user' => $this->getUser()->getId()]);
       return $this->render('lesson/lesson.html.twig', [
         'lesson' => $lesson,
         'chapters' => $chapters,
@@ -85,7 +84,7 @@ final class LessonController extends AbstractController
         'course' => $course
       ]);
 
-      $lessonCompletion = $this->getLessonCompletion($em, $lesson);
+      $lessonCompletion = $this->getLessonCompletion($em, $lesson, $user);
 
       if (!$lessonCompletion) {
         $this->addFlash('info', 'Le progress pour cette leçon n\'existe pas');
@@ -115,9 +114,10 @@ final class LessonController extends AbstractController
   }
 
   // Method to get the progress of the lesson
-  private function getLessonCompletion(EntityManagerInterface $em, Lessons $lesson)
+  private function getLessonCompletion(EntityManagerInterface $em, Lessons $lesson, $user)
   {
     return $em->getRepository(Completion::class)->findBy([
+      'user' => $user->getId(),
       'lesson' => $lesson->getId()
     ]);
   }

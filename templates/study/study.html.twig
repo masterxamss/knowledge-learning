@@ -14,6 +14,12 @@
         <h1>Mon apprentissage</h1>
       </div>
     </header>
+    <div class="breadcrumb">
+      <i class="fa-solid fa-house"></i>
+      <a href="{{ path('app_home') }}"> Accueil</a>
+      <span>/</span>
+      <a href="{{ path('app_study', {id: app.user.id}) }}">Mon apprentissage</a>
+    </div>
     <section class="study-content">
       {% if app.session.flashbag|length > 0 %}
         {{ include('partials/flash_messages.html.twig') }}

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "meilleure ventes",
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "css_class": "mv",
+    "reference": "mv"
+  },
+  {
+    "name": "noveau",
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "css_class": "nv",
+    "reference": "nv"
+  },
+  {
+    "name": "meilleure classement",
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "css_class": "mc",
+    "reference": "mc"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "theme_id": "musique",
+    "title": "Cursus d'inition à la guitare",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "guitar.jpg",
+    "price": 50.0,
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "slug": "cursus-dinition-a-la-guitare",
+    "highlight": 1,
+    "badge": "nv",
+    "reference": "inition_a_la_guitare"
+  },
+  {
+    "theme_id": "musique",
+    "title": "Cursus d'inition au piano",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "piano.jpg",
+    "price": 50.0,
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "slug": "cursus-dinition-au-piano",
+    "highlight": 0,
+    "badge": "mc",
+    "reference": "inition_au_piano"
+  },
+  {
+    "theme_id": "informatique",
+    "title": "Cursus d'inition au développement web",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "informatique.jpg",
+    "price": 60.0,
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "slug": "cursus-dinition-au-developpement-web",
+    "highlight": 1,
+    "badge": "mv",
+    "reference": "inition_au_developpement_web"
+  },
+  {
+    "theme_id": "jardinage",
+    "title": "Cursus d'inition au jardinage",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "jardinage.jpg",
+    "price": 30.0,
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "slug": "cursus-dinition-au-jardinage",
+    "highlight": 1,
+    "badge": "nv",
+    "reference": "inition_au_jardinage"
+  },
+  {
+    "theme_id": "cuisine",
+    "title": "Cursus d'inition à la cuisine",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "cuisine.jpg",
+    "price": 44.0,
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "slug": "cursus-dinition-a-la-cuisine",
+    "highlight": 1,
+    "badge": "nv",
+    "reference": "inition_a_la_cuisine"
+  },
+  {
+    "theme_id": "cuisine",
+    "title": "Cursus d'inition à l'art du dressage culinaire",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa nisl, bibendum id velit ut, suscipit condimentum enim. Proin faucibus facilisis nibh, eu pellentesque massa ullamcorper ac. Fusce faucibus pulvinar.",
+    "image": "dressage-culinaire.jpg",
+    "price": 48.0,
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "slug": "cursus-dinition-a-lart-du-dressage-culinaire",
+    "highlight": 0,
+    "badge": "mv",
+    "reference": "inition_a_lart_du_dressage_culinaire"
+  }
+]

@@ -11,24 +11,34 @@
 
 .cart-header {
   display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 1rem;
-  width: 80%;
-  height: 15vh;
-  padding: 1rem 0;
-  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 20vh;
+  background-color: var(--secondary-bg-color);
 }
 
-.cart-header h1 {
+.cart-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  width: 80%;
+}
+
+.cart-title h1 {
   color: var(--btn-hover-dark-color);
   font-size: 2rem;
 }
 
-.cart-header p {
+.cart-title p {
   color: var(--main-text-color);
   font-family: "Nunito Regular";
-  margin-top: auto;
+}
+
+.alert-info {
+  width: 80%;
+  margin-top: 2rem;
 }
 
 .cart-list {
@@ -36,6 +46,8 @@
   flex-direction: row;
   gap: 2rem;
   width: 80%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .cart-items {

@@ -16,7 +16,7 @@
           {% endif %}
           <h1>Recapitulatif de votre commande</h1>
           <p>Commande: #{{ order.id }}</p>
-          <a href="#" class="btn">Mon apprentissage</a>
+          <a href="{{ path('app_study', {'id': app.user.id }) }}" class="btn">Mon apprentissage</a>
         </div>
       </header>
       {% if orderItems %}

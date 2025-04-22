@@ -7,3 +7,71 @@
   background-color: var(--main-bg-color);
   margin-top: 100px;
 }
+
+.certifications-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20vh;
+  background-color: var(--secondary-bg-color);
+  color: var(--secondary-text-color);
+}
+
+.certifications-title {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 80%;
+}
+
+.certifications-title h1 {
+  font-size: 2rem;
+  color: var(--btn-hover-dark-color);
+}
+
+.certifications-list {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 80%;
+}
+
+.certifications-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.certifications-list table tr {
+  border-bottom: 1px solid var(--input-border-color);
+}
+
+.certifications-list table th {
+  text-align: left;
+  font-family: "Nunito Regular";
+  font-weight: bold;
+  color: var(--btn-hover-dark-color);
+}
+
+.list-title {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.list-date {
+  font-family: "Nunito Regular";
+}
+
+.certifications-list table tbody tr:hover {
+  background-color: var(--input-hover-color);
+}
+
+.certifications-list table tbody td a {
+  font-family: "Nunito Regular";
+  color: var(--main-text-color);
+}
+
+.certifications-list table img {
+  width: 60px;
+  margin-right: 1rem;
+}

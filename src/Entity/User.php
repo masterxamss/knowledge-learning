@@ -9,10 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[ORM\HasLifecycleCallbacks]
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
   #[ORM\Id]
@@ -20,7 +24,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\Column]
   private ?int $id = null;
 
-  #[ORM\Column(length: 180)]
+  #[ORM\Column(type: 'string', length: 180, unique: true)]
+  #[Assert\NotBlank(message: 'constraints.not_blank')]
+  #[Assert\Email(message: 'constraints.email')]
   private ?string $email = null;
 
   /**
@@ -28,17 +34,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    */
   #[ORM\Column]
   private array $roles = [];
-
+  #Tiago_1987
   /**
    * @var string The hashed password
    */
-  #[ORM\Column]
+  #[ORM\Column(type: 'string')]
+  #[Assert\NotBlank(message: 'constraints.not_blank')]
+  #[Assert\Length(min: 8, minMessage: 'constraints.min_length')]
+  #[Assert\Length(max: 250, minMessage: 'constraints.max_length')]
+  #[Assert\Regex(pattern: '/^(?=.*[A-Z])(?=.*[\W_])[A-Za-z\d\W_]{8,}$/
+', message: 'constraints.password')]
   private ?string $password = null;
 
-  #[ORM\Column(length: 255)]
+  #[ORM\Column(type: 'string', length: 255)]
+  #[Assert\NotBlank(message: 'constraints.not_blank')]
+  #[Assert\Length(min: 2, minMessage: 'constraints.min_length')]
+  #[Assert\Length(max: 250, minMessage: 'constraints.max_length')]
+  #[Assert\Regex(pattern: '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/', message: 'constraints.regex')]
   private ?string $first_name = null;
 
-  #[ORM\Column(length: 255)]
+  #[ORM\Column(type: 'string', length: 255)]
+  #[Assert\NotBlank(message: 'constraints.not_blank')]
+  #[Assert\Length(min: 2, minMessage: 'constraints.min_length')]
+  #[Assert\Length(max: 250, minMessage: 'constraints.max_length')]
+  #[Assert\Regex(pattern: '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/', message: 'constraints.regex')]
   private ?string $last_name = null;
 
   #[ORM\Column(nullable: false)]
@@ -52,13 +71,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   ];
 
   #[ORM\Column]
-  private ?bool $isVerified = null;
-
-  /*#[ORM\Column(length: 255, nullable: true)]
-  private ?string $activationToken = null;*/
+  private ?bool $isVerified = false;
 
   #[ORM\Column]
-  private ?bool $active = null;
+  private ?bool $active = true;
 
   #[ORM\Column]
   private ?\DateTimeImmutable $created_at = null;
@@ -105,9 +121,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
   public function __construct()
   {
-      $this->orders = new ArrayCollection();
-      $this->completions = new ArrayCollection();
-      $this->certifications = new ArrayCollection();
+    $this->orders = new ArrayCollection();
+    $this->completions = new ArrayCollection();
+    $this->certifications = new ArrayCollection();
+  }
+
+  #[ORM\PrePersist]
+  public function setCreatedAtValue(): void
+  {
+    $this->created_at = new \DateTimeImmutable();
+  }
+
+  #[ORM\PreUpdate]
+  #[ORM\PrePersist]
+  public function setUpdatedAtValue(): void
+  {
+    $this->updated_at = new \DateTimeImmutable();
   }
 
   public function getId(): ?int
@@ -453,29 +482,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    */
   public function getOrders(): Collection
   {
-      return $this->orders;
+    return $this->orders;
   }
 
   public function addOrder(Order $order): static
   {
-      if (!$this->orders->contains($order)) {
-          $this->orders->add($order);
-          $order->setUser($this);
-      }
+    if (!$this->orders->contains($order)) {
+      $this->orders->add($order);
+      $order->setUser($this);
+    }
 
-      return $this;
+    return $this;
   }
 
   public function removeOrder(Order $order): static
   {
-      if ($this->orders->removeElement($order)) {
-          // set the owning side to null (unless already changed)
-          if ($order->getUser() === $this) {
-              $order->setUser(null);
-          }
+    if ($this->orders->removeElement($order)) {
+      // set the owning side to null (unless already changed)
+      if ($order->getUser() === $this) {
+        $order->setUser(null);
       }
+    }
 
-      return $this;
+    return $this;
   }
 
   /**
@@ -483,29 +512,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    */
   public function getCompletions(): Collection
   {
-      return $this->completions;
+    return $this->completions;
   }
 
   public function addCompletion(Completion $completion): static
   {
-      if (!$this->completions->contains($completion)) {
-          $this->completions->add($completion);
-          $completion->setUser($this);
-      }
+    if (!$this->completions->contains($completion)) {
+      $this->completions->add($completion);
+      $completion->setUser($this);
+    }
 
-      return $this;
+    return $this;
   }
 
   public function removeCompletion(Completion $completion): static
   {
-      if ($this->completions->removeElement($completion)) {
-          // set the owning side to null (unless already changed)
-          if ($completion->getUser() === $this) {
-              $completion->setUser(null);
-          }
+    if ($this->completions->removeElement($completion)) {
+      // set the owning side to null (unless already changed)
+      if ($completion->getUser() === $this) {
+        $completion->setUser(null);
       }
+    }
 
-      return $this;
+    return $this;
   }
 
   /**
@@ -513,28 +542,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    */
   public function getCertifications(): Collection
   {
-      return $this->certifications;
+    return $this->certifications;
   }
 
   public function addCertification(Certifications $certification): static
   {
-      if (!$this->certifications->contains($certification)) {
-          $this->certifications->add($certification);
-          $certification->setUser($this);
-      }
+    if (!$this->certifications->contains($certification)) {
+      $this->certifications->add($certification);
+      $certification->setUser($this);
+    }
 
-      return $this;
+    return $this;
   }
 
   public function removeCertification(Certifications $certification): static
   {
-      if ($this->certifications->removeElement($certification)) {
-          // set the owning side to null (unless already changed)
-          if ($certification->getUser() === $this) {
-              $certification->setUser(null);
-          }
+    if ($this->certifications->removeElement($certification)) {
+      // set the owning side to null (unless already changed)
+      if ($certification->getUser() === $this) {
+        $certification->setUser(null);
       }
+    }
 
-      return $this;
+    return $this;
+  }
+
+  public function configureOptions(OptionsResolver $resolver): void
+  {
+    $resolver->setDefaults([
+      'data_class' => User::class,
+      'translation_domain' => 'forms',
+    ]);
   }
 }

@@ -42,6 +42,14 @@
         </div>
       </div>
     </header>
+    <div class="breadcrumb">
+      <i class="fa-solid fa-house"></i>
+      <a href="{{ path('app_home') }}"> Accueil</a>
+      <span>/</span>
+      <a href="{{ path('app_courses') }}">Cours</a>
+      <span>/</span>
+      <a href="{{ path('app_course_show', {'slug': course.slug}) }}">{{ course.title }}</a>
+    </div>
     <section class="lessons-container">
       <div class="course-messages">
         {% if app.session.flashbag|length > 0 %}

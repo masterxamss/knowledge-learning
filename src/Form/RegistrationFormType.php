@@ -27,13 +27,13 @@ class RegistrationFormType extends AbstractType
           'placeholder' => 'user_form.email.placeholder',
           'class' => 'form-control'
         ],
-        'constraints' => [
+        /*'constraints' => [
           new Assert\NotBlank(['message' => 'constraints.not_blank']),
           new Assert\Email([
             'message' => 'constraints.email',
             'mode' => 'strict',
           ]),
-        ],
+        ],*/
         'required' => false
       ])
       // FIRST NAME 👤
@@ -43,7 +43,7 @@ class RegistrationFormType extends AbstractType
           'placeholder' => 'user_form.first_name.placeholder',
           'class' => 'form-control'
         ],
-        'constraints' => [
+        /*'constraints' => [
           new Assert\NotBlank(['message' => 'constraints.not_blank']),
           new Assert\Length([
             'min' => 2,
@@ -55,7 +55,7 @@ class RegistrationFormType extends AbstractType
             'pattern' => '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/',
             'message' => 'constraints.regex',
           ]),
-        ],
+        ],*/
         'required' => false
       ])
       // LAST NAME 👤
@@ -64,7 +64,7 @@ class RegistrationFormType extends AbstractType
           'placeholder' => 'user_form.last_name.placeholder',
           'class' => 'form-control'
         ],
-        'constraints' => [
+        /*'constraints' => [
           new Assert\NotBlank(['message' => 'constraints.not_blank']),
           new Assert\Length([
             'min' => 2,
@@ -76,7 +76,7 @@ class RegistrationFormType extends AbstractType
             'pattern' => '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/',
             'message' => 'constraints.regex',
           ]),
-        ],
+        ],*/
         'required' => false
       ])
       // PASSWORD 🔑
@@ -86,7 +86,7 @@ class RegistrationFormType extends AbstractType
           'class' => 'form-control',
           'autocomplete' => 'new-password'
         ],
-        'constraints' => [
+        /*'constraints' => [
           new NotBlank([
             'message' => 'constraints.not_blank',
           ]),
@@ -100,7 +100,7 @@ class RegistrationFormType extends AbstractType
             'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/',
             'message' => 'constraints.password',
           ]),
-        ],
+        ],*/
         'required' => false
       ])
       // PASSWORD CONFIRM 🔑

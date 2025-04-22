@@ -26,7 +26,11 @@ form .avatar-img_container {
 }
 
 form .avatar-img_actions {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
   text-align: center;
 
   & div {
@@ -35,9 +39,15 @@ form .avatar-img_actions {
     justify-content: center;
     align-items: center;
     margin-top: 0.5rem;
+    gap: 0.5rem;
 
     & input[type="file"] {
       font-size: 0.6rem;
+    }
+
+    & button {
+      margin: 0;
+      height: 100%;
     }
   }
 }

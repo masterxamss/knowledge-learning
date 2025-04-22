@@ -38,7 +38,7 @@
   text-align: center;
 }
 
-.container aside ul li:first-child {
+.aside-avatar {
   display: flex;
   flex-direction: row;
   justify-content: center;

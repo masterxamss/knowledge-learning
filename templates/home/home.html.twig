@@ -3,7 +3,7 @@
 {% block title %}Accueil{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }} {# Mantém o CSS global #}
+    {{ parent() }}
     {{ encore_entry_link_tags('home') }}
 {% endblock %}
 
@@ -116,13 +116,12 @@
             {% for lesson in lessons %}
               <div class="card">
                 <div class="card-image">
-                  <a href="{{ path('app_lesson', {'slug': lesson.course.slug}) }}">
+                  <a href="{{ path('app_lesson', {'slug': lesson.slug}) }}">
                     <img src="{{ lesson.image ? asset('images/lessons/' ~ lesson.image) : asset('images/placeholder.jpg') }}">
                   </a>
                 </div>
                 <div class="card-content">
                   <h4>{{ lesson.title }}</h4>
-                  <p>Cours : {{ lesson.course.title }}</p>
                   <p>€ {{ lesson.price }}</p>
                   {% if lesson.badge %}
                     <span class="{{ lesson.badge.cssClass }}">{{ lesson.badge.name }}</span>
@@ -144,7 +143,7 @@
                       {% endfor %}
                     {% endif %}
                     {% if get_lessons %}
-                      <a href="" class="btn-outline">
+                      <a href="{{ path('app_lesson', {'slug': lesson.slug}) }}" class="btn-outline">
                         <i class="fa-solid fa-eye"></i>
                         Voir la leçon
                       </a>

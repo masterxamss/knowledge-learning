@@ -7,16 +7,38 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Repository for interacting with the OrderItem entity.
+ *
+ * This repository class provides methods for querying order items by user, 
+ * retrieving most sold courses and lessons, and determining course completion status 
+ * based on user purchases.
+ *
  * @extends ServiceEntityRepository<OrderItem>
  */
 class OrderItemRepository extends ServiceEntityRepository
 {
+  /**
+   * Constructor.
+   *
+   * Initializes the repository with the ManagerRegistry and the OrderItem entity class.
+   *
+   * @param ManagerRegistry $registry The manager registry.
+   */
   public function __construct(ManagerRegistry $registry)
   {
     parent::__construct($registry, OrderItem::class);
   }
 
-  public function findOrderItemsByUser($id)
+  /**
+   * Finds order items associated with a specific user.
+   *
+   * This method retrieves all order items where the associated order belongs to the specified user.
+   *
+   * @param int $id The ID of the user to filter order items by.
+   *
+   * @return OrderItem[] An array of OrderItem entities related to the specified user.
+   */
+  public function findOrderItemsByUser(int $id): array
   {
     return $this->createQueryBuilder('oi')
       ->join('oi.orders', 'o')
@@ -26,7 +48,16 @@ class OrderItemRepository extends ServiceEntityRepository
       ->getResult();
   }
 
-  public function findOrderByLessonCourse($id)
+  /**
+   * Finds order items associated with lessons from a specific course.
+   *
+   * This method retrieves all order items where the associated lesson belongs to the specified course.
+   *
+   * @param int $id The ID of the course to filter order items by.
+   *
+   * @return OrderItem[] An array of OrderItem entities related to the specified course.
+   */
+  public function findOrderByLessonCourse(int $id): array
   {
     return $this->createQueryBuilder('oi')
       ->join('oi.lesson', 'l')
@@ -37,30 +68,78 @@ class OrderItemRepository extends ServiceEntityRepository
   }
 
   /**
-   * Get the IDs of the completed courses by the user through the purchase of all lessons.
+   * Retrieves the most sold courses.
+   *
+   * This method counts the number of times each course appears in order items and returns the top 3 most sold courses.
+   *
+   * @return array An array of the top 3 most sold courses with their titles and the total sales count.
    */
-  /*public function findCompletedCoursesByUser(int $userId): array
+  public function getMostSaleCourse(): array
+  {
+    return $this->createQueryBuilder('o')
+      ->select('c.title AS course_title, COUNT(o.course) AS total_course')
+      ->join('o.course', 'c')
+      ->groupBy('o.course')
+      ->orderBy('total_course', 'DESC')
+      ->setMaxResults(3)
+      ->getQuery()
+      ->getResult();
+  }
+
+  /**
+   * Retrieves the most sold lessons.
+   *
+   * This method counts the number of times each lesson appears in order items and returns the top 3 most sold lessons.
+   *
+   * @return array An array of the top 3 most sold lessons with their titles and the total sales count.
+   */
+  public function getMostSaleLesson(): array
+  {
+    return $this->createQueryBuilder('o')
+      ->select('l.title AS lesson_title, COUNT(o.lesson) AS total_lesson')
+      ->join('o.lesson', 'l')
+      ->groupBy('o.lesson')
+      ->orderBy('total_lesson', 'DESC')
+      ->setMaxResults(3)
+      ->getQuery()
+      ->getResult();
+  }
+
+  /**
+   * Finds completed courses by user.
+   *
+   * This method determines which courses a user has fully completed based on their order items,
+   * considering both individual lessons purchased and complete courses bought.
+   *
+   * @param int $userId The ID of the user to check for completed courses.
+   *
+   * @return array An array of completed courses and lessons for the specified user.
+   */
+  public function findCompletedCoursesByUser(int $userId): array
   {
     $entityManager = $this->getEntityManager();
 
+    $completedItems = []; // Array to store the results
+
+    // Query to count the lessons bought per course
     $query = $entityManager->createQuery("
-      SELECT IDENTITY(l.course) AS course_id, COUNT(l.id) AS lessons_bought
-      FROM App\Entity\OrderItem oi
-      JOIN oi.lesson l
-      JOIN oi.orders o
-      WHERE o.user = :userId
-      GROUP BY l.course
-    ")->setParameter('userId', $userId);
+            SELECT IDENTITY(l.course) AS course_id, COUNT(l.id) AS lessons_bought
+            FROM App\Entity\OrderItem oi
+            JOIN oi.lesson l
+            JOIN oi.orders o
+            WHERE o.user = :userId
+            AND o.paymentStatus = 'success'  -- Only successful payments
+            GROUP BY l.course
+        ")->setParameter('userId', $userId);
 
     $userLessons = $query->getResult();
 
-    $completedCourses = [];
-
+    // Check if the user bought all lessons or the complete course
     foreach ($userLessons as $lessonData) {
       $courseId = $lessonData['course_id'];
       $lessonsBought = $lessonData['lessons_bought'];
 
-      // Search the total number of lessons of the course
+      // Fetch total lessons for the course
       $totalLessons = $entityManager->createQuery("
                 SELECT COUNT(l.id)
                 FROM App\Entity\Lessons l
@@ -68,110 +147,70 @@ class OrderItemRepository extends ServiceEntityRepository
             ")->setParameter('courseId', $courseId)
         ->getSingleScalarResult();
 
-      // If the user bought all the lessons, add the course to the completed list
-      if ($lessonsBought == $totalLessons) {
-        $completedCourses[] = $courseId;
-      }
-    }
-
-    return $completedCourses;
-  }*/
-
-  public function findCompletedCoursesByUser(int $userId): array
-  {
-    $entityManager = $this->getEntityManager();
-
-    $completedItems = []; // Array para armazenar os resultados
-
-    // Query para contar as lições compradas por cada curso
-    $query = $entityManager->createQuery("
-        SELECT IDENTITY(l.course) AS course_id, COUNT(l.id) AS lessons_bought
-        FROM App\Entity\OrderItem oi
-        JOIN oi.lesson l
-        JOIN oi.orders o
-        WHERE o.user = :userId
-        AND o.paymentStatus = 'success'  -- Apenas ordens com pagamento bem-sucedido
-        GROUP BY l.course
-    ")->setParameter('userId', $userId);
-
-    $userLessons = $query->getResult();
-
-    // Verificar se o utilizador comprou todas as lições ou o curso completo
-    foreach ($userLessons as $lessonData) {
-      $courseId = $lessonData['course_id'];
-      $lessonsBought = $lessonData['lessons_bought'];
-
-      // Buscar o número total de lições do curso
-      $totalLessons = $entityManager->createQuery("
-            SELECT COUNT(l.id)
-            FROM App\Entity\Lessons l
-            WHERE l.course = :courseId
-        ")->setParameter('courseId', $courseId)
-        ->getSingleScalarResult();
-
-      // Verificar se o utilizador comprou todas as lições do curso
+      // Check if the user bought all lessons
       $isComplete = false;
       if ($lessonsBought == $totalLessons) {
-        $isComplete = true;  // Comprou todas as lições
+        $isComplete = true;  // Bought all lessons
       }
 
-      // Verificar se o utilizador comprou o curso completo de uma vez (sem comprar lições separadas)
+      // Check if the user bought the entire course (not buying individual lessons)
       if (!$isComplete) {
         $coursePurchase = $entityManager->createQuery("
-                SELECT COUNT(oi.id)
-                FROM App\Entity\OrderItem oi
-                JOIN oi.orders o
-                WHERE o.user = :userId
-                AND o.paymentStatus = 'success'  -- Apenas ordens com pagamento bem-sucedido
-                AND oi.course = :courseId
-            ")->setParameter('userId', $userId)
+                    SELECT COUNT(oi.id)
+                    FROM App\Entity\OrderItem oi
+                    JOIN oi.orders o
+                    WHERE o.user = :userId
+                    AND o.paymentStatus = 'success'  -- Only successful payments
+                    AND oi.course = :courseId
+                ")->setParameter('userId', $userId)
           ->setParameter('courseId', $courseId)
           ->getSingleScalarResult();
 
         if ($coursePurchase > 0) {
-          $isComplete = true;  // Comprou o curso completo de uma vez
+          $isComplete = true;  // Bought the entire course
         }
       }
 
-      // Se o utilizador completou o curso (comprou todas as lições ou comprou o curso completo)
+      // If the user completed the course
       if ($isComplete) {
-        $completedItems['course'][] = $courseId; // Adicionar ao array de cursos
+        $completedItems['course'][] = $courseId; // Add to courses list
       }
     }
 
-    // Query para cursos comprados diretamente (não através de lições)
+    // Query for courses purchased directly (not through lessons)
     $courseQuery = $entityManager->createQuery("
-        SELECT DISTINCT IDENTITY(oi.course) AS course_id
-        FROM App\Entity\OrderItem oi
-        JOIN oi.orders o
-        WHERE o.user = :userId
-        AND oi.lesson IS NULL  -- Certificar que estamos a verificar apenas os cursos (sem lição)
-        AND o.paymentStatus = 'success'  -- Apenas ordens com pagamento bem-sucedido
-    ")->setParameter('userId', $userId);
+            SELECT DISTINCT IDENTITY(oi.course) AS course_id
+            FROM App\Entity\OrderItem oi
+            JOIN oi.orders o
+            WHERE o.user = :userId
+            AND oi.lesson IS NULL  -- Ensure we are only checking courses (no lessons)
+            AND o.paymentStatus = 'success'  -- Only successful payments
+        ")->setParameter('userId', $userId);
 
     $userCourses = $courseQuery->getResult();
 
-    // Adicionar os cursos comprados diretamente à lista de cursos completados
+    // Add directly purchased courses to the completed list
     foreach ($userCourses as $course) {
-      $completedItems['course'][] = $course['course_id']; // Adicionar ao array de cursos
+      $completedItems['course'][] = $course['course_id']; // Add to courses list
     }
 
-    // Query para lições compradas (sem curso completo)
+    // Query for lessons bought directly (not part of a course)
     $lessonQuery = $entityManager->createQuery("
-        SELECT DISTINCT IDENTITY(oi.lesson) AS lesson_id
-        FROM App\Entity\OrderItem oi
-        JOIN oi.orders o
-        WHERE o.user = :userId
-        AND oi.lesson IS NOT NULL  -- Certificar que estamos a verificar apenas as lições
-        AND o.paymentStatus = 'success'  -- Apenas ordens com pagamento bem-sucedido
-    ")->setParameter('userId', $userId);
+            SELECT DISTINCT IDENTITY(oi.lesson) AS lesson_id
+            FROM App\Entity\OrderItem oi
+            JOIN oi.orders o
+            WHERE o.user = :userId
+            AND oi.lesson IS NOT NULL  -- Ensure we are only checking lessons
+            AND o.paymentStatus = 'success'  -- Only successful payments
+        ")->setParameter('userId', $userId);
 
     $userLessonsDirect = $lessonQuery->getResult();
 
-    // Adicionar as lições compradas diretamente à lista de lições completadas
+    // Add directly purchased lessons to the completed lessons list
     foreach ($userLessonsDirect as $lesson) {
-      $completedItems['lesson'][] = $lesson['lesson_id']; // Adicionar ao array de lições
+      $completedItems['lesson'][] = $lesson['lesson_id']; // Add to lessons list
     }
-    return $completedItems; // Retornar o array com cursos e lições
+
+    return $completedItems; // Return the array with completed courses and lessons
   }
 }

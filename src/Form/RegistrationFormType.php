@@ -14,10 +14,25 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class RegistrationFormType
+ *
+ * Form for user registration.
+ * This form allows input of basic information such as email, name, password, etc.
+ *
+ * @package App\Form
+ */
 class RegistrationFormType extends AbstractType
 {
+  /**
+   * Configures the fields of the form.
+   *
+   * @param FormBuilderInterface $builder The form builder.
+   * @param array $options The options configured for the form.
+   *
+   * @return void
+   */
   public function buildForm(FormBuilderInterface $builder, array $options): void
   {
     $builder
@@ -27,13 +42,6 @@ class RegistrationFormType extends AbstractType
           'placeholder' => 'user_form.email.placeholder',
           'class' => 'form-control'
         ],
-        /*'constraints' => [
-          new Assert\NotBlank(['message' => 'constraints.not_blank']),
-          new Assert\Email([
-            'message' => 'constraints.email',
-            'mode' => 'strict',
-          ]),
-        ],*/
         'required' => false
       ])
       // FIRST NAME 👤
@@ -43,19 +51,6 @@ class RegistrationFormType extends AbstractType
           'placeholder' => 'user_form.first_name.placeholder',
           'class' => 'form-control'
         ],
-        /*'constraints' => [
-          new Assert\NotBlank(['message' => 'constraints.not_blank']),
-          new Assert\Length([
-            'min' => 2,
-            'minMessage' => 'constraints.min_length',
-            'max' => 250,
-            'maxMessage' => 'constraints.max_length',
-          ]),
-          new Assert\Regex([
-            'pattern' => '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/',
-            'message' => 'constraints.regex',
-          ]),
-        ],*/
         'required' => false
       ])
       // LAST NAME 👤
@@ -64,19 +59,6 @@ class RegistrationFormType extends AbstractType
           'placeholder' => 'user_form.last_name.placeholder',
           'class' => 'form-control'
         ],
-        /*'constraints' => [
-          new Assert\NotBlank(['message' => 'constraints.not_blank']),
-          new Assert\Length([
-            'min' => 2,
-            'minMessage' => 'constraints.min_length',
-            'max' => 250,
-            'maxMessage' => 'constraints.max_length',
-          ]),
-          new Assert\Regex([
-            'pattern' => '/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/',
-            'message' => 'constraints.regex',
-          ]),
-        ],*/
         'required' => false
       ])
       // PASSWORD 🔑
@@ -86,21 +68,6 @@ class RegistrationFormType extends AbstractType
           'class' => 'form-control',
           'autocomplete' => 'new-password'
         ],
-        /*'constraints' => [
-          new NotBlank([
-            'message' => 'constraints.not_blank',
-          ]),
-          new Assert\Length([
-            'min' => 8,
-            'minMessage' => 'constraints.min_length',
-            'max' => 250,
-            'maxMessage' => 'constraints.max_length',
-          ]),
-          new Assert\Regex([
-            'pattern' => '/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/',
-            'message' => 'constraints.password',
-          ]),
-        ],*/
         'required' => false
       ])
       // PASSWORD CONFIRM 🔑
@@ -139,6 +106,13 @@ class RegistrationFormType extends AbstractType
     ;
   }
 
+  /**
+   * Configures the options for the form.
+   *
+   * @param OptionsResolver $resolver The options resolver.
+   *
+   * @return void
+   */
   public function configureOptions(OptionsResolver $resolver): void
   {
     $resolver->setDefaults([

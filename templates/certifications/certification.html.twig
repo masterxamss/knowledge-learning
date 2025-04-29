@@ -20,9 +20,9 @@
           <i class="fa-solid fa-house"></i>
           <a href="{{ path('app_home') }}"> Accueil</a>
           <span>/</span>
-          <a href="/certifications">Certifications</a>
+          <a href="{{ path('app_certifications') }}">Certifications</a>
           <span>/</span>
-          <a href="/certifications/{{ certification[0].course.slug }}">{{ certification[0].course.title }}</a>
+          <a href="{{ path('app_certification', {'id': certification[0].id}) }}">{{ certification[0].course.title }}</a>
         </div>
         <div>
           <button onclick="printSection('diplome')" class="diplome-print">

@@ -8,45 +8,58 @@ use App\Entity\Courses;
 use App\Entity\Lessons;
 use App\Entity\Chapters;
 use App\Entity\Badges;
+use App\Entity\Order;
+use App\Entity\OrderItem;
+use App\Entity\Certifications;
 
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+  private EntityManagerInterface $em;
+
+  public function __construct(EntityManagerInterface $em)
+  {
+    $this->em = $em;
+  }
+
   public function index(): Response
   {
-    //return parent::index();
-    /*$routeBuilder = $this->container->get(AdminUrlGenerator::class);
-    $url = $routeBuilder->setController(UserCrudController::class)->generateUrl();
-    return $this->redirect($url);*/
+    try {
 
-    // Option 1. You can make your dashboard redirect to some common page of your backend
-    //
-    // 1.1) If you have enabled the "pretty URLs" feature:
-    // return $this->redirectToRoute('admin_user_index');
-    //
-    // 1.2) Same example but using the "ugly URLs" that were used in previous EasyAdmin versions:
-    // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-    // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
+      $monthlySales = $this->em->getRepository(Order::class)->getTotalMonthlySells();
 
-    // Option 2. You can make your dashboard redirect to different pages depending on the user
-    //
-    // if ('jane' === $this->getUser()->getUsername()) {
-    //     return $this->redirectToRoute('...');
-    // }
+      $totalSalesPerClient = $this->em->getRepository(Order::class)->getTotalSellsPerClient();
 
-    // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-    // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-    //
-    return $this->render('dashboard/dashboard.html.twig', [
-      'user' => $this->getUser(),
-    ]);
+      $totalSalesCurrentYear = $this->em->getRepository(Order::class)->getTotalSalesInCurrentYear();
+
+      $courseMostSale = $this->em->getRepository(OrderItem::class)->getMostSaleCourse();
+
+      $lessonMostSale = $this->em->getRepository(OrderItem::class)->getMostSaleLesson();
+
+      $totalUsers = $this->em->getRepository(User::class)->count([]);
+
+      $totalCertifications = $this->em->getRepository(Certifications::class)->count([]);
+
+      return $this->render('dashboard/dashboard.html.twig', [
+        'monthlySales' => $monthlySales,
+        'clientSales' => $totalSalesPerClient,
+        'courseMostSale' => $courseMostSale,
+        'lessonMostSale' => $lessonMostSale,
+        'totalSalesCurrentYear' => number_format($totalSalesCurrentYear, 2, '.', ''),
+        'totalUsers' => $totalUsers,
+        'totalCertifications' => $totalCertifications
+      ]);
+    } catch (\Exception $e) {
+      $this->addFlash('error', $e->getMessage());
+      return $this->redirectToRoute('app_home');
+    }
   }
 
   public function configureDashboard(): Dashboard
@@ -67,5 +80,6 @@ class DashboardController extends AbstractDashboardController
     yield MenuItem::linkToCrud('Lessons', 'fas fa-video', Lessons::class);
     yield MenuItem::linkToCrud('Chapters', 'fas fa-book-open', Chapters::class);
     yield MenuItem::linkToCrud('Badges', 'fas fa-tag', Badges::class);
+    yield MenuItem::linkToCrud('Orders', 'fas fa-clipboard', Order::class);
   }
 }

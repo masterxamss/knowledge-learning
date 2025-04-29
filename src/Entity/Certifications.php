@@ -5,63 +5,125 @@ namespace App\Entity;
 use App\Repository\CertificationsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Represents a certification awarded to a user for completing a course.
+ *
+ * A certification links a user to a course and records the date the certification was issued.
+ *
+ * @package App\Entity
+ */
 #[ORM\Entity(repositoryClass: CertificationsRepository::class)]
 class Certifications
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+  /**
+   * The unique identifier of the certification.
+   *
+   * @var int|null
+   */
+  #[ORM\Id]
+  #[ORM\GeneratedValue]
+  #[ORM\Column]
+  private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'certifications')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+  /**
+   * The user who received the certification.
+   *
+   * @var User|null
+   */
+  #[ORM\ManyToOne(inversedBy: 'certifications')]
+  #[ORM\JoinColumn(nullable: false)]
+  private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'certifications')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Courses $course = null;
+  /**
+   * The course for which the certification was awarded.
+   *
+   * @var Courses|null
+   */
+  #[ORM\ManyToOne(inversedBy: 'certifications')]
+  #[ORM\JoinColumn(nullable: false)]
+  private ?Courses $course = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $date = null;
+  /**
+   * The date the certification was issued.
+   *
+   * @var \DateTimeImmutable|null
+   */
+  #[ORM\Column]
+  private ?\DateTimeImmutable $date = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+  /**
+   * Gets the ID of the certification.
+   *
+   * @return int|null
+   */
+  public function getId(): ?int
+  {
+    return $this->id;
+  }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
+  /**
+   * Gets the user who received the certification.
+   *
+   * @return User|null
+   */
+  public function getUser(): ?User
+  {
+    return $this->user;
+  }
 
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
+  /**
+   * Sets the user who received the certification.
+   *
+   * @param User|null $user
+   * @return static
+   */
+  public function setUser(?User $user): static
+  {
+    $this->user = $user;
+    return $this;
+  }
 
-        return $this;
-    }
+  /**
+   * Gets the course for which the certification was awarded.
+   *
+   * @return Courses|null
+   */
+  public function getCourse(): ?Courses
+  {
+    return $this->course;
+  }
 
-    public function getCourse(): ?Courses
-    {
-        return $this->course;
-    }
+  /**
+   * Sets the course for which the certification was awarded.
+   *
+   * @param Courses|null $course
+   * @return static
+   */
+  public function setCourse(?Courses $course): static
+  {
+    $this->course = $course;
+    return $this;
+  }
 
-    public function setCourse(?Courses $course): static
-    {
-        $this->course = $course;
+  /**
+   * Gets the date the certification was issued.
+   *
+   * @return \DateTimeImmutable|null
+   */
+  public function getDate(): ?\DateTimeImmutable
+  {
+    return $this->date;
+  }
 
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeImmutable
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeImmutable $date): static
-    {
-        $this->date = $date;
-
-        return $this;
-    }
+  /**
+   * Sets the date the certification was issued.
+   *
+   * @param \DateTimeImmutable $date
+   * @return static
+   */
+  public function setDate(\DateTimeImmutable $date): static
+  {
+    $this->date = $date;
+    return $this;
+  }
 }

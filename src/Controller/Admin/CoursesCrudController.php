@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Courses;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -19,6 +20,11 @@ class CoursesCrudController extends AbstractCrudController
     return Courses::class;
   }
 
+  public function configureCrud(Crud $crud): Crud
+  {
+    return $crud
+      ->setPaginatorPageSize(10);
+  }
 
   public function configureFields(string $pageName): iterable
   {

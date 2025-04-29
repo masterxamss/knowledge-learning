@@ -14,8 +14,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/**
+ * Controller for managing user profiles, avatar, and user-related data.
+ */
 final class UserController extends AbstractController
 {
+  /**
+   * Displays and updates the user data (profile).
+   *
+   * This method retrieves the user based on the provided ID and checks if the user exists and is verified.
+   * A form is presented for updating user data. Upon successful submission, the user's data is updated.
+   * 
+   * @param int $id The ID of the user whose data is to be updated.
+   * @param Request $request The HTTP request object.
+   * @param EntityManagerInterface $entityManager The Doctrine entity manager for interacting with the database.
+   * 
+   * @return Response The rendered view of the user profile form.
+   */
   #[Route('/user/{id}', name: 'app_user_data', methods: ['GET', 'POST'])]
   public function user(int $id, Request $request, EntityManagerInterface $entityManager): Response
   {
@@ -32,7 +47,7 @@ final class UserController extends AbstractController
 
       // Check if user is verified
       if (!$user->getIsVerified()) {
-        $this->addFlash('error', 'Votre compte n\'est pas encore activé');
+        $this->addFlash('error', 'Your account is not yet activated');
         return $this->redirectToRoute('app_home');
       }
 
@@ -40,23 +55,36 @@ final class UserController extends AbstractController
       $form = $this->createForm(UserDataType::class, $user);
       $form->handleRequest($request);
 
-      // Update user
+      // Update user data if the form is submitted and valid
       if ($form->isSubmitted() && $form->isValid()) {
         $entityManager->flush();
-        $this->addFlash('success', 'Informations mises à jour');
+        $this->addFlash('success', 'Information updated successfully');
       }
 
       return $this->render('user/user.html.twig', [
         'form' => $form->createView(),
-        'title' => 'Profil',
-        'subtitle' => 'Ajouter des informations sur vous-même'
+        'title' => 'Profile',
+        'subtitle' => 'Add information about yourself'
       ]);
     } catch (\Exception $e) {
-      $this->addFlash('error', 'Une erreur est survenue');
+      $this->addFlash('error', 'An error occurred');
       return $this->redirectToRoute('app_user_data', ['id' => $this->getUser()->getId()]);
     }
   }
 
+  /**
+   * Allows the user to upload and update their avatar.
+   *
+   * This method handles the uploading and updating of the user's avatar image.
+   * The form is used to submit the image, and if the form is valid, the image is uploaded,
+   * and the user's avatar is updated.
+   * 
+   * @param int $id The ID of the user whose avatar is to be updated.
+   * @param EntityManagerInterface $entityManager The Doctrine entity manager for interacting with the database.
+   * @param Request $request The HTTP request object.
+   * 
+   * @return Response The rendered view of the avatar update form.
+   */
   #[Route('/user/{id}/avatar', name: 'app_user_avatar')]
   public function userAvatar(int $id, EntityManagerInterface $entityManager, Request $request): Response
   {
@@ -77,7 +105,7 @@ final class UserController extends AbstractController
 
       if ($form->isSubmitted() && $form->isValid()) {
         try {
-          //Update image
+          // Update image
           $this->handleImageUpload($form, $user, $user->getImage());
 
           $entityManager->flush();
@@ -93,36 +121,44 @@ final class UserController extends AbstractController
       return $this->render('user/user.html.twig', [
         'form' => $form->createView(),
         'title' => 'Photo',
-        'subtitle' => 'Ajouter une photo à votre profil',
+        'subtitle' => 'Add a photo to your profile',
       ]);
     } catch (\Exception $e) {
-      $this->addFlash('error', 'Une erreur est survenue');
+      $this->addFlash('error', 'An error occurred');
       return $this->redirectToRoute('app_user_avatar', ['id' => $this->getUser()->getId()]);
     }
   }
 
-
+  /**
+   * Displays the public profile of the user.
+   *
+   * This method renders the public profile page for a user. It assumes that the user has already
+   * provided their profile information.
+   * 
+   * @param User $user The user whose public profile is being displayed.
+   * 
+   * @return Response The rendered view of the public profile page.
+   */
   #[Route('/user/{id}/profil', name: 'app_user_profile')]
   #[IsGranted(UserVoter::EDIT, subject: 'user')]
   public function userProfil(User $user): Response
   {
     // HACK: Make user public profile
     return $this->render('user/user.html.twig', [
-      'title' => 'Profile Public',
-      'subtitle' => 'Aperçu de votre profil'
+      'title' => 'Public Profile',
+      'subtitle' => 'Preview of your profile'
     ]);
   }
 
   /**
-   * Handles the avatar image upload of the User.
+   * Handles the avatar image upload for the user.
    * 
-   * This function will move the uploaded image to the upload directory and update
-   * the user image field with the new filename. If the user already has
-   * an image, it will also delete the old image.
+   * This function moves the uploaded image to the upload directory and updates the user's image field
+   * with the new filename. If the user already has an image, the old image will be deleted.
    * 
-   * @param FormInterface $form     The form containing the image data.
-   * @param User          $user     The user to update.
-   * @param string        $oldImage The filename of the old image, if any.
+   * @param FormInterface $form The form containing the image data.
+   * @param User $user The user to update.
+   * @param string $oldImage The filename of the old image, if any.
    * 
    * @throws \Exception If there is an error while uploading the image.
    * 
@@ -135,6 +171,7 @@ final class UserController extends AbstractController
       $uploadDirectory = $this->getParameter('upload_directory');
       $newFilename = uniqid() . '.' . $imageFile->guessExtension();
 
+      // Delete the old image if it exists
       if ($oldImage) {
         $oldImagePath = $uploadDirectory . '/' . $oldImage;
         if (file_exists($oldImagePath)) {
@@ -143,10 +180,11 @@ final class UserController extends AbstractController
       }
 
       try {
+        // Move the uploaded image to the server's directory
         $imageFile->move($uploadDirectory, $newFilename);
         $user->setImage($newFilename);
       } catch (FileException $e) {
-        throw new \Exception('Erreur lors du téléchargement de l\'image.');
+        throw new \Exception('Error while uploading the image.');
       }
     }
   }

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Courses;
 use App\Entity\Lessons;
-use App\Entity\User;
 use App\Entity\Cart;
 use App\Entity\OrderItem;
 
@@ -15,9 +14,27 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/**
+ * Controller for managing the shopping cart.
+ *
+ * This controller handles the logic for displaying the user's cart,
+ * adding items (lessons and courses) to the cart, and deleting items from the cart.
+ * It ensures that users are authenticated, their email is verified, and prevents 
+ * duplicate items from being added to the cart.
+ * It also calculates the total, discount, and TVA for each cart item.
+ *
+ * @package App\Controller
+ */
 #[IsGranted('ROLE_USER')]
 final class CartController extends AbstractController
 {
+  /**
+   * Displays the user's cart.
+   *
+   * @param EntityManagerInterface $em The Entity Manager instance
+   *
+   * @return Response The rendered cart page
+   */
   #[Route('/cart', name: 'app_cart', methods: ['GET'])]
   public function getCart(EntityManagerInterface $em): Response
   {
@@ -26,12 +43,14 @@ final class CartController extends AbstractController
     $totalDiscount = 0;
     $totalTva = 0;
 
+    // Fetch the user's cart items from the database
     $getCart = $em->getRepository(Cart::class)->findBy(['user' => $this->getUser()]);
 
     if (!$getCart) {
-      $this->addFlash('info', 'Votre panier est vide');
+      $this->addFlash('info', 'Your cart is empty');
     }
 
+    // Loop through the cart items and calculate totals
     foreach ($getCart as $cart) {
       $totalTva += $cart->getTva();
       $totalDiscount += $cart->getDiscount();
@@ -39,6 +58,7 @@ final class CartController extends AbstractController
       $total += $cart->getTotal();
     }
 
+    // Render the cart page with the calculated totals
     return $this->render('cart/cart.html.twig', [
       'cart' => $getCart,
       'subTotal' => number_format($subTotal, 2, '.', ''),
@@ -48,57 +68,64 @@ final class CartController extends AbstractController
     ]);
   }
 
+  /**
+   * Adds an item to the user's cart.
+   *
+   * @param Request $request The request object
+   * @param EntityManagerInterface $em The Entity Manager instance
+   *
+   * @return Response Redirects to the cart page
+   */
   #[Route('/cart/add-item', name: 'app_cart_add', methods: ['POST'])]
   public function addCartItem(Request $request, EntityManagerInterface $em): Response
   {
     try {
-
-      // Validar o token CSRF
+      // Validate the CSRF token
       $submittedToken = $request->request->get('token');
       if (!$this->isCsrfTokenValid('cart-add', $submittedToken)) {
         $this->addFlash('error', 'Invalid CSRF token');
         return $this->redirectToRoute('app_cart');
       }
 
-      // Obter o utilizador autenticado
+      // Get the authenticated user
       $user = $this->getUser();
       if (!$user) {
-        $this->addFlash('info', 'Vous devez vous connecter pour effectuer cette action');
+        $this->addFlash('info', 'You need to log in to perform this action');
         return $this->redirectToRoute('app_home');
       }
 
       // Verify if the user is verified
       if (!$user->getIsVerified()) {
-        $this->addFlash('info', 'Verifier votre email pour pouvoir acheter');
+        $this->addFlash('info', 'Please verify your email to make a purchase');
         return $this->redirectToRoute('app_home');
       }
 
-      // Obter IDs da requisição
+      // Get lesson and course IDs from the request
       $lessonId = $request->request->get('lesson_id');
       $courseId = $request->request->get('course_id');
 
-      // Criar o item do carrinho
+      // Create the cart item
       $cart = new Cart();
       $cart->setUser($user);
 
+      // Handle lesson addition to the cart
       if ($lessonId) {
-        // Verificar se a lição já está no carrinho
+        // Check if the lesson is already in the cart
         if ($em->getRepository(Cart::class)->findOneBy(['lesson' => $lessonId, 'user' => $user])) {
           return $this->redirectToRoute('app_cart');
         }
 
         $lesson = $em->getRepository(Lessons::class)->find($lessonId);
         if (!$lesson) {
-          $this->addFlash('error', 'Lição não encontrada');
+          $this->addFlash('error', 'Lesson not found');
           return $this->redirectToRoute('app_cart');
         }
 
-        // Impedir adicionar uma lição se o curso inteiro já está no carrinho
+        // Prevent adding a lesson if the entire course is already in the cart
         if ($em->getRepository(Cart::class)->findOneBy(['course' => $lesson->getCourse(), 'user' => $user])) {
-          $this->addFlash('info', 'Le cours contenant cette leçon se trouve déjà dans le panier');
+          $this->addFlash('info', 'The course containing this lesson is already in the cart');
           return $this->redirectToRoute('app_cart');
         }
-
 
         $cart->setLesson($lesson);
         $subTotal = $lesson->getPrice();
@@ -109,19 +136,20 @@ final class CartController extends AbstractController
         $cart->setTotal($subTotal + $totalTva);
       }
 
+      // Handle course addition to the cart
       if ($courseId) {
-        // Verificar se o curso já está no carrinho
+        // Check if the course is already in the cart
         if ($em->getRepository(Cart::class)->findOneBy(['course' => $courseId, 'user' => $user])) {
           return $this->redirectToRoute('app_cart');
         }
 
         $course = $em->getRepository(Courses::class)->find($courseId);
         if (!$course) {
-          $this->addFlash('error', 'Curso não encontrado');
+          $this->addFlash('error', 'Course not found');
           return $this->redirectToRoute('app_cart');
         }
 
-        // Remover lições do curso já no carrinho
+        // Remove lessons from the cart if they belong to the course
         $cartLessons = $em->getRepository(Cart::class)->findBy(['user' => $user]);
         $lessonsBought = 0;
         foreach ($cartLessons as $item) {
@@ -130,22 +158,19 @@ final class CartController extends AbstractController
           }
         }
 
-        // Verificar lições já compradas
-        //$boughtLessons = $em->getRepository(OrderItem::class)->findBy(['orders.user' => $user, 'lesson.course' => $course]);
-
+        // Check for already purchased lessons in the course
         $boughtLessons = $em->getRepository(OrderItem::class)->findOrderByLessonCourse($course->getId());
         foreach ($boughtLessons as $lesson) {
           $lessonsBought += $lesson->getLesson()->getPrice();
         }
 
-
-        // Aplicar desconto se necessário
+        // Apply discount if needed
         $cart->setPrice($course->getPrice());
         $cart->setDiscount($lessonsBought);
         $subTotal = $course->getPrice() - $lessonsBought;
-        $cart->setSubTotal(max($subTotal, 0)); // Garantir que não fique negativo
+        $cart->setSubTotal(max($subTotal, 0)); // Ensure it doesn't go negative
 
-        // Calcular TVA e preço final
+        // Calculate TVA and final price
         $totalTva = $subTotal * 0.20;
         $cart->setTva($totalTva);
         $cart->setTotal($subTotal + $totalTva);
@@ -153,18 +178,25 @@ final class CartController extends AbstractController
         $cart->setCourse($course);
       }
 
-      // Persistir no banco de dados
+      // Persist the cart item in the database
       $em->persist($cart);
       $em->flush();
 
       return $this->redirectToRoute('app_cart');
     } catch (\Exception $e) {
-      $this->addFlash('error', 'Une erreur est survenue lors de l\'ajout au panier: ' . $e->getMessage());
+      $this->addFlash('error', 'An error occurred while adding to the cart: ' . $e->getMessage());
       return $this->redirectToRoute('app_cart');
     }
   }
 
-
+  /**
+   * Deletes an item from the user's cart.
+   *
+   * @param Request $request The request object
+   * @param EntityManagerInterface $em The Entity Manager instance
+   *
+   * @return Response Redirects to the cart page
+   */
   #[Route('/cart/delete-item', name: 'app_cart_delete', methods: ['POST'])]
   public function deleteCartItem(Request $request, EntityManagerInterface $em): Response
   {
@@ -176,19 +208,19 @@ final class CartController extends AbstractController
         return $this->redirectToRoute('app_cart');
       }
 
-      // Get the cart from the request
+      // Get the cart item from the request
       $cartId = $request->request->get('id');
       $cart = $em->getRepository(Cart::class)->find($cartId);
 
-      // Delete the cart
+      // Delete the cart item
       if ($cart) {
         $em->remove($cart);
         $em->flush();
       } else {
-        $this->addFlash('error', 'Item introuvable');
+        $this->addFlash('error', 'Item not found');
       }
     } catch (\Exception $e) {
-      $this->addFlash('error', 'Une erreur est survenue lors de la suppression.' . $e->getMessage());
+      $this->addFlash('error', 'An error occurred while deleting: ' . $e->getMessage());
     }
 
     return $this->redirectToRoute('app_cart');

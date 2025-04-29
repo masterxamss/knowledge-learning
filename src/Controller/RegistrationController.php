@@ -18,13 +18,33 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+/**
+ * Controller responsible for user registration and email verification.
+ */
 class RegistrationController extends AbstractController
 {
-
+  /**
+   * Constructor for RegistrationController.
+   * 
+   * @param EmailVerifier $emailVerifier The email verification service.
+   */
   public function __construct(
     private EmailVerifier $emailVerifier
   ) {}
 
+  /**
+   * Registers a new user.
+   * 
+   * This method creates a new user, validates the registration form, and sends a verification
+   * email to the user with a link to confirm their email and activate their account.
+   * 
+   * @param Request $request The HTTP request.
+   * @param UserPasswordHasherInterface $userPasswordHasher The password hashing service.
+   * @param Security $security The security service for user authentication.
+   * @param EntityManagerInterface $entityManager The entity manager service (Doctrine).
+   * 
+   * @return Response The HTTP response.
+   */
   #[Route('/register', name: 'app_register')]
   public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
   {
@@ -33,7 +53,6 @@ class RegistrationController extends AbstractController
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      /** @var string $plainPassword */
       $plainPassword = $form->get('password')->getData();
 
       // encode the plain password
@@ -59,8 +78,7 @@ class RegistrationController extends AbstractController
       );
 
       // do anything else you need here, like send an email
-
-      $this->addFlash('info', 'Verifier votre email pour activer votre compte.');
+      $this->addFlash('info', 'Please verify your email to activate your account.');
       return $security->login($user, AppAuthenticator::class, 'main');
 
       // return $this->redirectToRoute('app_login');
@@ -71,6 +89,16 @@ class RegistrationController extends AbstractController
     ]);
   }
 
+  /**
+   * Verifies the user's email after registration.
+   * 
+   * This method validates the email confirmation link, sets `User::isVerified=true`, and persists the change.
+   * 
+   * @param Request $request The HTTP request.
+   * @param TranslatorInterface $translator The translator service for error messages.
+   * 
+   * @return Response The HTTP response.
+   */
   #[Route('/verify/email', name: 'app_verify_email')]
   public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
   {
@@ -87,8 +115,7 @@ class RegistrationController extends AbstractController
       return $this->redirectToRoute('app_register');
     }
 
-    // @TODO Change the redirect on success and handle or remove the flash message in your templates
-    $this->addFlash('success', 'Votre email a bien ete verifie.');
+    $this->addFlash('success', 'Your email has been successfully verified.');
 
     return $this->redirectToRoute('app_home');
   }

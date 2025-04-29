@@ -23,6 +23,7 @@ import "./styles/study.css";
 import "./styles/certifications.css";
 import "./styles/certification.css";
 import "./styles/404.css";
+import "./styles/admin.css";
 
 /* 🚀 JavaScript */
 import "./js/dropdown_profile.js";

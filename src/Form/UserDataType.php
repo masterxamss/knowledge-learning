@@ -12,8 +12,25 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class UserDataType
+ *
+ * Form for managing user data including personal information, address, and links.
+ * This form allows users to edit their first name, last name, title, email, description,
+ * and additional information such as address and social media links.
+ *
+ * @package App\Form
+ */
 class UserDataType extends AbstractType
 {
+  /**
+   * Builds the form for managing user data.
+   *
+   * @param FormBuilderInterface $builder The form builder.
+   * @param array $options The options configured for the form.
+   *
+   * @return void
+   */
   public function buildForm(FormBuilderInterface $builder, array $options): void
   {
     $builder
@@ -327,6 +344,13 @@ class UserDataType extends AbstractType
     ;
   }
 
+  /**
+   * Configures options for the UserDataType form.
+   *
+   * @param OptionsResolver $resolver The options resolver.
+   *
+   * @return void
+   */
   public function configureOptions(OptionsResolver $resolver): void
   {
     $resolver->setDefaults([

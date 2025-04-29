@@ -11,7 +11,6 @@ use App\Entity\Lessons;
 use App\Security\Voter\UserVoter;
 use App\Repository\OrderRepository;
 use App\Service\StripeServiceInterface;
-//use App\Service\MailService;
 use App\Repository\LessonsRepository;
 use App\Repository\CoursesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,14 +19,34 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/**
+ * Controller for handling the checkout process and payment via Stripe.
+ *
+ * This controller manages the checkout process, including:
+ * - Verifying the user's cart.
+ * - Creating an order with associated order items.
+ * - Calculating the total price of the cart.
+ * - Creating a Stripe payment link.
+ * - Handling success, cancellation, and errors during the checkout.
+ *
+ * @package App\Controller
+ */
 #[IsGranted('ROLE_USER')]
 class CheckOutController extends AbstractController
 {
+  /**
+   * Constructor to inject dependencies.
+   *
+   * @param StripeServiceInterface $stripeServiceInterface Stripe service for payment handling.
+   * @param EntityManagerInterface $entityManagerInterface Doctrine's EntityManager for DB operations.
+   * @param OrderRepository $orderRepository Repository for managing orders.
+   * @param LessonsRepository $lessonsRepository Repository for managing lessons.
+   * @param CoursesRepository $coursesRepository Repository for managing courses.
+   */
   public function __construct(
     private readonly StripeServiceInterface $stripeServiceInterface,
     private readonly EntityManagerInterface $entityManagerInterface,
     private readonly OrderRepository $orderRepository,
-    //private readonly MailService $mailService,
     private LessonsRepository $lessonsRepository,
     private CoursesRepository $coursesRepository
   ) {
@@ -36,19 +55,15 @@ class CheckOutController extends AbstractController
   }
 
   /**
-   * Route for handling the checkout process and payment via Stripe.
-   * 
-   * This function manages the user's checkout process by:
-   * 1. Checking if the user's cart is empty. If it is, it redirects to the cart page with a flash message.
-   * 2. Starting a database transaction to ensure the integrity of the order creation process.
-   * 3. Creating an order object and associating it with the logged-in user.
-   * 4. Iterating over the cart items, calculating the total price, and creating `OrderItem` objects for each cart item.
-   * 5. Persisting the order and order items in the database.
-   * 6. Creating a Stripe payment link using the `StripeServiceInterface`.
-   * 7. Committing the transaction to finalize the order creation process.
-   * 8. If an error occurs during any step, it rolls back the transaction and shows an error message.
-   * 
-   * @param void
+   * Handles the checkout process, including payment via Stripe.
+   *
+   * This function:
+   * - Verifies the user's cart.
+   * - Creates an order and order items.
+   * - Calculates the total price of the cart.
+   * - Creates a Stripe payment link.
+   * - Rolls back or commits the database transaction based on success or failure.
+   *
    * @return Response Redirects to Stripe payment URL or the cart page with an error message.
    */
   #[Route('/checkout', name: 'app_stripe', methods: ['GET', 'POST'])]
@@ -65,6 +80,7 @@ class CheckOutController extends AbstractController
     $this->entityManagerInterface->getConnection()->beginTransaction();
 
     try {
+      // Create Order and associate it with the user
       $order = new Order();
       $order->setUser($user);
       $order->setPaymentStatus('pending');
@@ -74,9 +90,8 @@ class CheckOutController extends AbstractController
       $data = [];
       $total = 0;
 
+      // Process Cart Items
       foreach ($cartItems as $cart) {
-
-        // Create OrderItem
         $orderItem = new OrderItem();
         $orderItem->setOrders($order);
 
@@ -89,7 +104,8 @@ class CheckOutController extends AbstractController
           $orderItem->setCourse($product);
           $price = $cart->getTotal();
         }
-        // Calculate total and prepare data for Stripe
+
+        // Calculate total and prepare Stripe data
         $quantity = 1;
         $total += $price * $quantity;
 
@@ -103,50 +119,55 @@ class CheckOutController extends AbstractController
         $this->entityManagerInterface->persist($orderItem);
       }
 
-      // Update total price of the order
+      // Update order total price and persist
       $order->setTotalPrice($total);
-
       $this->entityManagerInterface->flush();
 
-      // Create stripe payment
+      // Create Stripe payment and redirect
       $url = $this->stripeServiceInterface->createPayment($data, $order);
-      // Confirm transaction
       $this->entityManagerInterface->getConnection()->commit();
 
       return $this->redirect($url, Response::HTTP_SEE_OTHER);
     } catch (\Exception $e) {
-      // Revert transaction in case of error
+      // Rollback transaction in case of error
       $this->entityManagerInterface->getConnection()->rollBack();
-      $this->addFlash('error', 'Une erreur est survenue. Veuillez réessayer.' . $e->getMessage());
+      $this->addFlash('error', 'An error occurred. Please try again.' . $e->getMessage());
 
       return $this->redirectToRoute('app_cart');
     }
   }
 
+  /**
+   * Handles the success callback after Stripe payment.
+   *
+   * This function:
+   * - Updates the order status to success.
+   * - Cleans up the cart after successful payment.
+   * - Creates completion entries for the purchased lessons or courses.
+   *
+   * @param Order $order The order object.
+   * @param User $user The authenticated user.
+   * @param int $id The order ID.
+   * @return Response Renders the success page with order details.
+   */
   #[Route('/checkout/success/{order}/{id}', name: 'app_stripe_success')]
   #[IsGranted(UserVoter::EDIT, subject: 'user')]
   public function success(Order $order, User $user, int $id): Response
   {
     try {
-      // update order status
+      // Update order status to success
       $order->setPaymentStatus('success');
       $order->setPaymentId($this->stripeServiceInterface->getPaymentId());
       $this->entityManagerInterface->persist($order);
 
-      // clean cart
-      $user = $this->getUser();
+      // Clean the user's cart
       $cartItems = $this->entityManagerInterface->getRepository(Cart::class)->findBy(['user' => $user]);
-
-      if ($cartItems) {
-        foreach ($cartItems as $cart) {
-          $this->entityManagerInterface->remove($cart);
-        }
+      foreach ($cartItems as $cart) {
+        $this->entityManagerInterface->remove($cart);
       }
 
-      // get order item
+      // Create user completion records for lessons or courses
       $orderItem = $this->entityManagerInterface->getRepository(OrderItem::class)->findBy(['orders' => $order->getId()]);
-
-      // create user completion
       foreach ($orderItem as $item) {
         if ($item->getCourse()) {
           $getCourseLessons = $this->entityManagerInterface->getRepository(Lessons::class)->findLessonsByCourse($item->getCourse()->getId());
@@ -170,38 +191,47 @@ class CheckOutController extends AbstractController
 
       $this->entityManagerInterface->flush();
 
+      // Render success page
       $orderItems = $this->entityManagerInterface->getRepository(OrderItem::class)->findBy(['orders' => $order->getId()]);
-
-      $this->addFlash('success', 'Votre achat a bien été effectué.');
+      $this->addFlash('success', 'Your purchase was successful.');
 
       return $this->render('checkout/success.html.twig', [
         'order' => $order,
         'orderItems' => $orderItems,
       ]);
     } catch (\Exception $e) {
-      $this->addFlash('error', 'Une erreur est survenue. Veuillez réessayer.' . $e->getMessage());
+      // Handle error and redirect to cart
+      $this->addFlash('error', 'An error occurred. Please try again.' . $e->getMessage());
       return $this->redirectToRoute('app_cart');
     }
   }
 
+  /**
+   * Handles the cancellation of the checkout process.
+   *
+   * This function:
+   * - Removes the order and its items from the database.
+   * - Redirects the user to the cart page.
+   *
+   * @param Order $order The order object to cancel.
+   * @return Response Redirects to the cart page.
+   */
   #[Route('/checkout/cancel/{order}', name: 'app_stripe_cancel')]
   public function cancel(Order $order): Response
   {
     try {
+      // Remove order items and the order itself from the database
       $getOrderItems = $this->entityManagerInterface->getRepository(OrderItem::class)->findBy(['orders' => $order->getId()]);
-      //dd($getOrderItems);
-
-      //$order->setPaymentStatus('canceled');
       foreach ($getOrderItems as $orderItem) {
         $this->entityManagerInterface->remove($orderItem);
       }
-      //$this->entityManagerInterface->persist($order);
       $this->entityManagerInterface->remove($order);
       $this->entityManagerInterface->flush();
 
       return $this->redirectToRoute('app_cart');
     } catch (\Exception $e) {
-      $this->addFlash('error', 'Une erreur est survenue. Veuillez réessayer.' . $e->getMessage());
+      // Handle error and redirect to cart
+      $this->addFlash('error', 'An error occurred. Please try again.' . $e->getMessage());
       return $this->redirectToRoute('app_cart');
     }
   }

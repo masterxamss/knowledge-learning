@@ -85,7 +85,9 @@
     },
     "post-install-cmd": [
       "@auto-scripts",
-      "php bin/console app:setup-database"
+      "php bin/console app:setup-database",
+      "npm install",
+      "npm run build"
     ],
     "post-update-cmd": [
       "@auto-scripts"

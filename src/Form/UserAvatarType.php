@@ -15,7 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
  * Form for managing the user's avatar image.
  * This form allows the user to upload or modify their avatar image.
  *
- * @package App\Form
  */
 class UserAvatarType extends AbstractType
 {

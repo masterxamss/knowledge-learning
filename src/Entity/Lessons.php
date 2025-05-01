@@ -343,6 +343,19 @@ class Lessons
   }
 
   /**
+   * Set the creation date of the lesson.
+   *
+   * @param \DateTimeImmutable $created_at
+   * @return static
+   */
+  public function setCreatedAt(\DateTimeImmutable $created_at): static
+  {
+    $this->created_at = $created_at;
+
+    return $this;
+  }
+
+  /**
    * Get the last updated date of the lesson.
    *
    * @return \DateTimeImmutable|null
@@ -350,6 +363,20 @@ class Lessons
   public function getUpdatedAt(): ?\DateTimeImmutable
   {
     return $this->updated_at;
+  }
+
+
+  /**
+   * Set the last update date of the lesson.
+   *
+   * @param \DateTimeImmutable $updated_at
+   * @return static
+   */
+  public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+  {
+    $this->updated_at = $updated_at;
+
+    return $this;
   }
 
   /**

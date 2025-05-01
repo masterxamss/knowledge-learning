@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * A certification links a user to a course and records the date the certification was issued.
  *
- * @package App\Entity
  */
 #[ORM\Entity(repositoryClass: CertificationsRepository::class)]
 class Certifications

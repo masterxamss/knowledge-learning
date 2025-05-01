@@ -17,7 +17,6 @@ use App\Security\Voter\UserVoter;
  * certification. It ensures that the user has the appropriate access rights 
  * using a custom voter (`UserVoter::EDIT`).
  *
- * @package App\Controller
  */
 final class CertificationsController extends AbstractController
 {

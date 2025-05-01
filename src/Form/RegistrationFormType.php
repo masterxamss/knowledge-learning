@@ -21,7 +21,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
  * Form for user registration.
  * This form allows input of basic information such as email, name, password, etc.
  *
- * @package App\Form
  */
 class RegistrationFormType extends AbstractType
 {

@@ -23,7 +23,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  * duplicate items from being added to the cart.
  * It also calculates the total, discount, and TVA for each cart item.
  *
- * @package App\Controller
  */
 #[IsGranted('ROLE_USER')]
 final class CartController extends AbstractController

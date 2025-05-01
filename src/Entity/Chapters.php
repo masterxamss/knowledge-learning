@@ -12,7 +12,6 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
  * A chapter is a section of a lesson that contains content, optional image, and optional video.
  * It automatically generates a slug based on the title for URL-friendly usage.
  *
- * @package App\Entity
  */
 #[ORM\Entity(repositoryClass: ChaptersRepository::class)]
 #[ORM\HasLifecycleCallbacks]

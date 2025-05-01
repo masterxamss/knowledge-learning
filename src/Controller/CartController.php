@@ -46,7 +46,7 @@ final class CartController extends AbstractController
     $getCart = $em->getRepository(Cart::class)->findBy(['user' => $this->getUser()]);
 
     if (!$getCart) {
-      $this->addFlash('info', 'Your cart is empty');
+      $this->addFlash('info', 'Votre panier est vide');
     }
 
     // Loop through the cart items and calculate totals
@@ -122,7 +122,7 @@ final class CartController extends AbstractController
 
         // Prevent adding a lesson if the entire course is already in the cart
         if ($em->getRepository(Cart::class)->findOneBy(['course' => $lesson->getCourse(), 'user' => $user])) {
-          $this->addFlash('info', 'The course containing this lesson is already in the cart');
+          $this->addFlash('info', 'Ce cours contient une leçon en panier');
           return $this->redirectToRoute('app_cart');
         }
 
@@ -144,7 +144,7 @@ final class CartController extends AbstractController
 
         $course = $em->getRepository(Courses::class)->find($courseId);
         if (!$course) {
-          $this->addFlash('error', 'Course not found');
+          $this->addFlash('error', 'Cours non trouvé');
           return $this->redirectToRoute('app_cart');
         }
 
@@ -183,7 +183,7 @@ final class CartController extends AbstractController
 
       return $this->redirectToRoute('app_cart');
     } catch (\Exception $e) {
-      $this->addFlash('error', 'An error occurred while adding to the cart: ' . $e->getMessage());
+      $this->addFlash('error', 'Une erreur s\'est produite ' . $e->getMessage());
       return $this->redirectToRoute('app_cart');
     }
   }
@@ -219,7 +219,7 @@ final class CartController extends AbstractController
         $this->addFlash('error', 'Item not found');
       }
     } catch (\Exception $e) {
-      $this->addFlash('error', 'An error occurred while deleting: ' . $e->getMessage());
+      $this->addFlash('error', 'Une erreur s\'est produite ' . $e->getMessage());
     }
 
     return $this->redirectToRoute('app_cart');

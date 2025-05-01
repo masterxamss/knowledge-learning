@@ -12,7 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  * Each cart entry can be associated with either a course or a lesson, and includes
  * pricing details such as price, discount, subtotal, tax (TVA), and total.
  *
- * @package App\Entity
  */
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart

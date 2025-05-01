@@ -29,7 +29,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  * - Creating a Stripe payment link.
  * - Handling success, cancellation, and errors during the checkout.
  *
- * @package App\Controller
  */
 #[IsGranted('ROLE_USER')]
 class CheckOutController extends AbstractController

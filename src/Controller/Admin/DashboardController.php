@@ -19,32 +19,49 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class DashboardController
+ *
+ * This controller is responsible for configuring and displaying the administration
+ * dashboard of the "Knowledge Learning" platform using EasyAdminBundle.
+ *
+ * The dashboard shows useful statistics such as monthly sales, client sales,
+ * best-selling courses and lessons, total number of users and certifications.
+ *
+ * @package App\Controller\Admin
+ */
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+  /**
+   * @var EntityManagerInterface
+   */
   private EntityManagerInterface $em;
 
+  /**
+   * DashboardController constructor.
+   *
+   * @param EntityManagerInterface $em The Doctrine entity manager
+   */
   public function __construct(EntityManagerInterface $em)
   {
     $this->em = $em;
   }
 
+  /**
+   * Displays the main dashboard with relevant statistics.
+   *
+   * @return Response
+   */
   public function index(): Response
   {
     try {
-
       $monthlySales = $this->em->getRepository(Order::class)->getTotalMonthlySells();
-
       $totalSalesPerClient = $this->em->getRepository(Order::class)->getTotalSellsPerClient();
-
       $totalSalesCurrentYear = $this->em->getRepository(Order::class)->getTotalSalesInCurrentYear();
-
       $courseMostSale = $this->em->getRepository(OrderItem::class)->getMostSaleCourse();
-
       $lessonMostSale = $this->em->getRepository(OrderItem::class)->getMostSaleLesson();
-
       $totalUsers = $this->em->getRepository(User::class)->count([]);
-
       $totalCertifications = $this->em->getRepository(Certifications::class)->count([]);
 
       return $this->render('dashboard/dashboard.html.twig', [
@@ -62,15 +79,24 @@ class DashboardController extends AbstractDashboardController
     }
   }
 
+  /**
+   * Configures the dashboard title and layout.
+   *
+   * @return Dashboard
+   */
   public function configureDashboard(): Dashboard
   {
     return Dashboard::new()
       ->setTitle('Knowledge Learning')
       ->setTranslationDomain('admin')
-      ->setDefaultColorScheme('light')
-    ;
+      ->setDefaultColorScheme('light');
   }
 
+  /**
+   * Defines the sidebar menu items available in the dashboard.
+   *
+   * @return iterable
+   */
   public function configureMenuItems(): iterable
   {
     yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');

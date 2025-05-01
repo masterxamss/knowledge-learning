@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
  * A badge is a mark or symbol of achievement associated with courses. It contains a name,
  * optional CSS class for styling, and timestamps for creation and updates.
  *
- * @package App\Entity
  */
 #[ORM\Entity(repositoryClass: BadgesRepository::class)]
 #[ORM\HasLifecycleCallbacks]

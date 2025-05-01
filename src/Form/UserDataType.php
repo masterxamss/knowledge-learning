@@ -19,7 +19,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * This form allows users to edit their first name, last name, title, email, description,
  * and additional information such as address and social media links.
  *
- * @package App\Form
  */
 class UserDataType extends AbstractType
 {

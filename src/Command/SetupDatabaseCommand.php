@@ -41,34 +41,45 @@ class SetupDatabaseCommand extends Command
    * @param OutputInterface $output The output interface.
    * @return int The command exit code.
    */
+
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
-    // Check if the database already has data or if fixtures need to be loaded
-    $connection = $this->entityManager->getConnection();
-    $result = $connection->fetchAssociative('SELECT COUNT(*) AS count FROM doctrine_migration_versions');
-    $migrationCount = (int) $result['count'];
+    // First, try to create the database if it does not exist
+    $output->writeln("[INFO] Creating database if it doesn't exist...");
+    $process = new Process(['php', 'bin/console', 'doctrine:database:create', '--if-not-exists']);
+    $process->setTimeout(null);
+    $process->run(function ($type, $buffer) use ($output) {
+      $output->write($buffer);
+    });
 
-    // Define the commands to be executed for setting up the database
-    $commands = [
-      ['php', 'bin/console', 'doctrine:database:create', '--if-not-exists'],
-      ['php', 'bin/console', 'doctrine:migrations:migrate', '--no-interaction'],
-    ];
-
-    // Run the basic database setup commands
-    foreach ($commands as $command) {
-      $process = new Process($command);
-      $process->setTimeout(null);
-      $process->run(function ($type, $buffer) use ($output) {
-        $output->write($buffer);
-      });
-
-      if (!$process->isSuccessful()) {
-        $output->writeln('<error>Error when executing ' . implode(' ', $command) . '</error>');
-        return Command::FAILURE;
-      }
+    if (!$process->isSuccessful()) {
+      $output->writeln('<error>Error while creating the database.</error>');
+      return Command::FAILURE;
     }
 
-    // Only load fixtures if there are no migrations applied yet
+    // Now that the DB exists, we can safely connect and check migration status
+    try {
+      $connection = $this->entityManager->getConnection();
+      $result = $connection->fetchAssociative('SELECT COUNT(*) AS count FROM doctrine_migration_versions');
+      $migrationCount = (int) $result['count'];
+    } catch (\Exception $e) {
+      $output->writeln('<comment>Could not check migration versions. Assuming database is empty.</comment>');
+      $migrationCount = 0;
+    }
+
+    // Run migrations
+    $output->writeln("[INFO] Running migrations...");
+    $process = new Process(['php', 'bin/console', 'doctrine:migrations:migrate', '--no-interaction']);
+    $process->run(function ($type, $buffer) use ($output) {
+      $output->write($buffer);
+    });
+
+    if (!$process->isSuccessful()) {
+      $output->writeln('<error>Error during migrations.</error>');
+      return Command::FAILURE;
+    }
+
+    // Load fixtures only if no migrations were previously applied
     if ($migrationCount === 0) {
       $output->writeln("[INFO] Loading fixtures...");
       $process = new Process(['php', 'bin/console', 'doctrine:fixtures:load', '--no-interaction']);

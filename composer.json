@@ -87,7 +87,8 @@
       "@auto-scripts",
       "php bin/console app:setup-database",
       "npm install",
-      "npm run build"
+      "npm run build",
+      "chmod +x start.sh"
     ],
     "post-update-cmd": [
       "@auto-scripts"
@@ -98,11 +99,9 @@
       "php bin/phpunit",
       "php bin/console doctrine:database:drop --env=test --force"
     ],
-    "start": [
-      "@test",
-      "symfony server:start --port=8000",
-      "php bin/console mensenger:consume --limit=1"
-    ]
+    "server": "symfony server:start --port=8000",
+    "consume": "php bin/console messenger:consume --limit=1",
+    "start": "./start.sh"
   },
   "conflict": {
     "symfony/symfony": "*"

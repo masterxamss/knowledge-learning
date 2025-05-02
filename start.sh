@@ -2,9 +2,7 @@
 
 # Create the database, run migrations, and load fixtures
 echo "[INFO] Preparing database..."
-php bin/console doctrine:database:create
-php bin/console doctrine:migrations:migrate --no-interaction
-php bin/console doctrine:fixtures:load --no-interaction
+php bin/console app:setup-database
 
 # Run tests
 echo "[INFO] Running tests with Composer..."

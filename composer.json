@@ -85,9 +85,6 @@
     },
     "post-install-cmd": [
       "@auto-scripts",
-      "php bin/console app:setup-database",
-      "npm install",
-      "npm run build",
       "chmod +x start.sh"
     ],
     "post-update-cmd": [
@@ -99,9 +96,16 @@
       "php bin/phpunit",
       "php bin/console doctrine:database:drop --env=test --force"
     ],
-    "server": "symfony server:start --port=8000",
-    "consume": "php bin/console messenger:consume --limit=1",
-    "start": "./start.sh"
+    "start:dev": [
+      "npm install",
+      "npm run build",
+      "./start.sh"
+    ],
+    "start:prod": [
+      "php bin/console doctrine:migrations:migrate --no-interaction",
+      "php bin/console cache:clear --env=prod",
+      "php bin/console cache:warmup --env=prod"
+    ]
   },
   "conflict": {
     "symfony/symfony": "*"

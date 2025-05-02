@@ -1,5 +1,10 @@
-
 #!/bin/bash
+
+# Create the database, run migrations, and load fixtures
+echo "[INFO] Preparing database..."
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate --no-interaction
+php bin/console doctrine:fixtures:load --no-interaction
 
 # Run tests
 echo "[INFO] Running tests with Composer..."
@@ -20,7 +25,7 @@ fi
 
 # Start Messenger consumer in background
 echo "[INFO] Starting Messenger consumer..."
-nohup php bin/console messenger:consume --all > /dev/null 2>&1 &
+nohup php bin/console messenger:consume -vv > /dev/null 2>&1 &
 
 # Function to open browser based on OS
 open_browser() {

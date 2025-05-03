@@ -24,6 +24,7 @@ Encore.copyFiles({
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
    */
   .addEntry("app", "./assets/app.js")
+  // ... outras configs ...
   .addStyleEntry("home", "./assets/styles/home.css")
   .addStyleEntry("login", "./assets/styles/login.css")
   .addStyleEntry("register", "./assets/styles/registration.css")

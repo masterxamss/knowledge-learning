@@ -1,6 +1,7 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
 {% block page_title %}Dashboard{% endblock %}
+
 {% block user_menu %}
   <li class="divider"></li>
   <li class="menu-items">
@@ -25,139 +26,51 @@
       <span class="total-value">{{ totalCertifications }}</span>
     </div>
   </div>
-
   <div class="chart-container">
     <div class="chart monthly-chart">
-      <canvas id="monthlyChart">asdfasdfasd</canvas>
+      <canvas id="monthlyChart" data-chart='{{ {
+        labels: monthlySales|map(s => s.month),
+        datasets: [{
+          label: "Ventes",
+          data: monthlySales|map(s => s.total),
+          backgroundColor: [
+          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+          '#9966FF', '#FF9F40', '#E7E9ED', '#36A2EB'
+        ]
+        }]
+      }|json_encode|e('html_attr') }}'></canvas>
     </div>
     <div class="chart client-chart">
-      <canvas id="clientChart"></canvas>
+      <canvas id="clientChart" data-chart='{{ {
+        labels: clientSales|map(s => s.client_email),
+        datasets: [{
+          label: "Ventes",
+          data: clientSales|map(s => s.total),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+        }]
+      }|json_encode|e('html_attr') }}'></canvas>
     </div>
   </div>
   <div class="chart-container">
     <div class="chart courses-chart">
-      <canvas id="mostSaleCourses"></canvas>
+      <canvas id="mostSaleCourses" data-chart='{{ {
+        labels: courseMostSale|map(s => s.course_title),
+        datasets: [{
+          label: "Ventes",
+          data: courseMostSale|map(s => s.total_course),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+        }]
+      }|json_encode|e('html_attr') }}'></canvas>
     </div>
     <div class="chart lessons-chart">
-      <canvas id="mostSaleLessons"></canvas>
+      <canvas id="mostSaleLessons" data-chart='{{ {
+        labels: lessonMostSale|map(s => s.lesson_title),
+        datasets: [{
+          label: "Ventes",
+          data: lessonMostSale|map(s => s.total_lesson),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+        }]
+      }|json_encode|e('html_attr') }}'></canvas>
     </div>
   </div>
-  <script>
-    const monthlyData = {
-      labels: {{ monthlySales|map(s => s.month)|json_encode|raw }},
-      datasets: [{
-        label: 'Ventes',
-        data: {{ monthlySales|map(s => s.total)|json_encode|raw }},
-        backgroundColor: [
-          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-          '#9966FF', '#FF9F40', '#E7E9ED', '#36A2EB',
-          '#FF6384', '#4BC0C0', '#9966FF', '#FFCE56'
-        ]
-      }]
-    };
-
-    const clientData = {
-      labels: {{ clientSales|map(s => s.client_email)|json_encode|raw }},
-      datasets: [{
-        label: 'Client',
-        data: {{ clientSales|map(s => s.total)|json_encode|raw }},
-        backgroundColor: [
-          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-          '#9966FF', '#FF9F40', '#E7E9ED', '#36A2EB'
-        ]
-      }]
-    };
-
-    const courseData = {
-      labels: {{ courseMostSale|map(s => s.course_title)|json_encode|raw }},
-      datasets: [{
-        label: 'Course',
-        data: {{ courseMostSale|map(s => s.total_course)|json_encode|raw }},
-        backgroundColor: [
-          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-          '#9966FF', '#FF9F40', '#E7E9ED', '#36A2EB'
-        ]
-      }]
-    };
-    
-    const lessonData = {
-      labels: {{ lessonMostSale|map(s => s.lesson_title)|json_encode|raw }},
-      datasets: [{
-        label: 'Course',
-        data: {{ lessonMostSale|map(s => s.total_lesson)|json_encode|raw }},
-        backgroundColor: [
-          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-          '#9966FF', '#FF9F40', '#E7E9ED', '#36A2EB'
-        ]
-      }]
-    };
-    
-    new Chart(document.getElementById('monthlyChart'), {
-      type: 'line',
-      data: monthlyData,
-      options:{
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Ventes par mois'
-          }
-        },
-      }
-    });
-
-    new Chart(document.getElementById('clientChart'), {
-      type: 'doughnut',
-      data: clientData,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-          },
-          title: {
-            display: true,
-            text: 'Ventes par client'
-          }
-        }
-      }
-    });
-
-    new Chart(document.getElementById('mostSaleCourses'), {
-      type: 'bar',
-      data: courseData,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-          },
-          title: {
-            display: true,
-            text: 'Most sale courses'
-          }
-        }
-      }
-    });
-
-    new Chart(document.getElementById('mostSaleLessons'), {
-      type: 'bar',
-      data: lessonData,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-          },
-          title: {
-            display: true,
-            text: 'Most sale lessons'
-          }
-        }
-      }
-    });
-  </script>
 {% endblock %}

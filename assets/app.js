@@ -34,3 +34,4 @@ import "./js/menu.js";
 import "./js/dropdown_explore.js";
 import "./js/modal_certification.js";
 import "./js/printer.js";
+import "./js/admin.js";

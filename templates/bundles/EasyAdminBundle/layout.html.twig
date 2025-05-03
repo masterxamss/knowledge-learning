@@ -1,0 +1,12 @@
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{% block head_javascript %}
+    {# Inclui o teu ficheiro JS principal compilado com Webpack Encore #}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_link_tags('admin') }}
+    {# Mantém o importmap do EasyAdmin se necessário #}
+    {% block importmap %}
+        {{ include('@EasyAdmin/includes/_importmap.html.twig', { assets: ea.assets.assetMapperAssets ?? [] }, with_context = false) }}
+    {% endblock %}
+{% endblock %}
+

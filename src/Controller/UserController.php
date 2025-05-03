@@ -140,9 +140,10 @@ final class UserController extends AbstractController
    * @return Response The rendered view of the public profile page.
    */
   #[Route('/user/{id}/profil', name: 'app_user_profile')]
-  #[IsGranted(UserVoter::EDIT, subject: 'user')]
   public function userProfil(User $user): Response
   {
+
+    $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
     // HACK: Make user public profile
     return $this->render('user/user.html.twig', [
       'title' => 'Public Profile',

@@ -67,7 +67,7 @@ final class UserController extends AbstractController
         'subtitle' => 'Add information about yourself'
       ]);
     } catch (\Exception $e) {
-      $this->addFlash('error', 'An error occurred');
+      $this->addFlash('error', 'An error occurred' . $e->getMessage());
       return $this->redirectToRoute('app_user_data', ['id' => $this->getUser()->getId()]);
     }
   }

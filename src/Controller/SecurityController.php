@@ -22,7 +22,7 @@ class SecurityController extends AbstractController
    * 
    * @return Response The HTTP response containing the rendered login page.
    */
-  #[Route(path: '/login', name: 'app_login')]
+  #[Route(path: '/login', name: 'app_login', methods: ['GET', 'POST'])]
   public function login(AuthenticationUtils $authenticationUtils): Response
   {
     // If the user is already authenticated, redirect to the home page

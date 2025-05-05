@@ -31,17 +31,13 @@ final class UserController extends AbstractController
    * 
    * @return Response The rendered view of the user profile form.
    */
-  #[Route('/user/{id}', name: 'app_user_data', methods: ['GET', 'POST'])]
-  public function user(int $id, Request $request, EntityManagerInterface $entityManager): Response
+  #[Route('/user', name: 'app_user_data', methods: ['GET', 'POST'])]
+  public function user(Request $request, EntityManagerInterface $entityManager): Response
   {
-    try {
-      // Find user
-      $user = $entityManager->getRepository(User::class)->find($id);
 
-      // Check if user exists
-      if (!$user) {
-        return $this->redirectToRoute('app_user_data', ['id' => $this->getUser()->getId()]);
-      }
+    $user = $this->getUser();
+
+    try {
 
       $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
 
@@ -68,7 +64,7 @@ final class UserController extends AbstractController
       ]);
     } catch (\Exception $e) {
       $this->addFlash('error', 'An error occurred' . $e->getMessage());
-      return $this->redirectToRoute('app_user_data', ['id' => $this->getUser()->getId()]);
+      return $this->redirectToRoute('app_home');
     }
   }
 
@@ -139,9 +135,11 @@ final class UserController extends AbstractController
    * 
    * @return Response The rendered view of the public profile page.
    */
-  #[Route('/user/{id}/profil', name: 'app_user_profile')]
-  public function userProfil(User $user): Response
+  #[Route('/user/profil', name: 'app_user_profile')]
+  public function userProfil(): Response
   {
+
+    $user = $this->getUser();
 
     $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
     // HACK: Make user public profile

@@ -31,7 +31,7 @@
             <p>{{ app.user.firstName }} {{ app.user.lastName }}</p>
           </li>
           <li>
-            <a href="{{ path('app_user_profile', {id: app.user.id}) }}"
+            <a href="{{ path('app_user_profile') }}"
             class="{{ app.current_route == 'app_user_profile' ? 'active' : '' }}"
             >
               Voir le profil public

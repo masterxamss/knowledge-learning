@@ -60,7 +60,7 @@
           <h1>
             {{ title }}
           </h1>
-          <p>
+         <p>
             {{ subtitle }}
           </p>
         </header>
@@ -68,9 +68,9 @@
           {% if app.current_route == 'app_user_avatar' %}
             {{ include('user/userAvatar.html.twig') }}
           {% elseif app.current_route == 'app_user_data' %}
-           {{ include('user/UserData.html.twig') }}
+           {{ include('user/userData.html.twig') }}
           {% elseif app.current_route == 'app_user_profile' %}
-            {{ include('user/UserProfile.html.twig') }}
+            {{ include('user/userProfile.html.twig') }}
           {% endif %}
         </section>
       </section>

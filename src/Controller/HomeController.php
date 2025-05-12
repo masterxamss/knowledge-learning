@@ -100,4 +100,10 @@ class HomeController extends AbstractController
       ]);
     }
   }
+
+  #[Route('/docs', name: 'app_docs')]
+  public function getDocs(): Response
+  {
+    return $this->redirect('/docs/index.html');
+  }
 }

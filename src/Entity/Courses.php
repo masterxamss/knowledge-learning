@@ -486,6 +486,16 @@ class Courses
   }
 
   /**
+   * Gets whether the course is highlighted.
+   * 
+   * @return bool|null True if the course is highlighted, false otherwise.
+   */
+  public function getHighlight(): ?bool
+  {
+    return $this->highlight;
+  }
+
+  /**
    * Sets whether the course is highlighted.
    * 
    * @param bool|null $highlight Whether the course is highlighted.

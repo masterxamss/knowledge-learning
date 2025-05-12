@@ -2,6 +2,7 @@
 
 {% block head_javascript %}
     {# Inclui o teu ficheiro JS principal compilado com Webpack Encore #}
+    {{ parent() }}
     {{ encore_entry_script_tags('app') }}
     {{ encore_entry_link_tags('admin') }}
     {# Mantém o importmap do EasyAdmin se necessário #}

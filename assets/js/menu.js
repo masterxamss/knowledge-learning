@@ -5,29 +5,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.querySelector(".overlay");
 
   // Open menu
-  menuToggle.addEventListener("click", () => {
-    console.log("Abrir menu");
-    sidebar.classList.add("active");
-    overlay.classList.add("active");
-  });
+  if (menuToggle && closeBtn && sidebar && overlay) {
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.add("active");
+      overlay.classList.add("active");
+    });
 
-  // Close menu
-  closeBtn.addEventListener("click", () => {
-    sidebar.classList.remove("active");
-    overlay.classList.remove("active");
-  });
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.add("active");
+      overlay.classList.add("active");
+    });
 
-  // Close when click outside
-  overlay.addEventListener("click", () => {
-    sidebar.classList.remove("active");
-    overlay.classList.remove("active");
-  });
-
-  // Close when press escape
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
+    // Close menu
+    closeBtn.addEventListener("click", () => {
       sidebar.classList.remove("active");
       overlay.classList.remove("active");
-    }
-  });
+    });
+
+    // Close when click outside
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("active");
+      overlay.classList.remove("active");
+    });
+
+    // Close when press escape
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+      }
+    });
+  }
 });

@@ -43,7 +43,7 @@ final class UserController extends AbstractController
 
       // Check if user is verified
       if (!$user->getIsVerified()) {
-        $this->addFlash('error', 'Votre compte n\'est pas vérifié');
+        $this->addFlash('info', 'Votre compte n\'est pas vérifié');
         return $this->redirectToRoute('app_home');
       }
 

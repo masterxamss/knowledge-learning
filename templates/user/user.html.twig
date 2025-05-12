@@ -31,13 +31,6 @@
             <p>{{ app.user.firstName }} {{ app.user.lastName }}</p>
           </li>
           <li>
-            <a href="{{ path('app_user_profile') }}"
-            class="{{ app.current_route == 'app_user_profile' ? 'active' : '' }}"
-            >
-              Voir le profil public
-            </a>
-          </li>
-          <li>
             <a href="{{ path('app_user_data', {id: app.user.id}) }}"
             class="{{ app.current_route == 'app_user_data' ? 'active' : '' }}"
             >
@@ -69,8 +62,6 @@
             {{ include('user/userAvatar.html.twig') }}
           {% elseif app.current_route == 'app_user_data' %}
            {{ include('user/userData.html.twig') }}
-          {% elseif app.current_route == 'app_user_profile' %}
-            {{ include('user/userProfile.html.twig') }}
           {% endif %}
         </section>
       </section>

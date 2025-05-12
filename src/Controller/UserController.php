@@ -43,7 +43,7 @@ final class UserController extends AbstractController
 
       // Check if user is verified
       if (!$user->getIsVerified()) {
-        $this->addFlash('error', 'Your account is not yet activated');
+        $this->addFlash('error', 'Votre compte n\'est pas vérifié');
         return $this->redirectToRoute('app_home');
       }
 
@@ -54,16 +54,16 @@ final class UserController extends AbstractController
       // Update user data if the form is submitted and valid
       if ($form->isSubmitted() && $form->isValid()) {
         $entityManager->flush();
-        $this->addFlash('success', 'Information updated successfully');
+        $this->addFlash('success', 'Informations mises à jour');
       }
 
       return $this->render('user/user.html.twig', [
         'form' => $form->createView(),
         'title' => 'Profile',
-        'subtitle' => 'Add information about yourself'
+        'subtitle' => 'Ajoutez des informations à votre profile',
       ]);
     } catch (\Exception $e) {
-      $this->addFlash('error', 'An error occurred' . $e->getMessage());
+      $this->addFlash('error', 'An error occurred');
       return $this->redirectToRoute('app_home');
     }
   }
@@ -106,7 +106,7 @@ final class UserController extends AbstractController
 
           $entityManager->flush();
 
-          $this->addFlash('success', 'Avatar updated successfully');
+          $this->addFlash('success', 'Avatar mis à jour');
         } catch (\Exception $e) {
           $this->addFlash('error', $e->getMessage());
         }
@@ -117,36 +117,12 @@ final class UserController extends AbstractController
       return $this->render('user/user.html.twig', [
         'form' => $form->createView(),
         'title' => 'Photo',
-        'subtitle' => 'Add a photo to your profile',
+        'subtitle' => 'Ajoutez une photo à votre profile',
       ]);
     } catch (\Exception $e) {
       $this->addFlash('error', 'An error occurred');
       return $this->redirectToRoute('app_user_avatar', ['id' => $this->getUser()->getId()]);
     }
-  }
-
-  /**
-   * Displays the public profile of the user.
-   *
-   * This method renders the public profile page for a user. It assumes that the user has already
-   * provided their profile information.
-   * 
-   * @param User $user The user whose public profile is being displayed.
-   * 
-   * @return Response The rendered view of the public profile page.
-   */
-  #[Route('/user/profil', name: 'app_user_profile')]
-  public function userProfil(): Response
-  {
-
-    $user = $this->getUser();
-
-    $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
-    // HACK: Make user public profile
-    return $this->render('user/user.html.twig', [
-      'title' => 'Public Profile',
-      'subtitle' => 'Preview of your profile'
-    ]);
   }
 
   /**

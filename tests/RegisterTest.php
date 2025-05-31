@@ -96,7 +96,7 @@ class RegisterTest extends WebTestCase
       /** @var Email $message */
       $message = $mailCollector->getMessages()[0];
       $this->assertInstanceOf(Email::class, $message);
-      $this->assertSame('test@example.com', $message->getTo()[0]->getAddress());
+      $this->assertSame($_ENV['MAILER_FROM'], $message->getTo()[0]->getAddress());
       $this->assertSame('Please Confirm your Email', $message->getSubject());
     }
   }

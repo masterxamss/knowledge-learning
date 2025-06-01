@@ -113,7 +113,7 @@ final class LessonController extends AbstractController
       // Fetch the lesson based on its ID
       $lesson = $em->getRepository(Lessons::class)->find($id);
       if (!$lesson) {
-        throw new \Exception('Lição não encontrada.');
+        throw new \Exception('Lesson non trouvée');
       }
 
       $course = $lesson->getCourse();

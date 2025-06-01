@@ -59,13 +59,13 @@ final class CoursesController extends AbstractController
       // Retrieve all themes from the database
       $themes = $em->getRepository(Themes::class)->findAll();
       if (empty($themes)) {
-        $this->addFlash('info', 'No themes found.');
+        $this->addFlash('info', 'Aucun thème trouvé.');
       }
 
       // Retrieve all badges from the database
       $badges = $em->getRepository(Badges::class)->findAll();
       if (empty($badges)) {
-        $this->addFlash('info', 'No badges found.');
+        $this->addFlash('info', 'Aucun badge trouvé.');
       }
 
       // Get filtering parameters from the request query
@@ -79,7 +79,7 @@ final class CoursesController extends AbstractController
         ->findCoursesByFilters($themeName, $search, $price, $badgesId);
 
       if (empty($courses)) {
-        $this->addFlash('info', 'No courses found.');
+        $this->addFlash('info', 'Aucun cours trouvé.');
       }
 
       // Retrieve completed courses for the logged-in user
@@ -94,7 +94,7 @@ final class CoursesController extends AbstractController
       ]);
     } catch (\Exception $e) {
       // Catch any errors and show an error message
-      $this->addFlash('error', 'An error occurred: ' . $e->getMessage());
+      $this->addFlash('error', 'Une erreur s\'est produite: ' . $e->getMessage());
       return $this->redirectToRoute('app_home');
     }
   }
@@ -128,7 +128,7 @@ final class CoursesController extends AbstractController
       // Retrieve lessons for the course
       $lessons = $em->getRepository(Lessons::class)->findLessonsByCourse($course->getId());
       if (empty($lessons)) {
-        $this->addFlash('info', 'No lessons found for this course.');
+        $this->addFlash('info', 'Aucune leçon trouvée.');
       }
 
       // Retrieve completed courses for the logged-in user
@@ -142,7 +142,7 @@ final class CoursesController extends AbstractController
       ]);
     } catch (\Exception $e) {
       // Catch any errors and show an error message
-      $this->addFlash('error', 'An error occurred: ' . $e->getMessage());
+      $this->addFlash('error', 'Une erreur s\'est produite: ' . $e->getMessage());
       return $this->redirectToRoute('app_courses');
     }
   }

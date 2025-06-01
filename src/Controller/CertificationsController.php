@@ -43,7 +43,7 @@ final class CertificationsController extends AbstractController
 
       // If no certifications are found, display an info message
       if (!$certifications) {
-        $this->addFlash('info', 'You have no certifications.');
+        $this->addFlash('info', 'Aucune certification trouvée.');
       }
 
       // Render and return the certifications view

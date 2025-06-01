@@ -78,7 +78,7 @@ class RegistrationController extends AbstractController
       );
 
       // do anything else you need here, like send an email
-      $this->addFlash('info', 'Please verify your email to activate your account.');
+      $this->addFlash('info', 'Verifiez votre email pour activer votre compte.');
       return $security->login($user, AppAuthenticator::class, 'main');
 
       // return $this->redirectToRoute('app_login');
@@ -115,7 +115,7 @@ class RegistrationController extends AbstractController
       return $this->redirectToRoute('app_register');
     }
 
-    $this->addFlash('success', 'Your email has been successfully verified.');
+    $this->addFlash('success', 'Votre email a été vérifié.');
 
     return $this->redirectToRoute('app_home');
   }

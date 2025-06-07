@@ -43,7 +43,7 @@ final class ThemesController extends AbstractController
 
       // If no themes were found, show an info flash message
       if (empty($themes)) {
-        $this->addFlash('info', 'No themes found.');
+        $this->addFlash('info', 'Aucun thème trouvé.');
       }
 
       // Render the themes page with the themes and their course counts
@@ -53,7 +53,7 @@ final class ThemesController extends AbstractController
       ]);
     } catch (\Exception $e) {
       // Handle any exceptions and show an error message
-      $this->addFlash('error', 'An error occurred: ' . $e->getMessage());
+      $this->addFlash('error', 'Une erreur est survenue : ' . $e->getMessage());
 
       // Render the themes page with null values in case of an error
       return $this->render('themes/themes.html.twig', [

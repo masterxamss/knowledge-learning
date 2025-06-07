@@ -9,7 +9,7 @@ echo "[INFO] Running tests with Composer..."
 composer test
 
 # Start Symfony server in background
-echo "[INFO] Starting Symfony server on port 8000..."
+echo "[INFO] Starting Symfony server on http://localhost:8000 ..."
 (symfony server:start --port=8000 --no-tls > /dev/null 2>&1 &)
 
 # Give the server a few seconds to boot
@@ -63,3 +63,5 @@ open_browser() {
 }
 
 open_browser
+
+echo "[INFO] To stop the server, run 'symfony server:stop'."

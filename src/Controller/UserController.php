@@ -120,7 +120,7 @@ final class UserController extends AbstractController
         'subtitle' => 'Ajoutez une photo à votre profile',
       ]);
     } catch (\Exception $e) {
-      $this->addFlash('error', 'An error occurred');
+      $this->addFlash('error', 'Une erreur est survenue');
       return $this->redirectToRoute('app_user_avatar', ['id' => $this->getUser()->getId()]);
     }
   }
@@ -159,7 +159,7 @@ final class UserController extends AbstractController
         $imageFile->move($uploadDirectory, $newFilename);
         $user->setImage($newFilename);
       } catch (FileException $e) {
-        throw new \Exception('Error while uploading the image.');
+        throw new \Exception('Une erreur est survenue lors de l\'upload de l\'image');
       }
     }
   }

@@ -89,13 +89,13 @@ final class CartController extends AbstractController
       // Get the authenticated user
       $user = $this->getUser();
       if (!$user) {
-        $this->addFlash('info', 'You need to log in to perform this action');
+        $this->addFlash('info', 'Vous devez vous connecter pour effectuer cette action');
         return $this->redirectToRoute('app_home');
       }
 
       // Verify if the user is verified
       if (!$user->getIsVerified()) {
-        $this->addFlash('info', 'Please verify your email to make a purchase');
+        $this->addFlash('info', 'Veuillez vérifier votre adresse électronique pour effectuer un achat');
         return $this->redirectToRoute('app_home');
       }
 

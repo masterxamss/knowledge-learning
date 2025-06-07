@@ -130,7 +130,7 @@ class CheckOutController extends AbstractController
     } catch (\Exception $e) {
       // Rollback transaction in case of error
       $this->entityManagerInterface->getConnection()->rollBack();
-      $this->addFlash('error', 'An error occurred. Please try again.' . $e->getMessage());
+      $this->addFlash('error', 'Une erreur s\'est produite. Veuillez réessayer.' . $e->getMessage());
 
       return $this->redirectToRoute('app_cart');
     }
@@ -192,7 +192,7 @@ class CheckOutController extends AbstractController
 
       // Render success page
       $orderItems = $this->entityManagerInterface->getRepository(OrderItem::class)->findBy(['orders' => $order->getId()]);
-      $this->addFlash('success', 'Your purchase was successful.');
+      $this->addFlash('success', 'Votre paiement a été effectué avec succès.');
 
       return $this->render('checkout/success.html.twig', [
         'order' => $order,
@@ -200,7 +200,7 @@ class CheckOutController extends AbstractController
       ]);
     } catch (\Exception $e) {
       // Handle error and redirect to cart
-      $this->addFlash('error', 'An error occurred. Please try again.' . $e->getMessage());
+      $this->addFlash('error', 'Une erreur s\'est produite. Veuillez réessayer.' . $e->getMessage());
       return $this->redirectToRoute('app_cart');
     }
   }
@@ -230,7 +230,7 @@ class CheckOutController extends AbstractController
       return $this->redirectToRoute('app_cart');
     } catch (\Exception $e) {
       // Handle error and redirect to cart
-      $this->addFlash('error', 'An error occurred. Please try again.' . $e->getMessage());
+      $this->addFlash('error', 'Une erreur s\'est produite. Veuillez réessayer.' . $e->getMessage());
       return $this->redirectToRoute('app_cart');
     }
   }

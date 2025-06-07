@@ -89,7 +89,8 @@ composer start:dev
 > - Load sample data using fixtures
 > - Execute the test suite
 >
-> **Default Users Created** > **Admin User**
+> **Default Users Created**
+> **Admin User**
 >
 > - Email: john.doe@example.com
 > - Password: #JonhDoe_123

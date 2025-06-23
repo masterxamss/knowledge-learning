@@ -54,15 +54,10 @@ Follow the steps below in the exact order to install and run the application loc
 - Create .env.test.local (For Test Environment)
 
   ```bash
-  touch .env.test.local
+  cp .env.test .env.test.local
   ```
 
   ```env.test.local
-  KERNEL_CLASS='App\Kernel'
-  APP_SECRET='$ecretf0rt3st'
-  SYMFONY_DEPRECATIONS_HELPER=999999
-  PANTHER_APP_ENV=panth
-  PANTHER_ERROR_SCREENSHOT_DIR=./var/error-screenshots
   MAILER_DSN=sendmail://default
   DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/knowledge_db?serverVersion=8.0.32&charset=utf8mb4"
   MAILER_FROM=test@example.com
@@ -89,11 +84,10 @@ composer start:dev
 > - Load sample data using fixtures
 > - Execute the test suite
 >
-> **Default Users Created**
-> **Admin User**
+> **Default Users Created** > **Admin User**
 >
 > - Email: john.doe@example.com
-> - Password: #JonhDoe_123
+> - Password: #JohnDoe_123
 >
 > **Standard User**
 >

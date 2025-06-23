@@ -39,6 +39,7 @@ Follow the steps below in the exact order to install and run the application loc
 ### 3. Setting environment variables
 
 - Create a .env.local file in the root directory of the project and add the following environment variables:
+- Ensure that you change the values with your credentials.
 
   ```bash
   cp .env .env.local
